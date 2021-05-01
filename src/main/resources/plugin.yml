@@ -1,6 +1,6 @@
 name: BlitzSG
 version: 1.0
-main: me.syesstyles.blitz.BlitzSG
+main: me.hardstyles.blitz.BlitzSG
 depend: [KarhuAPI]
 author: Syes, Hardstyles
 description: BlitzSG Plugin
@@ -17,5 +17,15 @@ commands:
   wtfmap:
     description: lol
   startdm:
+    description: lolt
+  test:
+    description: lol
+  party:
+    description: lol
+    aliases:
+      - p
+  partychat:
+    aliases:
+      - pc
     description: lol
 
