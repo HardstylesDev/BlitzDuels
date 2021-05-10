@@ -1,6 +1,6 @@
 package me.hardstyles.blitz.utils;
 
-import me.hardstyles.blitz.BlitzSG;
+import me.hardstyles.blitz.Core;
 import me.hardstyles.blitz.rank.ranks.Admin;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 
 public class WorldCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
-        if (!(BlitzSG.getInstance().getRankManager().getRank((Player) sender) instanceof Admin))
+        if (!(Core.getInstance().getRankManager().getRank((Player) sender) instanceof Admin))
             return true;
         if (args.length == 0) {
             sender.sendMessage("&7Teleport to a world '&7/world tp <name>&a'");

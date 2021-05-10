@@ -2,7 +2,7 @@ package me.hardstyles.blitz.utils.leaderboard;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import me.hardstyles.blitz.BlitzSG;
+import me.hardstyles.blitz.Core;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.SkullType;
@@ -24,9 +24,9 @@ import java.util.stream.Collectors;
 public class Leaderboard {
     public void update() {
         HashMap<String, Integer> top = new HashMap<>();
-        Bukkit.getScheduler().runTaskAsynchronously(BlitzSG.getInstance(), () -> {
+        Bukkit.getScheduler().runTaskAsynchronously(Core.getInstance(), () -> {
             try {
-                Connection conn = BlitzSG.getInstance().getData().getConnection();
+                Connection conn = Core.getInstance().getData().getConnection();
                 String sql = "select * from data;";
                 PreparedStatement ps = conn.prepareStatement(sql);
                 ResultSet rs = ps.executeQuery();

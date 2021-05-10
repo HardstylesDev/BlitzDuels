@@ -1,6 +1,6 @@
 package me.hardstyles.blitz.utils;
 
-import me.hardstyles.blitz.BlitzSG;
+import me.hardstyles.blitz.Core;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -26,7 +26,7 @@ public class ImportantCommandModifier implements Listener {
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
             onlinePlayer.kickPlayer("Restarting, we'll be right back!");
         }
-        Bukkit.getScheduler().runTaskLater(BlitzSG.getInstance(), () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "stop"), 10L);
+        Bukkit.getScheduler().runTaskLater(Core.getInstance(), () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "stop"), 10L);
 
 
     }

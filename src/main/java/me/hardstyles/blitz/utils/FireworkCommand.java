@@ -1,8 +1,7 @@
 package me.hardstyles.blitz.utils;
 
-import me.hardstyles.blitz.BlitzSG;
-import me.hardstyles.blitz.blitzsgplayer.BlitzSGPlayer;
-import me.hardstyles.blitz.game.Game;
+import me.hardstyles.blitz.Core;
+import me.hardstyles.blitz.player.IPlayer;
 import net.minecraft.server.v1_8_R3.EnumChatFormat;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
@@ -28,19 +27,13 @@ public class FireworkCommand implements CommandExecutor {
 
 
         if (!(!cooldown.containsKey(p.getUniqueId()) || (cooldown.containsKey(p.getUniqueId()) && System.currentTimeMillis() > cooldown.get(p.getUniqueId()) + 5000))) {
-            BlitzSG.send(p, "&cPlease wait before using this again.");
+            Core.send(p, "&cPlease wait before using this again.");
             return true;
         }
 
 
-        BlitzSGPlayer blitzSGPlayer = BlitzSG.getInstance().getBlitzSGPlayerManager().getBsgPlayer(p.getUniqueId());
-        if (blitzSGPlayer.isInGame()) {
-            if (blitzSGPlayer.getGame().getGameMode() != Game.GameMode.STARTING) {
-                BlitzSG.send(p, BlitzSG.CORE_NAME + "&cYou can't do this after the game has started!");
-                return true;
-            }
+        IPlayer iPlayer = Core.getInstance().getBlitzSGPlayerManager().getBsgPlayer(p.getUniqueId());
 
-        }
         cooldown.put(p.getUniqueId(), System.currentTimeMillis());
         this.launchFirework(p.getEyeLocation());
         sender.sendMessage(EnumChatFormat.GREEN + "Launched a firework!");

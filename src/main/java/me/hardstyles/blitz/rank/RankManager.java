@@ -1,7 +1,7 @@
 package me.hardstyles.blitz.rank;
 
-import me.hardstyles.blitz.BlitzSG;
-import me.hardstyles.blitz.blitzsgplayer.BlitzSGPlayer;
+import me.hardstyles.blitz.Core;
+import me.hardstyles.blitz.player.IPlayer;
 import me.hardstyles.blitz.rank.ranks.*;
 import org.bukkit.entity.Player;
 
@@ -16,14 +16,14 @@ public class RankManager {
 
 
     public Rank getRank(Player p) {
-        BlitzSGPlayer bsgPlayer = BlitzSG.getInstance().getBlitzSGPlayerManager().getBsgPlayer(p.getUniqueId());
+        IPlayer bsgPlayer = Core.getInstance().getBlitzSGPlayerManager().getBsgPlayer(p.getUniqueId());
         if (bsgPlayer.getRank() == null)
             return getRankByName("Default");
         return bsgPlayer.getRank();
     }
     public Rank getRank(Player p, boolean hideNick) {
-        BlitzSGPlayer blitzSGPlayer = BlitzSG.getInstance().getBlitzSGPlayerManager().getBsgPlayer(p.getUniqueId());
-        if (blitzSGPlayer.getNick() != null && !blitzSGPlayer.getNick().getNickName().equalsIgnoreCase("")) {
+        IPlayer iPlayer = Core.getInstance().getBlitzSGPlayerManager().getBsgPlayer(p.getUniqueId());
+        if (iPlayer.getNick() != null && !iPlayer.getNick().getNickName().equalsIgnoreCase("")) {
             return getRankByName("Default");
         }
         return getRank(p);
@@ -31,7 +31,7 @@ public class RankManager {
 
 
     public void setRank(Player p, Rank rank) {
-        BlitzSGPlayer bsgPlayer = BlitzSG.getInstance().getBlitzSGPlayerManager().getBsgPlayer(p.getUniqueId());
+        IPlayer bsgPlayer = Core.getInstance().getBlitzSGPlayerManager().getBsgPlayer(p.getUniqueId());
         bsgPlayer.setRank(rank);
     }
 

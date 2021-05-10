@@ -1,6 +1,6 @@
-name: BlitzSG
+name: Core
 version: 1.0
-main: me.hardstyles.blitz.BlitzSG
+main: me.hardstyles.blitz.Core
 depend: [KarhuAPI]
 author: Syes, Hardstyles
 description: BlitzSG Plugin
@@ -27,5 +27,9 @@ commands:
   partychat:
     aliases:
       - pc
+    description: lol
+  rank:
+    description: yes
+  nick:
     description: lol
 

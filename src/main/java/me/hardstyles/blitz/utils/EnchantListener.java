@@ -1,6 +1,6 @@
 package me.hardstyles.blitz.utils;
 
-import me.hardstyles.blitz.BlitzSG;
+import me.hardstyles.blitz.Core;
 import net.minecraft.server.v1_8_R3.ContainerEnchantTable;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftInventoryView;
@@ -21,6 +21,10 @@ import java.util.Random;
 
 public class EnchantListener implements Listener, PrepareItemEnchant {
 
+    private final Core core;
+    public EnchantListener(Core core) {
+        this.core = core;
+    }
 
     @EventHandler
     public void prepareEnchant(PrepareItemEnchantEvent e) {
@@ -29,7 +33,7 @@ public class EnchantListener implements Listener, PrepareItemEnchant {
         Random rand = new Random();
         generateNewCosts(table.costs, rand, Math.min(e.getEnchantmentBonus(), 15));
         table.f = rand.nextInt();// Set the enchantment seed
-        BlitzSG.getInstance().getServer().getScheduler().scheduleSyncDelayedTask(BlitzSG.getInstance(), () -> {// Remove the display of what enchantment you will get
+        core.getServer().getScheduler().scheduleSyncDelayedTask(core, () -> {// Remove the display of what enchantment you will get
             clearArray(table.h);
         }, 1);
     }

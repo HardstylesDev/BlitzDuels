@@ -1,6 +1,6 @@
 package me.hardstyles.blitz.punishments;
 
-import me.hardstyles.blitz.BlitzSG;
+import me.hardstyles.blitz.Core;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
@@ -23,11 +23,11 @@ public class PunishmentManager {
         e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_BANNED, "");
         System.out.println("yup");
 
-        Bukkit.getScheduler().runTaskAsynchronously(BlitzSG.getInstance(), new Runnable() {
+        Bukkit.getScheduler().runTaskAsynchronously(Core.getInstance(), new Runnable() {
             @Override
             public void run() {
                 try {
-                    Connection conn = BlitzSG.getInstance().getData().getConnection();
+                    Connection conn = Core.getInstance().getData().getConnection();
                     String sql = "select * from bans;";
                     PreparedStatement ps = conn.prepareStatement(sql);
                     ResultSet rs = ps.executeQuery();

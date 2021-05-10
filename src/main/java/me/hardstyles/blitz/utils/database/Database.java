@@ -11,9 +11,9 @@ import java.time.Duration;
 public class Database {
 
     private static String host = "104.128.53.75"; // The IP-address of the database host.
-    private static String database = "s6_server"; // The name of the database.
-    private static String user = "u6_hniIbS87Lb"; // The name of the database user.
-    private static String pass = "u13wROasTK61@G.pRMqN^+mt"; // The password of the database user.
+    private static String database = "s6_duels"; // The name of the database.
+    private static String user = "u6_TMv193osnH"; // The name of the database user.
+    private static String pass = "KsWWZk+CTV@J@zkaob8Hw!Qz"; // The password of the database user.
 
 
     static String jbdcUrl = String.format("jdbc:mysql://%s:3306/%s?useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=CET", host, database);

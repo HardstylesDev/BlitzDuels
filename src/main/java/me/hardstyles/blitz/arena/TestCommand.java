@@ -1,6 +1,7 @@
 package me.hardstyles.blitz.arena;
 
-import me.hardstyles.blitz.BlitzSG;
+import com.google.common.base.Charsets;
+import me.hardstyles.blitz.Core;
 import me.hardstyles.blitz.arena.arenaloader.BlockToPlace;
 import net.minecraft.server.v1_8_R3.NBTCompressedStreamTools;
 import net.minecraft.server.v1_8_R3.NBTTagCompound;
@@ -16,7 +17,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -25,15 +25,17 @@ public class TestCommand implements CommandExecutor {
     public static HashMap<UUID, Long> cooldown = new HashMap<>();
 
     public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
-
         Player p = (Player) sender;
+        if (args[0].length() > 16) {
 
-        File f = new File(args[0]);
-        Location loc = p.getLocation();
-        pasteSchematic(f, loc);
+            p.sendMessage("Bukkit: " + Bukkit.getOfflinePlayer(UUID.fromString(args[0])).getUniqueId());
+        }
+        else {
+            p.sendMessage("Bukkit: " + Bukkit.getOfflinePlayer(args[0]).getUniqueId());
+        }
+        System.out.println("NameUUIDfromBytes: " + UUID.nameUUIDFromBytes(("OfflinePlayer:" + args[0]).getBytes(Charsets.UTF_8)));
         return true;
     }
-
     public void pasteSchematic(File f, Location loc) {
 
         Bukkit.broadcastMessage("Started");
@@ -80,7 +82,7 @@ public class TestCommand implements CommandExecutor {
         int current = 0;
         int delay = 0;
         for (BlockToPlace block : blocks) {
-            if(block.material == Material.AIR){
+            if (block.material == Material.AIR) {
                 continue;
             }
             current++;
@@ -90,7 +92,6 @@ public class TestCommand implements CommandExecutor {
             }
 
 
-
             new BukkitRunnable() {
                 @Override
                 public void run() {
@@ -98,7 +99,7 @@ public class TestCommand implements CommandExecutor {
                     block.block.setData(block.blockdata);
                     Bukkit.broadcastMessage("placed" + block.material);
                 }
-            }.runTaskLater(BlitzSG.getInstance(), delay);
+            }.runTaskLater(Core.getInstance(), delay);
         }
     }
 }

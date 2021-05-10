@@ -1,7 +1,7 @@
 package me.hardstyles.blitz.utils.nametag;
 
-import me.hardstyles.blitz.BlitzSG;
-import me.hardstyles.blitz.blitzsgplayer.BlitzSGPlayer;
+import me.hardstyles.blitz.Core;
+import me.hardstyles.blitz.player.IPlayer;
 import me.hardstyles.blitz.rank.Rank;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -34,7 +34,7 @@ public class NametagManager {
 
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
 
-            BlitzSGPlayer bsgPlayer = BlitzSG.getInstance().getBlitzSGPlayerManager().getBsgPlayer(onlinePlayer.getUniqueId());
+            IPlayer bsgPlayer = Core.getInstance().getBlitzSGPlayerManager().getBsgPlayer(onlinePlayer.getUniqueId());
             if (bsgPlayer == null || bsgPlayer.getRank() == null || bsgPlayer.getRank().getPrefix() == null || bsgPlayer.getNick() == null)
                 return;
             nametag.setNametag(onlinePlayer, ChatColor.WHITE + "", bsgPlayer.getNick().isNicked());

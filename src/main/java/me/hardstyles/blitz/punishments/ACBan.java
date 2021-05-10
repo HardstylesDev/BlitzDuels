@@ -1,7 +1,7 @@
 package me.hardstyles.blitz.punishments;
 
-import me.hardstyles.blitz.BlitzSG;
-import me.hardstyles.blitz.blitzsgplayer.BlitzSGPlayer;
+import me.hardstyles.blitz.Core;
+import me.hardstyles.blitz.player.IPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -19,20 +19,20 @@ public class ACBan implements CommandExecutor {
             return true;
         }
         Player player = Bukkit.getPlayer(args[0]);
-        BlitzSGPlayer blitzSGPlayer = BlitzSG.getInstance().getBlitzSGPlayerManager().getBsgPlayer(player.getUniqueId());
-        BlitzSG.broadcast("&7&m--------------------------------------------------");
-        BlitzSG.broadcast("&c&l✗ &c&lCHEAT DETECTION");
-        if (blitzSGPlayer.getNick() == null || !blitzSGPlayer.getNick().isNicked())
-            BlitzSG.broadcast("&cRemoved" + blitzSGPlayer.getRank().getPrefix() + player.getDisplayName() + " &cfrom the server");
+        IPlayer iPlayer = Core.getInstance().getBlitzSGPlayerManager().getBsgPlayer(player.getUniqueId());
+        Core.broadcast("&7&m--------------------------------------------------");
+        Core.broadcast("&c&l✗ &c&lCHEAT DETECTION");
+        if (iPlayer.getNick() == null || !iPlayer.getNick().isNicked())
+            Core.broadcast("&cRemoved" + iPlayer.getRank().getPrefix() + player.getDisplayName() + " &cfrom the server");
         else
-            BlitzSG.broadcast("&cRemoved " + blitzSGPlayer.getRank().getPrefix() + player.getDisplayName() + " &7(" + player.getName() +") &cfrom the server");
-        BlitzSG.broadcast("&7&m--------------------------------------------------");
+            Core.broadcast("&cRemoved " + iPlayer.getRank().getPrefix() + player.getDisplayName() + " &7(" + player.getName() +") &cfrom the server");
+        Core.broadcast("&7&m--------------------------------------------------");
 
-        Bukkit.getScheduler().runTaskAsynchronously(BlitzSG.getInstance(), new Runnable() {
+        Bukkit.getScheduler().runTaskAsynchronously(Core.getInstance(), new Runnable() {
             @Override
             public void run() {
                 try {
-                    Connection connection = BlitzSG.getInstance().getData().getConnection();
+                    Connection connection = Core.getInstance().getData().getConnection();
                     String command = String.format("REPLACE INTO `bans`(`uuid`, `reason`, `expires`, `executor`) VALUES (?,?,?,?)");
 
                     PreparedStatement preparedStatement = connection.prepareStatement(command);

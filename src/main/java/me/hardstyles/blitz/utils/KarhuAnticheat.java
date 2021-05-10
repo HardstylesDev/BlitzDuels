@@ -1,11 +1,9 @@
 package me.hardstyles.blitz.utils;
 
-import me.hardstyles.blitz.BlitzSG;
 import me.liwk.karhu.api.event.KarhuEvent;
 import me.liwk.karhu.api.event.KarhuListener;
 import me.liwk.karhu.api.event.impl.KarhuAlertEvent;
 import me.liwk.karhu.api.event.impl.KarhuInitEvent;
-import redis.clients.jedis.Jedis;
 
 public class KarhuAnticheat implements KarhuListener {
     public void setEnabled(boolean enabled) {
@@ -22,17 +20,17 @@ public class KarhuAnticheat implements KarhuListener {
             return;
         }
         if (event instanceof KarhuAlertEvent) {
-            if (!enabled) {
-                event.cancel();
-                return;
-            }
+        //   if (!enabled) {
+        //       event.cancel();
+        //       return;
+        //   }
         }
     }
 
     private void allowJoins(){
-        Jedis jedisResource = BlitzSG.getInstance().getJedisPool().getResource();
-        jedisResource.set("canJoin", "true");
-        jedisResource.close();
+     //   Jedis jedisResource = BlitzSG.getInstance().getJedisPool().getResource();
+     //   jedisResource.set("canJoin", "true");
+     //   jedisResource.close();
     }
 }
 
