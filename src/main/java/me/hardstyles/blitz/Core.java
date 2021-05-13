@@ -3,24 +3,26 @@ package me.hardstyles.blitz;
 import com.zaxxer.hikari.HikariDataSource;
 import me.hardstyles.blitz.arena.TestCommand;
 import me.hardstyles.blitz.nickname.NicknameCommand;
-import me.hardstyles.blitz.player.IPlayerHandler;
-
 import me.hardstyles.blitz.party.PartyChatCommand;
 import me.hardstyles.blitz.party.PartyCommand;
-import me.hardstyles.blitz.rank.RankCommand;
-import me.hardstyles.blitz.utils.*;
-import me.liwk.karhu.api.KarhuAPI;
-import me.hardstyles.blitz.statistics.StatisticsManager;
+import me.hardstyles.blitz.player.IPlayerHandler;
 import me.hardstyles.blitz.player.IPlayerManager;
-
 import me.hardstyles.blitz.punishments.ACBan;
 import me.hardstyles.blitz.punishments.PunishmentManager;
 import me.hardstyles.blitz.punishments.commands.Unban;
+import me.hardstyles.blitz.queue.QueueCommand;
+import me.hardstyles.blitz.queue.QueueManager;
+import me.hardstyles.blitz.rank.RankCommand;
 import me.hardstyles.blitz.rank.RankManager;
 import me.hardstyles.blitz.scoreboard.ScoreboardManager;
-
+import me.hardstyles.blitz.statistics.StatisticsManager;
+import me.hardstyles.blitz.utils.EnchantListener;
+import me.hardstyles.blitz.utils.FireworkCommand;
+import me.hardstyles.blitz.utils.KarhuAnticheat;
+import me.hardstyles.blitz.utils.VanillaCommands;
 import me.hardstyles.blitz.utils.database.Database;
 import me.hardstyles.blitz.utils.nametag.NametagManager;
+import me.liwk.karhu.api.KarhuAPI;
 import net.minecraft.server.v1_8_R3.EnumChatFormat;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -49,6 +51,7 @@ public class Core extends JavaPlugin {
 
     private PunishmentManager punishmentManager;
     private StatisticsManager statisticsManager;
+    private QueueManager queueManager;
 
     private HikariDataSource hikari;
     public static Location lobbySpawn;
@@ -67,14 +70,14 @@ public class Core extends JavaPlugin {
         }
 
 
-
         karhuAnticheat = new KarhuAnticheat();
         database = new Database();
         iPlayerManager = new IPlayerManager();
         statisticsManager = new StatisticsManager(this);
         rankManager = new RankManager();
+        queueManager = new QueueManager(this);
 
-       // scoreboardManager = new ScoreboardManager();
+        // scoreboardManager = new ScoreboardManager();
 
         nametagManager = new NametagManager();
         punishmentManager = new PunishmentManager();
@@ -82,7 +85,7 @@ public class Core extends JavaPlugin {
 
         //Register Commands::
 
-       this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+        this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
 
         // this.getCommand("world").setExecutor(new WorldCommand());
@@ -95,22 +98,22 @@ public class Core extends JavaPlugin {
         this.getCommand("party").setExecutor(new PartyCommand(this));
         this.getCommand("rank").setExecutor(new RankCommand(this));
         this.getCommand("nick").setExecutor(new NicknameCommand(this));
+        this.getCommand("queue").setExecutor(new QueueCommand(this));
 
         //Register Handlers:
-      getServer().getPluginManager().registerEvents(new IPlayerHandler(this), this);
+        getServer().getPluginManager().registerEvents(new IPlayerHandler(this), this);
         getServer().getPluginManager().registerEvents(new EnchantListener(this), this);
-       // getServer().getPluginManager().registerEvents(scoreboardManager.getScoreboardHandler(), this);
+        // getServer().getPluginManager().registerEvents(scoreboardManager.getScoreboardHandler(), this);
 
         getServer().setWhitelist(false);
 
         KarhuAPI.getEventRegistry().addListener(karhuAnticheat);
 
 
-
-        World world =  Bukkit.getWorld("world");
+        World world = Bukkit.getWorld("world");
         File playerdataFolder = new File(world.getWorldFolder() + "/playerdata/");
         File[] contents = playerdataFolder.listFiles();
-        if(contents != null){
+        if (contents != null) {
             for (File content : contents) {
                 content.delete();
             }
@@ -121,18 +124,18 @@ public class Core extends JavaPlugin {
         //new LoadStats().load();
         //statisticsManager.load();
         // System.out.println("looaded dataaa");
-   //     for (Player p : getServer().getOnlinePlayers()) {
-   //         statisticsManager.load(p.getUniqueId());
-   //         BlitzSGPlayer bsgPlayer = blitzSGPlayerManager.getBsgPlayer(p.getUniqueId());
-   //         blitzSGPlayerManager.addBsgPlayer(p.getUniqueId(), bsgPlayer);
-   //         System.out.println(bsgPlayer);
-   //         bsgPlayer.setName(p.getDisplayName());
-   //         bsgPlayer.setIp(p.getAddress().toString().split(":")[0].replaceAll("/", ""));
-   //          p.setPlayerListName(bsgPlayer.getRank(true).getPrefix() + p.getName() + BlitzSG.getInstance().getEloManager().getEloLevel(bsgPlayer.getElo()).getPrefix() + " [" + bsgPlayer.getElo() + "]");
-   //     }
+        //     for (Player p : getServer().getOnlinePlayers()) {
+        //         statisticsManager.load(p.getUniqueId());
+        //         BlitzSGPlayer bsgPlayer = blitzSGPlayerManager.getBsgPlayer(p.getUniqueId());
+        //         blitzSGPlayerManager.addBsgPlayer(p.getUniqueId(), bsgPlayer);
+        //         System.out.println(bsgPlayer);
+        //         bsgPlayer.setName(p.getDisplayName());
+        //         bsgPlayer.setIp(p.getAddress().toString().split(":")[0].replaceAll("/", ""));
+        //          p.setPlayerListName(bsgPlayer.getRank(true).getPrefix() + p.getName() + BlitzSG.getInstance().getEloManager().getEloLevel(bsgPlayer.getElo()).getPrefix() + " [" + bsgPlayer.getElo() + "]");
+        //     }
 
 
-       // mapManager.loadArena(mapManager.getRandom());
+        // mapManager.loadArena(mapManager.getRandom());
 
         //Load Arena:
         //ArenaUtils.loadArenas();
@@ -141,7 +144,7 @@ public class Core extends JavaPlugin {
         //Start Scoreboard:
 
 
-       // scoreboardManager.runTaskTimer(this, 20, 20);
+        // scoreboardManager.runTaskTimer(this, 20, 20);
 
         //Load LobbySpawn:
 
@@ -156,7 +159,10 @@ public class Core extends JavaPlugin {
 
     }
 
-    public KarhuAnticheat getKarhuAnticheat(){return karhuAnticheat;}
+    public KarhuAnticheat getKarhuAnticheat() {
+        return karhuAnticheat;
+    }
+
     public Database getData() {
         return database;
     }
@@ -170,8 +176,6 @@ public class Core extends JavaPlugin {
     public ScoreboardManager getScoreboardManager() {
         return scoreboardManager;
     }
-
-
 
 
     public PunishmentManager getPunishmentManager() {
@@ -198,7 +202,9 @@ public class Core extends JavaPlugin {
     public static Core getInstance() {
         return instance;
     }
-
+    public QueueManager getQueueManager(){
+        return this.queueManager;
+    }
 
     public static void broadcast(String message, World world) {
         if (world == null)

@@ -32,4 +32,6 @@ commands:
     description: yes
   nick:
     description: lol
+  queue:
+    description: x
 

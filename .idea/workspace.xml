@@ -14,150 +14,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7a886556-406b-424f-8316-6290f7bbf82d" name="Default Changelist" comment="Bababoeey">
-      <change afterPath="$PROJECT_DIR$/NickNamer.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ProtocolLib.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/arena/Arena.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/match/Match.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/nickname/Skin.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/queue/Queue.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/queue/QueueManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/queue/QueueType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/rank/RankCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/arena/ArenaManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/kits/KitManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/kits/PointShop.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/queue/QueueCommand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/BlitzSG.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/Core.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/arena/TestCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/arena/TestCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/blitzsgplayer/BlitzSGPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/player/IPlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/blitzsgplayer/BlitzSGPlayerHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/player/IPlayerHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/blitzsgplayer/BlitzSGPlayerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/player/IPlayerManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/commands/HorseCommand.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/commands/TagCommand.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/cosmetic/Aura.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/cosmetic/CosmeticsManager.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/cosmetic/Taunt.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/cosmetic/cosmetics/aura/BlueParticle.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/cosmetic/cosmetics/aura/BlueTrail.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/cosmetic/cosmetics/aura/FlowerTrail.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/cosmetic/cosmetics/aura/GreenParticle.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/cosmetic/cosmetics/aura/GreenTrail.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/cosmetic/cosmetics/aura/LavaParticle.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/cosmetic/cosmetics/aura/MyceliumTrail.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/cosmetic/cosmetics/aura/NetherrackTrail.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/cosmetic/cosmetics/aura/PortalParticle.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/cosmetic/cosmetics/aura/RainbowDustParticle.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/cosmetic/cosmetics/aura/RainbowParticle.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/cosmetic/cosmetics/aura/RainbowTrail.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/cosmetic/cosmetics/aura/RedParticle.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/cosmetic/cosmetics/aura/RedTrail.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/cosmetic/cosmetics/aura/SlimeParticle.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/cosmetic/cosmetics/aura/SnowParticle.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/cosmetic/cosmetics/aura/WaterParticle.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/cosmetic/cosmetics/aura/WheatTrail.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/cosmetic/cosmetics/taunt/BatDudeTaunt.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/cosmetic/cosmetics/taunt/CookieTaunt.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/cosmetic/cosmetics/taunt/DefaultTaunt.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/cosmetic/cosmetics/taunt/FireworkTaunt.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/cosmetic/cosmetics/taunt/IRefuseTaunt.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/cosmetic/cosmetics/taunt/PigDanceTaunt.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/cosmetic/cosmetics/taunt/RichJamesTaunt.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/cosmetic/cosmetics/taunt/SheepDanceTaunt.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/cosmetic/cosmetics/taunt/VillagerDanceTaunt.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/cosmetic/cosmetics/taunt/WolfPackTaunt.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/elo/EloLevel.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/elo/EloManager.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/game/Game.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/game/GameHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/game/GameManager.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/game/GameMobHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/gamestar/Star.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/gamestar/StarManager.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/gamestar/stars/Apocalypse.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/gamestar/stars/Assassin.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/gamestar/stars/DarkKnight.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/gamestar/stars/Dragonborn.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/gamestar/stars/Explosion.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/gamestar/stars/Firebreather.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/gamestar/stars/Gremlin.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/gamestar/stars/HolyWarrior.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/gamestar/stars/Imprison.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/gamestar/stars/Kamikaze.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/gamestar/stars/LuckyCharm.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/gamestar/stars/Ninja.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/gamestar/stars/Robinhood.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/gamestar/stars/Timelord.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/gamestar/stars/Vampire.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/gamestar/stars/WitherWarrior.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/gamestar/stars/Wobbuffet.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/gui/AuraGUI.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/gui/GUIManager.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/gui/InventoryHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/gui/KitGUI.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/gui/KitsGUI.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/gui/ShopGUI.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/gui/ShopKitAdvancedGUI.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/gui/ShopKitBasicGUI.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/gui/ShopStarGUI.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/gui/StarGUI.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/gui/TauntGUI.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/kit/Kit.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/kit/KitManager.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/kit/KitUtils.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/kit/kits/Arachnologist.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/kit/kits/Archer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/kit/kits/Armorer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/kit/kits/Astronaut.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/kit/kits/Baker.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/kit/kits/Blaze.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/kit/kits/Creepertamer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/kit/kits/Fisherman.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/kit/kits/HorseTamer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/kit/kits/Knight.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/kit/kits/Meatmaster.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/kit/kits/Necromancer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/kit/kits/RedDragon.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/kit/kits/Rogue.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/kit/kits/Scout.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/kit/kits/SlimeySlime.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/kit/kits/Snowman.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/kit/kits/Speleologist.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/kit/kits/Tim.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/kit/kits/Toxicologist.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/kit/kits/Troll.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/kit/kits/Wolftamer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/map/Map.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/map/MapHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/map/MapManager.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/map/MapUtils.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/party/Party.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/party/Party.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/party/PartyChatCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/party/PartyChatCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/party/PartyCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/party/PartyCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/punishments/ACBan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/punishments/ACBan.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/punishments/PunishmentManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/punishments/PunishmentManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/punishments/commands/Unban.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/punishments/commands/Unban.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/rank/RankManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/rank/RankManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/scoreboard/ScoreboardManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/scoreboard/ScoreboardManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/statistics/StatisticsManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/statistics/StatisticsManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/utils/EnchantListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/utils/EnchantListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/utils/FireworkCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/utils/FireworkCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/utils/FlyCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/utils/FlyCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/utils/ImportantCommandModifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/utils/ImportantCommandModifier.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/utils/KarhuAnticheat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/utils/KarhuAnticheat.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/utils/PlayerUtils.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/utils/StartDMCommand.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/utils/WTFMapCommand.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/utils/WorldCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/utils/WorldCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/utils/bungee/BungeeMessaging.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/utils/database/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/utils/database/Database.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/utils/leaderboard/Leaderboard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/utils/leaderboard/Leaderboard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/utils/nametag/NametagManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/utils/nametag/NametagManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/utils/nickname/Nick.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/nickname/Nick.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/utils/nickname/Nickname.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/nickname/Nickname.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/utils/nickname/NicknameCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/nickname/NicknameCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/Core.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/Core.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/queue/QueueManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/queue/QueueManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/plugin.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/plugin.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -231,15 +98,13 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -350,7 +215,8 @@
       <workItem from="1620506422482" duration="3776000" />
       <workItem from="1620565185476" duration="6754000" />
       <workItem from="1620670263956" duration="743000" />
-      <workItem from="1620671024041" duration="1713000" />
+      <workItem from="1620671024041" duration="2013000" />
+      <workItem from="1620923575502" duration="3019000" />
     </task>
     <task id="LOCAL-00001" summary="fff">
       <created>1597086521686</created>
@@ -576,7 +442,14 @@
       <option name="project" value="LOCAL" />
       <updated>1619880895609</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="Bababoeey">
+      <created>1620673038879</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1620673038879</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -632,35 +505,35 @@
     </state>
     <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1620500855536" />
     <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1619270804835" />
-    <state width="1877" height="239" key="GridCell.Tab.0.bottom" timestamp="1620572752951">
+    <state width="1877" height="239" key="GridCell.Tab.0.bottom" timestamp="1620928592558">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="239" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@-1920.1.1920.1040" timestamp="1620507115034" />
-    <state width="1877" height="239" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1620572752951" />
+    <state width="1877" height="239" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1620928592558" />
     <state width="1877" height="239" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@-1920.2.1920.1040" timestamp="1619381034416" />
     <state width="1877" height="239" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1619434467671" />
     <state width="1877" height="244" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1612700122166" />
-    <state width="1877" height="239" key="GridCell.Tab.0.center" timestamp="1620572752951">
+    <state width="1877" height="239" key="GridCell.Tab.0.center" timestamp="1620928592558">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="239" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@-1920.1.1920.1040" timestamp="1620507115034" />
-    <state width="1877" height="239" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1620572752951" />
+    <state width="1877" height="239" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1620928592558" />
     <state width="1877" height="239" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@-1920.2.1920.1040" timestamp="1619381034415" />
     <state width="1877" height="239" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1619434467671" />
     <state width="1877" height="244" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1612700122166" />
-    <state width="1877" height="239" key="GridCell.Tab.0.left" timestamp="1620572752951">
+    <state width="1877" height="239" key="GridCell.Tab.0.left" timestamp="1620928592558">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="239" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@-1920.1.1920.1040" timestamp="1620507115034" />
-    <state width="1877" height="239" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1620572752951" />
+    <state width="1877" height="239" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1620928592558" />
     <state width="1877" height="239" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@-1920.2.1920.1040" timestamp="1619381034415" />
     <state width="1877" height="239" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1619434467671" />
     <state width="1877" height="244" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1612700122166" />
-    <state width="1877" height="239" key="GridCell.Tab.0.right" timestamp="1620572752951">
+    <state width="1877" height="239" key="GridCell.Tab.0.right" timestamp="1620928592558">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="239" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@-1920.1.1920.1040" timestamp="1620507115034" />
-    <state width="1877" height="239" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1620572752951" />
+    <state width="1877" height="239" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1620928592558" />
     <state width="1877" height="239" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@-1920.2.1920.1040" timestamp="1619381034415" />
     <state width="1877" height="239" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1619434467671" />
     <state width="1877" height="244" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1612700122166" />
@@ -668,10 +541,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="591" y="281" key="MultipleFileMergeDialog/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1619464417810" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1619880900771">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1620673042839">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1619880900771" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1620673042839" />
     <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1619464447551" />
     <state x="769" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1612699532919">
       <screen x="0" y="0" width="1920" height="1040" />
