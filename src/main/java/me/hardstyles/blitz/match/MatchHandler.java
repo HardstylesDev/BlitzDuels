@@ -11,6 +11,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -40,7 +41,22 @@ public class MatchHandler implements Listener {
         match.onDeath(p.getUniqueId());
 
     }
-
+    @EventHandler
+    public void onDamage(EntityDamageEvent e) {
+        if (!(e.getEntity() instanceof Player)) {
+            return;
+        }
+        Player victim = (Player) e.getEntity();
+        IPlayer ivictim = core.getPlayerManager().getPlayer(victim.getUniqueId());
+        Match match = ivictim.getMatch();
+        if (match == null) {
+            return;
+        }
+        if(match.getMatchStage() != MatchStage.STARTED){
+            e.setCancelled(true);
+            return;
+        }
+    }
     @EventHandler
     public void onAttack(EntityDamageByEntityEvent e) {
         if (!(e.getEntity() instanceof Player)) {
@@ -50,6 +66,10 @@ public class MatchHandler implements Listener {
         IPlayer ivictim = core.getPlayerManager().getPlayer(victim.getUniqueId());
         Match match = ivictim.getMatch();
         if (match == null) {
+            return;
+        }
+        if(match.getMatchStage() != MatchStage.STARTED){
+            e.setCancelled(true);
             return;
         }
         if (!match.getAlive().contains(victim.getUniqueId())) {
