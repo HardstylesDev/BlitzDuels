@@ -23,7 +23,7 @@ public class IPlayerManager {
 		return bsgPlayers;
 	}
 
-	public IPlayer getBsgPlayer(UUID uuid) {
+	public IPlayer getPlayer(UUID uuid) {
 		return bsgPlayers.get(uuid);
 	}
 
@@ -63,8 +63,8 @@ public class IPlayerManager {
 
 
 	public void handleKillElo(Player victim, Player killer) {
-		IPlayer victimUhc = this.getBsgPlayer(victim.getUniqueId());
-		IPlayer killerUhc = this.getBsgPlayer(killer.getUniqueId());
+		IPlayer victimUhc = this.getPlayer(victim.getUniqueId());
+		IPlayer killerUhc = this.getPlayer(killer.getUniqueId());
 		
 		double eloChange = 0;
 		if(killerUhc.getElo() > 0)

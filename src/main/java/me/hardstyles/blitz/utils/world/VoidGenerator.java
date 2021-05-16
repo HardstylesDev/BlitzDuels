@@ -1,4 +1,4 @@
-package me.hardstyles.blitz.utils;
+package me.hardstyles.blitz.utils.world;
 
 import org.bukkit.World;
 import org.bukkit.generator.ChunkGenerator;
@@ -16,8 +16,9 @@ public class VoidGenerator extends ChunkGenerator {
             Arrays.fill(chunk[n], air);
 
         if (cx == 0 && cz == 0)
-            chunk[4][0] = (byte) 1;
+            chunk[4][0] = (byte) 0;
 
         return chunk;
+
     }
 }

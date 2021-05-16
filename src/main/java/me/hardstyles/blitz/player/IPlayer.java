@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import me.hardstyles.blitz.Core;
 
 
+import me.hardstyles.blitz.match.Match;
 import me.hardstyles.blitz.party.Party;
 import me.hardstyles.blitz.rank.Rank;
 import me.hardstyles.blitz.nickname.Nick;
@@ -35,7 +36,7 @@ public class IPlayer {
     private int deaths;
     private boolean hideOthers;
     private int coins;
-
+    private Match match;
     private JsonObject jsonObject;
     private String ip;
     private Party party;
@@ -122,6 +123,7 @@ public class IPlayer {
         this.customTag = null;
         this.deaths = 0;
         this.coins = 0;
+        this.match = null;
         this.rank = null;
         this.gameEntities = new HashSet<Entity>();
 
@@ -138,7 +140,7 @@ public class IPlayer {
         this.gameTaunt = -1;
         this.gameSpawn = null;
 
-        Core.getInstance().getBlitzSGPlayerManager().addBsgPlayer(this.uuid, this);
+        Core.getInstance().getPlayerManager().addBsgPlayer(this.uuid, this);
     }
 
 
@@ -321,8 +323,16 @@ public class IPlayer {
         this.gameKills += 1;
         this.kills += 1;
     }
+    public boolean hasMatch(){
+        return this.match !=null;
+    }
 
-
+    public void setMatch(Match match){
+        this.match = match;
+    }
+    public Match getMatch(){
+        return this.match;
+    }
 
 
     public void setWobbuffet(boolean idk) {
@@ -360,4 +370,10 @@ public class IPlayer {
         this.party = party;
     }
 
+    public void leaveMatch(){
+        match.getAlive().remove(uuid);
+        if(match.isInProgress()){
+            match.onDeath(uuid);
+        }
+    }
 }

@@ -59,7 +59,7 @@ public class Nickname {
                 ((CraftPlayer) p2).getHandle().playerConnection.sendPacket(new PacketPlayOutEntityDestroy(player.getBukkitEntity().getEntityId()));
                 ((CraftPlayer) p2).getHandle().playerConnection.sendPacket(new PacketPlayOutEntityDestroy(offlineplayer.getBukkitEntity().getEntityId()));
             }
-            IPlayer bsgPlayer = Core.getInstance().getBlitzSGPlayerManager().getBsgPlayer(p.getUniqueId());
+            IPlayer bsgPlayer = Core.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
             if(bsgPlayer.getNick() == null){
                 bsgPlayer.setNick(new Nick(s, null, null, true));
 
@@ -71,7 +71,7 @@ public class Nickname {
             Core.getInstance().getStatisticsManager().save(bsgPlayer);
             return;
         }
-        IPlayer bsgPlayer = Core.getInstance().getBlitzSGPlayerManager().getBsgPlayer(p.getUniqueId());
+        IPlayer bsgPlayer = Core.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
 
         if (bsgPlayer.getNick().getSkinSignature() == null) return;
         setSkinForSelf(p);
@@ -109,7 +109,7 @@ public class Nickname {
     }
 
     public void unnick(Player p) {
-        IPlayer bsgPlayer = Core.getInstance().getBlitzSGPlayerManager().getBsgPlayer(p.getUniqueId());
+        IPlayer bsgPlayer = Core.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
 
 
         bsgPlayer.setNick(null);
@@ -123,7 +123,7 @@ public class Nickname {
     }
 
     public void setPlayerNameTag(Player player, String name, Boolean unnicking) {
-        Nick nick = Core.getInstance().getBlitzSGPlayerManager().getBsgPlayer(player.getUniqueId()).getNick();
+        Nick nick = Core.getInstance().getPlayerManager().getPlayer(player.getUniqueId()).getNick();
 
         try {
             Method getHandle = player.getClass().getMethod("getHandle");
@@ -226,7 +226,7 @@ public class Nickname {
     public String[] prepareSkinTextures(Player p, String arg) {
         OfflinePlayer op = Bukkit.getServer().getOfflinePlayer(arg);
         if (op.getUniqueId().toString().equalsIgnoreCase(p.getUniqueId().toString())) {
-            IPlayer bsgPlayer = Core.getInstance().getBlitzSGPlayerManager().getBsgPlayer(p.getUniqueId());
+            IPlayer bsgPlayer = Core.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
             String skin[] = new String[]{bsgPlayer.getNick().getSkinValue(), bsgPlayer.getNick().getSkinSignature()};
             return skin;
         }
@@ -250,7 +250,7 @@ public class Nickname {
     }
 
     public boolean setPlayerSkin(Player p, String arg) {
-        Nick nick = Core.getInstance().getBlitzSGPlayerManager().getBsgPlayer(p.getUniqueId()).getNick();
+        Nick nick = Core.getInstance().getPlayerManager().getPlayer(p.getUniqueId()).getNick();
         OfflinePlayer op = Bukkit.getServer().getOfflinePlayer(arg);
         if (!op.getName().equalsIgnoreCase(arg)) {
             return false;
@@ -288,7 +288,7 @@ public class Nickname {
     }
 
     public boolean setSkinForSelf(Player p) {
-        Nick nick = Core.getInstance().getBlitzSGPlayerManager().getBsgPlayer(p.getUniqueId()).getNick();
+        Nick nick = Core.getInstance().getPlayerManager().getPlayer(p.getUniqueId()).getNick();
 
         CraftPlayer cp = (CraftPlayer) p;
         GameProfile gameProfile = cp.getHandle().getProfile();

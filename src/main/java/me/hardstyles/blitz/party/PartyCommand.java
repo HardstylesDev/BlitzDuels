@@ -35,7 +35,7 @@ public class PartyCommand implements CommandExecutor {
             p.sendMessage(ChatColor.GREEN + "/party transfer <player>");
             return true;
         }
-        IPlayer sgPlayer = core.getBlitzSGPlayerManager().getBsgPlayer(p.getUniqueId());
+        IPlayer sgPlayer = core.getPlayerManager().getPlayer(p.getUniqueId());
         if (args[0].equalsIgnoreCase("disband")) {
             if (sgPlayer.getParty() == null) {
                 p.sendMessage(ChatColor.BLUE + "Party > " + ChatColor.RED + "You're not part of a party.");
@@ -54,7 +54,7 @@ public class PartyCommand implements CommandExecutor {
                     memberPlayer.getPlayer().sendMessage(ChatColor.BLUE + "Party > " + ChatColor.YELLOW + "The party you were in was disbanded");
                 }
 
-                IPlayer sgMember = core.getBlitzSGPlayerManager().getBsgPlayer(member);
+                IPlayer sgMember = core.getPlayerManager().getPlayer(member);
                 sgMember.setParty(null);
             }
 
@@ -79,7 +79,7 @@ public class PartyCommand implements CommandExecutor {
                 return true;
             }
             target.sendMessage(ChatColor.BLUE + "Party > " + ChatColor.YELLOW + "You were kicked from the party.");
-            IPlayer sgTarget = core.getBlitzSGPlayerManager().getBsgPlayer(target.getUniqueId());
+            IPlayer sgTarget = core.getPlayerManager().getPlayer(target.getUniqueId());
             sgTarget.setParty(null);
             sgPlayer.getParty().removeMember(target);
             OfflinePlayer memberPlayer;
@@ -160,7 +160,7 @@ public class PartyCommand implements CommandExecutor {
                 p.sendMessage(ChatColor.BLUE + "Party > " + ChatColor.RED + "Couldn't find that player.");
                 return true;
             }
-            IPlayer sgTarget = core.getBlitzSGPlayerManager().getBsgPlayer(target.getUniqueId());
+            IPlayer sgTarget = core.getPlayerManager().getPlayer(target.getUniqueId());
             if (sgTarget.getParty() == null || !sgTarget.getParty().getInvited().contains(p.getUniqueId())) {
                 p.sendMessage(ChatColor.BLUE + "Party > " + ChatColor.RED + "You don't have a pending invite from " + target.getName());
                 return true;
@@ -208,7 +208,7 @@ public class PartyCommand implements CommandExecutor {
                 p.sendMessage(ChatColor.BLUE + "Party > " + ChatColor.RED + "Couldn't find that player.");
                 return true;
             }
-            IPlayer sgTarget = core.getBlitzSGPlayerManager().getBsgPlayer(target.getUniqueId());
+            IPlayer sgTarget = core.getPlayerManager().getPlayer(target.getUniqueId());
             if (sgTarget.getParty() != null) {
                 p.sendMessage(ChatColor.BLUE + "Party > " + ChatColor.RED + "" + target.getName() + " is already in a party");
                 return true;
@@ -251,7 +251,7 @@ public class PartyCommand implements CommandExecutor {
             }
             target.sendMessage(ChatColor.BLUE + "Party > " + ChatColor.YELLOW + "You've been added to " + p.getName() + "'s party");
             p.sendMessage(ChatColor.BLUE + "Party > " + ChatColor.YELLOW + "You've added " + target.getName() + " to the party!");
-            IPlayer sgTarget = core.getBlitzSGPlayerManager().getBsgPlayer(target.getUniqueId());
+            IPlayer sgTarget = core.getPlayerManager().getPlayer(target.getUniqueId());
             sgTarget.setParty(sgPlayer.getParty());
             sgPlayer.getParty().addMember(target);
         }

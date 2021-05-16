@@ -34,4 +34,6 @@ commands:
     description: lol
   queue:
     description: x
+  world:
+    description: horsemeat
 

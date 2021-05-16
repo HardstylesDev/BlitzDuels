@@ -1,7 +1,6 @@
-package me.hardstyles.blitz.utils;
+package me.hardstyles.blitz.utils.world;
 
 import me.hardstyles.blitz.Core;
-import me.hardstyles.blitz.rank.ranks.Admin;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -12,9 +11,18 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class WorldCommand implements CommandExecutor {
+    final private Core core;
+
+    public WorldCommand(Core core){
+        this.core =core;
+    }
+
     public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
-        if (!(Core.getInstance().getRankManager().getRank((Player) sender) instanceof Admin))
+        if ((core.getPlayerManager().getPlayer(((Player)sender).getUniqueId()).getRank().getPosition()) < 5) {
+            sender.sendMessage("&cMissing permission");
+
             return true;
+        }
         if (args.length == 0) {
             sender.sendMessage("&7Teleport to a world '&7/world tp <name>&a'");
             sender.sendMessage("&7Generate new empty world '&7/world new <name>&a'");

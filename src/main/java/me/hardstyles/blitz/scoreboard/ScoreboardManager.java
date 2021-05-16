@@ -27,7 +27,7 @@ public class ScoreboardManager extends BukkitRunnable {
     public void run() {
         for (Player p : Bukkit.getServer().getOnlinePlayers()) {
             ScoreboardHelper board = this.scoreboardHandler.getScoreboard(p);
-            IPlayer bsgPlayer = Core.getInstance().getBlitzSGPlayerManager().getBsgPlayer(p.getUniqueId());
+            IPlayer bsgPlayer = Core.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
             board.clear();
             Date now = new Date();
             if (true) {

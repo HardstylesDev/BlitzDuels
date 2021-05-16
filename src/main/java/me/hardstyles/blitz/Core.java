@@ -1,7 +1,9 @@
 package me.hardstyles.blitz;
 
 import com.zaxxer.hikari.HikariDataSource;
+import me.hardstyles.blitz.arena.ArenaManager;
 import me.hardstyles.blitz.arena.TestCommand;
+import me.hardstyles.blitz.match.MatchHandler;
 import me.hardstyles.blitz.nickname.NicknameCommand;
 import me.hardstyles.blitz.party.PartyChatCommand;
 import me.hardstyles.blitz.party.PartyCommand;
@@ -22,12 +24,11 @@ import me.hardstyles.blitz.utils.KarhuAnticheat;
 import me.hardstyles.blitz.utils.VanillaCommands;
 import me.hardstyles.blitz.utils.database.Database;
 import me.hardstyles.blitz.utils.nametag.NametagManager;
+import me.hardstyles.blitz.utils.world.VoidGenerator;
+import me.hardstyles.blitz.utils.world.WorldCommand;
 import me.liwk.karhu.api.KarhuAPI;
 import net.minecraft.server.v1_8_R3.EnumChatFormat;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import redis.clients.jedis.JedisPool;
@@ -54,7 +55,8 @@ public class Core extends JavaPlugin {
     private QueueManager queueManager;
 
     private HikariDataSource hikari;
-    public static Location lobbySpawn;
+    private  Location lobbySpawn;
+    private ArenaManager arenaManager;
 
     private Database database;
 
@@ -81,7 +83,7 @@ public class Core extends JavaPlugin {
 
         nametagManager = new NametagManager();
         punishmentManager = new PunishmentManager();
-
+        arenaManager = new ArenaManager(this);
 
         //Register Commands::
 
@@ -99,11 +101,14 @@ public class Core extends JavaPlugin {
         this.getCommand("rank").setExecutor(new RankCommand(this));
         this.getCommand("nick").setExecutor(new NicknameCommand(this));
         this.getCommand("queue").setExecutor(new QueueCommand(this));
+        this.getCommand("world").setExecutor(new WorldCommand(this));
 
         //Register Handlers:
+        getServer().getPluginManager().registerEvents(new MatchHandler(this), this);
         getServer().getPluginManager().registerEvents(new IPlayerHandler(this), this);
         getServer().getPluginManager().registerEvents(new EnchantListener(this), this);
         // getServer().getPluginManager().registerEvents(scoreboardManager.getScoreboardHandler(), this);
+
 
         getServer().setWhitelist(false);
 
@@ -118,8 +123,17 @@ public class Core extends JavaPlugin {
                 content.delete();
             }
         }
-
+        new WorldCreator("arena").generator(new VoidGenerator()).createWorld();
         //Load Players:
+        if (!Bukkit.getOnlinePlayers().isEmpty()) {
+
+            Bukkit.getOnlinePlayers().forEach(player -> {
+                //g/etServer().getPluginManager().callEvent(new PlayerLoginEvent(player));
+                statisticsManager.load(player.getUniqueId());
+                iPlayerManager.addBsgPlayer(player.getUniqueId(), getPlayerManager().getPlayer(player.getUniqueId()));
+                //
+            });
+        }
         //PlayerUtils.loadPlayerData();
         //new LoadStats().load();
         //statisticsManager.load();
@@ -168,7 +182,7 @@ public class Core extends JavaPlugin {
     }
 
 
-    public IPlayerManager getBlitzSGPlayerManager() {
+    public IPlayerManager getPlayerManager() {
         return iPlayerManager;
     }
 
@@ -202,8 +216,13 @@ public class Core extends JavaPlugin {
     public static Core getInstance() {
         return instance;
     }
-    public QueueManager getQueueManager(){
+
+    public QueueManager getQueueManager() {
         return this.queueManager;
+    }
+
+    public ArenaManager getArenaManager() {
+        return this.arenaManager;
     }
 
     public static void broadcast(String message, World world) {
@@ -220,6 +239,6 @@ public class Core extends JavaPlugin {
     public static void send(Player p, String message) {
         p.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
     }
-
+    public Location getLobbySpawn(){return lobbySpawn;}
 
 }

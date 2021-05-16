@@ -21,7 +21,7 @@ public class PartyChatCommand implements CommandExecutor {
             p.sendMessage(ChatColor.RED + "Invalid message. /pc <message>");
             return true;
         }
-        IPlayer sgPlayer = Core.getInstance().getBlitzSGPlayerManager().getBsgPlayer(p.getUniqueId());
+        IPlayer sgPlayer = Core.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
         if (sgPlayer.getParty() == null) {
             p.sendMessage(ChatColor.RED + "You're not part of a party.");
             return true;

@@ -19,11 +19,11 @@ public class ACBan implements CommandExecutor {
             return true;
         }
         Player player = Bukkit.getPlayer(args[0]);
-        IPlayer iPlayer = Core.getInstance().getBlitzSGPlayerManager().getBsgPlayer(player.getUniqueId());
+        IPlayer iPlayer = Core.getInstance().getPlayerManager().getPlayer(player.getUniqueId());
         Core.broadcast("&7&m--------------------------------------------------");
         Core.broadcast("&c&l✗ &c&lCHEAT DETECTION");
         if (iPlayer.getNick() == null || !iPlayer.getNick().isNicked())
-            Core.broadcast("&cRemoved" + iPlayer.getRank().getPrefix() + player.getDisplayName() + " &cfrom the server");
+            Core.broadcast("&cRemoved " + iPlayer.getRank().getPrefix() + player.getDisplayName() + " &cfrom the server");
         else
             Core.broadcast("&cRemoved " + iPlayer.getRank().getPrefix() + player.getDisplayName() + " &7(" + player.getName() +") &cfrom the server");
         Core.broadcast("&7&m--------------------------------------------------");

@@ -21,7 +21,7 @@ public class StatisticsManager {
     }
 
     public void save() {
-        for (IPlayer bsgPlayer : Core.getInstance().getBlitzSGPlayerManager().getBsgPlayers().values()) {
+        for (IPlayer bsgPlayer : Core.getInstance().getPlayerManager().getBsgPlayers().values()) {
             save(bsgPlayer);
         }
     }
@@ -29,8 +29,8 @@ public class StatisticsManager {
 
     public void saveAsync(Player e) {
         Bukkit.getScheduler().runTaskAsynchronously(core, () -> {
-            this.save(core.getBlitzSGPlayerManager().getBsgPlayer(e.getUniqueId()));
-            core.getBlitzSGPlayerManager().removeBsgPlayer(e.getUniqueId());
+            this.save(core.getPlayerManager().getPlayer(e.getUniqueId()));
+            core.getPlayerManager().removeBsgPlayer(e.getUniqueId());
         });
     }
     public void save(IPlayer bsgPlayer) {
@@ -170,9 +170,9 @@ public class StatisticsManager {
                     iPlayer.setNick(new Nick(jsonObject.get("nick").getAsJsonObject().get("name").getAsString(), jsonObject.get("nick").getAsJsonObject().get("value").getAsString(), jsonObject.get("nick").getAsJsonObject().get("signature").getAsString(), jsonObject.get("nick").getAsJsonObject().get("nicked").getAsBoolean()));
                 }
 
-                iPlayer.setFfaDeaths(jsonObject.get("ffa_deaths").getAsInt());
-                iPlayer.setFfaKills(jsonObject.get("ffa_kills").getAsInt());
-                iPlayer.setFfaStreak(jsonObject.get("ffa_streak").getAsInt());
+                iPlayer.setFfaDeaths(asInt(jsonObject, "ffa_deaths"));
+                iPlayer.setFfaKills(asInt(jsonObject, "ffa_kills"));
+                iPlayer.setFfaStreak(asInt(jsonObject, "ffa_streak"));
 
             }
             rs.close();
@@ -183,6 +183,11 @@ public class StatisticsManager {
             e.printStackTrace();
         }
     }
-
+    private int asInt(JsonObject j,String v){
+        if(j.has(v)){
+            return j.get(v).getAsInt();
+        }
+        return 0;
+    }
 
 }

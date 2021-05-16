@@ -20,7 +20,7 @@ public class RankCommand implements CommandExecutor {
 
 
     public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
-        if ((sender instanceof Player) && core.getBlitzSGPlayerManager().getBsgPlayer(((Player)sender).getUniqueId()).getRank().getPosition() < 8) {
+        if ((sender instanceof Player) && core.getPlayerManager().getPlayer(((Player)sender).getUniqueId()).getRank().getPosition() < 8) {
             sender.sendMessage(ChatColor.RED + "You can't use this command!");
             return true;
         }
@@ -43,7 +43,7 @@ public class RankCommand implements CommandExecutor {
             sender.sendMessage(ChatColor.RED + "Rank not found.");
             return true;
         }
-        IPlayer argPlayer = core.getBlitzSGPlayerManager().getBsgPlayer(offlinePlayer.getUniqueId());
+        IPlayer argPlayer = core.getPlayerManager().getPlayer(offlinePlayer.getUniqueId());
         argPlayer.setRank(rank);
         core.getStatisticsManager().save(argPlayer);
         return true;

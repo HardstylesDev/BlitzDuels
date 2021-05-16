@@ -6,6 +6,11 @@ import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 
@@ -31,11 +36,11 @@ public class IPlayerHandler implements Listener {
         //     return;
         // }
         //   Bukkit.getScheduler().runTaskAsynchronously(BlitzSG.getInstance(), () -> {
-        Core.getInstance().getStatisticsManager().load(e.getUniqueId());
-        Core.getInstance().getBlitzSGPlayerManager().addBsgPlayer(e.getUniqueId(), Core.getInstance().getBlitzSGPlayerManager().getBsgPlayer(e.getUniqueId()));
+        core.getStatisticsManager().load(e.getUniqueId());
+        core.getPlayerManager().addBsgPlayer(e.getUniqueId(), core.getPlayerManager().getPlayer(e.getUniqueId()));
         //});
 
-        System.out.println("Loaded players: " + Core.getInstance().getBlitzSGPlayerManager().getBsgPlayers().size());
+        System.out.println("Loaded players: " + Core.getInstance().getPlayerManager().getBsgPlayers().size());
 
 
     }
@@ -52,7 +57,8 @@ public class IPlayerHandler implements Listener {
     @EventHandler
     public void onDisconnect(PlayerQuitEvent e) {
         e.setQuitMessage("");
-        core.getBlitzSGPlayerManager().removeBsgPlayer(e.getPlayer().getUniqueId());
+        Bukkit.getScheduler().runTaskLater(core, () ->  core.getPlayerManager().removeBsgPlayer(e.getPlayer().getUniqueId()), 1);
+
     }
 
     @EventHandler
@@ -60,8 +66,9 @@ public class IPlayerHandler implements Listener {
     public void onJoin(PlayerJoinEvent e) {
 
 
+
         Player p = e.getPlayer();
-        p.teleport(new Location(Bukkit.getWorld("world"), 0, 61, 0));
+        p.teleport(new Location(Bukkit.getWorld("world"), 0.5, 80, 0.5, 180, 0));
         e.setJoinMessage("");
         p.getInventory().setHelmet(new ItemStack(Material.AIR, 1));
         p.getInventory().setChestplate(new ItemStack(Material.AIR, 1));
@@ -69,9 +76,9 @@ public class IPlayerHandler implements Listener {
         p.getInventory().setBoots(new ItemStack(Material.AIR, 1));
         p.setFoodLevel(20);
         IPlayer uhcPlayer;
-        if (Core.getInstance().getBlitzSGPlayerManager().getBsgPlayer(p.getUniqueId()) == null)
+        if (core.getPlayerManager().getPlayer(p.getUniqueId()) == null)
             uhcPlayer = new IPlayer(e.getPlayer().getUniqueId());
-        uhcPlayer = Core.getInstance().getBlitzSGPlayerManager().getBsgPlayer(p.getUniqueId());
+        uhcPlayer = core.getPlayerManager().getPlayer(p.getUniqueId());
         uhcPlayer.setName(p.getDisplayName());
         uhcPlayer.setIp(p.getAddress().toString().split(":")[0].replaceAll("/", ""));
         p.setGameMode(GameMode.SURVIVAL);
@@ -98,12 +105,12 @@ public class IPlayerHandler implements Listener {
             // e.setJoinMessage((ChatColor.YELLOW + p.getName() + " joined the game").replaceAll("  ", " "));
 
             if (uhcPlayer.getRank() == null)
-                uhcPlayer.setRank(Core.getInstance().getRankManager().getRankByName("Default"));
+                uhcPlayer.setRank(core.getRankManager().getRankByName("Default"));
 
 
         Core.getInstance().getNametagManager().update();
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-            IPlayer iPlayer = Core.getInstance().getBlitzSGPlayerManager().getBsgPlayer(onlinePlayer.getUniqueId());
+            IPlayer iPlayer = core.getPlayerManager().getPlayer(onlinePlayer.getUniqueId());
             if (iPlayer.getParty() != null) {
                 if (iPlayer.getParty().getMembers().contains(p.getUniqueId())) {
                     uhcPlayer.setParty(iPlayer.getParty());
@@ -118,7 +125,7 @@ public class IPlayerHandler implements Listener {
 
     @EventHandler
     public void onAsyncChat(PlayerChatEvent e) {
-        IPlayer uhcPlayer = Core.getInstance().getBlitzSGPlayerManager().getBsgPlayer(e.getPlayer().getUniqueId());
+        IPlayer uhcPlayer = Core.getInstance().getPlayerManager().getPlayer(e.getPlayer().getUniqueId());
         e.setFormat(uhcPlayer.getRank(true).getPrefix() + e.getPlayer().getName() + (uhcPlayer.getRank(true).getPrefix().equalsIgnoreCase(ChatColor.GRAY + "") ? ChatColor.GRAY + ": " : ChatColor.WHITE + ": ") + e.getMessage().replaceAll("%", "%%"));
     }
 
@@ -137,5 +144,43 @@ public class IPlayerHandler implements Listener {
         e.getPlayer().playSound(e.getItem().getLocation(), Sound.ITEM_PICKUP, (float) 0.1, (float) 1.5);
     }
 
-
+    @EventHandler
+    public void damageEvent(EntityDamageEvent e){
+       if(e.getEntity().getWorld().getName().equalsIgnoreCase("world")){
+           e.setCancelled(true);
+       }
+    }
+    @EventHandler
+    public void foodEvent(FoodLevelChangeEvent e){
+        if(!(e.getEntity() instanceof Player)) return;
+        if(e.getEntity().getWorld().getName().equalsIgnoreCase("world")){
+            ((Player)e.getEntity()).setSaturation(20f);
+            e.setCancelled(true);
+        }
+    }
+    @EventHandler
+    public void breakBlock(BlockBreakEvent e){
+        if(e.getBlock().getWorld().getName().equalsIgnoreCase("world")){
+            e.setCancelled(true);
+        }
+    }
+    @EventHandler
+    public void placeBlock(BlockPlaceEvent e){
+        if(e.getBlock().getWorld().getName().equalsIgnoreCase("world")){
+            e.setCancelled(true);
+        }
+    }
+    @EventHandler
+    public void dropEvent(PlayerDropItemEvent e){
+        if(e.getPlayer().getWorld().getName().equalsIgnoreCase("world")){
+            e.setCancelled(true);
+        }
+    }
+    @EventHandler
+    public void interact(PlayerInteractEvent e){
+        if(e.getPlayer().getWorld().getName().equalsIgnoreCase("world")){
+            if(e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK)
+            e.setCancelled(true);
+        }
+    }
 }

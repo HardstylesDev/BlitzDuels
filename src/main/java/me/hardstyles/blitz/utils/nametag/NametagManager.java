@@ -34,7 +34,7 @@ public class NametagManager {
 
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
 
-            IPlayer bsgPlayer = Core.getInstance().getBlitzSGPlayerManager().getBsgPlayer(onlinePlayer.getUniqueId());
+            IPlayer bsgPlayer = Core.getInstance().getPlayerManager().getPlayer(onlinePlayer.getUniqueId());
             if (bsgPlayer == null || bsgPlayer.getRank() == null || bsgPlayer.getRank().getPrefix() == null || bsgPlayer.getNick() == null)
                 return;
             nametag.setNametag(onlinePlayer, ChatColor.WHITE + "", bsgPlayer.getNick().isNicked());

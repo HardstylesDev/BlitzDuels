@@ -26,20 +26,17 @@ public class TestCommand implements CommandExecutor {
 
     public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
         Player p = (Player) sender;
-        if (args[0].length() > 16) {
-
-            p.sendMessage("Bukkit: " + Bukkit.getOfflinePlayer(UUID.fromString(args[0])).getUniqueId());
+        for (Arena arena : Core.getInstance().getArenaManager().getArenas()) {
+            p.sendMessage("found: " + arena.getSpawns().get(0));
         }
-        else {
-            p.sendMessage("Bukkit: " + Bukkit.getOfflinePlayer(args[0]).getUniqueId());
-        }
-        System.out.println("NameUUIDfromBytes: " + UUID.nameUUIDFromBytes(("OfflinePlayer:" + args[0]).getBytes(Charsets.UTF_8)));
+       //ArrayList<Location> z = pasteSchematic(new File(args[0]), p.getLocation());
+       //p.teleport(z.get(0));
         return true;
     }
-    public void pasteSchematic(File f, Location loc) {
+    public  ArrayList<Location> pasteSchematic(File f, Location loc) {
 
         Bukkit.broadcastMessage("Started");
-
+        ArrayList<Location> spawns = new ArrayList<>();
         try {
 
             FileInputStream fis = new FileInputStream(f);
@@ -61,9 +58,14 @@ public class TestCommand implements CommandExecutor {
                         int b = blocks[index] & 0xFF;//make the block unsigned, so that blocks with an id over 127, like quartz and emerald, can be pasted
 
                         Material m = Material.getMaterial(b);
+
+                        if(m == Material.SIGN || m == Material.SIGN_POST || m == Material.WALL_SIGN){
+                            System.out.println(m);
+
+                            spawns.add(l);
+                            continue;
+                        }
                         blockToPlaceList.add(new BlockToPlace(l, l.getBlock(), m, blockdata[index]));
-                        // block.setType(m);
-                        // block.setData(blockdata[index]);
                     }
                 }
             }
@@ -74,15 +76,18 @@ public class TestCommand implements CommandExecutor {
         } catch (Exception e) {
         }
 
-
+    return spawns;
     }
 
     public void slowSet(ArrayList<BlockToPlace> blocks, int limitPerTick) {
-
+        ArrayList<Location> spawns = new ArrayList<>();
         int current = 0;
         int delay = 0;
         for (BlockToPlace block : blocks) {
             if (block.material == Material.AIR) {
+                continue;
+            }
+            if(block.material == Material.SIGN || block.material == Material.SIGN_POST){
                 continue;
             }
             current++;
