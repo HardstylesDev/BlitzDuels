@@ -62,3 +62,4 @@ me\hardstyles\blitz\rank\RankCommand.class
 me\hardstyles\blitz\rank\ranks\Helper.class
 me\hardstyles\blitz\utils\FlyCommand.class
 me\hardstyles\blitz\rank\RankManager.class
+me\hardstyles\blitz\match\MatchStage.class

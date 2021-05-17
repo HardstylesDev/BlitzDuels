@@ -64,7 +64,9 @@ public class Match {
             IPlayer iPlayer = core.getPlayerManager().getPlayer(uuid);
             iPlayer.setMatch(this);
             alive.add(uuid);
+            Bukkit.broadcastMessage(arena.getSpawns().get(pos) + "");
             p.teleport(arena.getSpawns().get(pos));
+            p.getItemInHand().setType(Material.DIAMOND_AXE);
             p.setFoodLevel(20);
             p.setHealth(20);
             p.getActivePotionEffects().forEach(potionEffect -> p.removePotionEffect(potionEffect.getType()));
@@ -169,6 +171,7 @@ public class Match {
 
             player.sendMessage("");
             player.sendMessage(ChatColor.GOLD + "Game over!");
+            player.getInventory().clear();
             UUID wU = null;
             for (UUID uuid : alive) {
                 wU = uuid;
