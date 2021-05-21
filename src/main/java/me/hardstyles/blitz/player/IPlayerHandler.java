@@ -12,6 +12,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.*;
+import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class IPlayerHandler implements Listener {
@@ -57,14 +58,13 @@ public class IPlayerHandler implements Listener {
     @EventHandler
     public void onDisconnect(PlayerQuitEvent e) {
         e.setQuitMessage("");
-        Bukkit.getScheduler().runTaskLater(core, () ->  core.getPlayerManager().removeBsgPlayer(e.getPlayer().getUniqueId()), 1);
+        Bukkit.getScheduler().runTaskLater(core, () -> core.getPlayerManager().removeBsgPlayer(e.getPlayer().getUniqueId()), 1);
 
     }
 
     @EventHandler
 
     public void onJoin(PlayerJoinEvent e) {
-
 
 
         Player p = e.getPlayer();
@@ -145,41 +145,53 @@ public class IPlayerHandler implements Listener {
     }
 
     @EventHandler
-    public void damageEvent(EntityDamageEvent e){
-       if(e.getEntity().getWorld().getName().equalsIgnoreCase("world")){
-           e.setCancelled(true);
-       }
-    }
-    @EventHandler
-    public void foodEvent(FoodLevelChangeEvent e){
-        if(!(e.getEntity() instanceof Player)) return;
-        if(e.getEntity().getWorld().getName().equalsIgnoreCase("world")){
-            ((Player)e.getEntity()).setSaturation(20f);
+    public void damageEvent(EntityDamageEvent e) {
+        if (e.getEntity().getWorld().getName().equalsIgnoreCase("world")) {
             e.setCancelled(true);
         }
     }
+
     @EventHandler
-    public void breakBlock(BlockBreakEvent e){
-        if(e.getBlock().getWorld().getName().equalsIgnoreCase("world")){
+    public void foodEvent(FoodLevelChangeEvent e) {
+        if (!(e.getEntity() instanceof Player)) return;
+        if (e.getEntity().getWorld().getName().equalsIgnoreCase("world")) {
+            ((Player) e.getEntity()).setSaturation(20f);
             e.setCancelled(true);
         }
     }
+
     @EventHandler
-    public void placeBlock(BlockPlaceEvent e){
-        if(e.getBlock().getWorld().getName().equalsIgnoreCase("world")){
+    public void breakBlock(BlockBreakEvent e) {
+        if (e.getBlock().getWorld().getName().equalsIgnoreCase("world")) {
             e.setCancelled(true);
         }
     }
+
     @EventHandler
-    public void dropEvent(PlayerDropItemEvent e){
-        if(e.getPlayer().getWorld().getName().equalsIgnoreCase("world")){
+    public void placeBlock(BlockPlaceEvent e) {
+        if (e.getBlock().getWorld().getName().equalsIgnoreCase("world")) {
             e.setCancelled(true);
         }
     }
+
     @EventHandler
-    public void interact(PlayerInteractEvent e){
-        if(e.getPlayer().getWorld().getName().equalsIgnoreCase("world")){
-            if(e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK)
+    public void dropEvent(PlayerDropItemEvent e) {
+        if (e.getPlayer().getWorld().getName().equalsIgnoreCase("world")) {
+            e.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void interact(PlayerInteractEvent e) {
+        if (e.getPlayer().getWorld().getName().equalsIgnoreCase("world")) {
+            if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK)
+                e.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void weather(WeatherChangeEvent e) {
+        if (e.toWeatherState()) {
             e.setCancelled(true);
         }
     }

@@ -14,11 +14,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7a886556-406b-424f-8316-6290f7bbf82d" name="Default Changelist" comment="Bababoeey">
-      <change beforePath="$PROJECT_DIR$/.idea/discord.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/discord.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/Core.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/Core.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/match/Match.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/match/Match.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/match/MatchHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/match/MatchHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/player/IPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/player/IPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/player/IPlayerHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/player/IPlayerHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/scoreboard/ScoreboardManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/scoreboard/ScoreboardManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/statistics/StatisticsManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/statistics/StatisticsManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -204,7 +207,10 @@
       <workItem from="1621105651758" duration="19000" />
       <workItem from="1621116296913" duration="12946000" />
       <workItem from="1621192934203" duration="1977000" />
-      <workItem from="1621264507073" duration="1580000" />
+      <workItem from="1621264507073" duration="3049000" />
+      <workItem from="1621351378768" duration="606000" />
+      <workItem from="1621607784972" duration="10000" />
+      <workItem from="1621609425497" duration="7377000" />
     </task>
     <task id="LOCAL-00001" summary="fff">
       <created>1597086521686</created>
@@ -458,7 +464,14 @@
       <option name="project" value="LOCAL" />
       <updated>1621194996090</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="Bababoeey">
+      <created>1621274006803</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1621274006803</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -508,7 +521,6 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="765" y="221" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1621098820633" />
-    <state x="765" y="221" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1612892928579" />
     <state x="0" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1621120338837">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -518,38 +530,34 @@
     </state>
     <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1621091133449" />
     <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1619270804835" />
-    <state width="1877" height="239" key="GridCell.Tab.0.bottom" timestamp="1621273538726">
+    <state width="1877" height="239" key="GridCell.Tab.0.bottom" timestamp="1621617715948">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="239" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@-1920.1.1920.1040" timestamp="1620507115034" />
-    <state width="1877" height="239" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1621273538726" />
+    <state width="1877" height="239" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1621617715948" />
     <state width="1877" height="239" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@-1920.2.1920.1040" timestamp="1619381034416" />
     <state width="1877" height="239" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1619434467671" />
-    <state width="1877" height="244" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1612700122166" />
-    <state width="1877" height="239" key="GridCell.Tab.0.center" timestamp="1621273538726">
+    <state width="1877" height="239" key="GridCell.Tab.0.center" timestamp="1621617715948">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="239" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@-1920.1.1920.1040" timestamp="1620507115034" />
-    <state width="1877" height="239" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1621273538726" />
+    <state width="1877" height="239" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1621617715948" />
     <state width="1877" height="239" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@-1920.2.1920.1040" timestamp="1619381034415" />
     <state width="1877" height="239" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1619434467671" />
-    <state width="1877" height="244" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1612700122166" />
-    <state width="1877" height="239" key="GridCell.Tab.0.left" timestamp="1621273538726">
+    <state width="1877" height="239" key="GridCell.Tab.0.left" timestamp="1621617715948">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="239" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@-1920.1.1920.1040" timestamp="1620507115034" />
-    <state width="1877" height="239" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1621273538726" />
+    <state width="1877" height="239" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1621617715948" />
     <state width="1877" height="239" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@-1920.2.1920.1040" timestamp="1619381034415" />
     <state width="1877" height="239" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1619434467671" />
-    <state width="1877" height="244" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1612700122166" />
-    <state width="1877" height="239" key="GridCell.Tab.0.right" timestamp="1621273538726">
+    <state width="1877" height="239" key="GridCell.Tab.0.right" timestamp="1621617715948">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="239" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@-1920.1.1920.1040" timestamp="1620507115034" />
-    <state width="1877" height="239" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1621273538726" />
+    <state width="1877" height="239" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1621617715948" />
     <state width="1877" height="239" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@-1920.2.1920.1040" timestamp="1619381034415" />
     <state width="1877" height="239" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1619434467671" />
-    <state width="1877" height="244" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1612700122166" />
     <state x="591" y="281" key="MultipleFileMergeDialog" timestamp="1619464417810">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -567,11 +575,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="769" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1621194988616" />
-    <state x="769" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1612699532919" />
-    <state x="1227" y="102" width="683" height="801" key="find.popup" timestamp="1620566793764">
+    <state x="1227" y="102" width="683" height="801" key="find.popup" timestamp="1621610518722">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="1227" y="102" width="683" height="801" key="find.popup/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1620566793764" />
+    <state x="1227" y="102" width="683" height="801" key="find.popup/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1621610518722" />
     <state x="1227" y="102" width="683" height="801" key="find.popup/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1619446562325" />
     <state x="758" y="421" key="git4idea.remote.GitConfigureRemotesDialog" timestamp="1619880840737">
       <screen x="0" y="0" width="1920" height="1040" />
@@ -585,7 +592,6 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="616" y="240" width="672" height="677" key="run.anything.popup/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1621128406058" />
-    <state x="616" y="240" width="672" height="677" key="run.anything.popup/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1612893917568" />
     <state x="623" y="225" key="search.everywhere.popup" timestamp="1619433335986">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

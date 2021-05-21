@@ -26,11 +26,16 @@ public class StatisticsManager {
         }
     }
 
+    public void saveAsync(IPlayer e) {
+        Bukkit.getScheduler().runTaskAsynchronously(core, () -> {
+            this.save(e);
 
+        });
+    }
     public void saveAsync(Player e) {
         Bukkit.getScheduler().runTaskAsynchronously(core, () -> {
             this.save(core.getPlayerManager().getPlayer(e.getUniqueId()));
-            core.getPlayerManager().removeBsgPlayer(e.getUniqueId());
+
         });
     }
     public void save(IPlayer bsgPlayer) {

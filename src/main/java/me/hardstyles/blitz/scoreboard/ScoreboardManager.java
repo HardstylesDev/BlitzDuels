@@ -1,7 +1,8 @@
 package me.hardstyles.blitz.scoreboard;
 
 import me.hardstyles.blitz.Core;
-
+import me.hardstyles.blitz.match.Match;
+import me.hardstyles.blitz.match.MatchStage;
 import me.hardstyles.blitz.player.IPlayer;
 import net.minecraft.server.v1_8_R3.ChatComponentText;
 import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
@@ -11,7 +12,7 @@ import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.Date;
+import java.util.UUID;
 
 public class ScoreboardManager extends BukkitRunnable {
     private final ScoreboardHandler scoreboardHandler;
@@ -20,7 +21,7 @@ public class ScoreboardManager extends BukkitRunnable {
 
     public ScoreboardManager() {
         this.scoreboardHandler = new ScoreboardHandler();
-        this.lines = "&7&m---------------------";
+        this.lines = "&7&m---------------";
         this.separator = "&f";
     }
 
@@ -29,8 +30,57 @@ public class ScoreboardManager extends BukkitRunnable {
             ScoreboardHelper board = this.scoreboardHandler.getScoreboard(p);
             IPlayer bsgPlayer = Core.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
             board.clear();
-            Date now = new Date();
-            if (true) {
+            if (bsgPlayer.hasMatch() && bsgPlayer.getMatch().getMatchStage() == MatchStage.GRACE) {
+                Match match = bsgPlayer.getMatch();
+                board.add(lines);
+                board.add(separator + "&a");
+                board.add("Time: " + ChatColor.GREEN + "starting...");
+                board.add(separator + "&b");
+                for (UUID uuid : match.getAlive()) {
+                    Player op = match.getPlayerReference().get(uuid);
+                    board.add(ChatColor.GRAY + "➥ " + ChatColor.GREEN + op.getName() + " " + Math.round(op.getHealth()) + ChatColor.RED + "❤");
+                }
+                for (UUID uuid : match.getDead()) {
+                    Player op = match.getPlayerReference().get(uuid);
+                    board.add(ChatColor.GRAY + "➥ " + ChatColor.GRAY + op.getName());
+                }
+                board.add(separator + "&c");
+                board.add(lines);
+
+            } else if (bsgPlayer.hasMatch() && bsgPlayer.getMatch().getMatchStage() == MatchStage.STARTED) {
+                Match match = bsgPlayer.getMatch();
+                board.add(lines);
+                board.add(separator + "&a");
+                board.add("Time: " + ChatColor.GREEN + ((System.currentTimeMillis() - match.getTimeStarted()) / 1000) + "s");
+                board.add(separator + "&b");
+                for (UUID uuid : match.getAlive()) {
+                    Player op = match.getPlayerReference().get(uuid);
+                    board.add(ChatColor.GRAY + "➥ " + ChatColor.GREEN + op.getName() + " " + Math.round(op.getHealth()) + ChatColor.RED + "❤");
+                }
+                for (UUID uuid : match.getDead()) {
+                    Player op = match.getPlayerReference().get(uuid);
+                    board.add(ChatColor.GRAY + "➥ " + ChatColor.GRAY + op.getName());
+                }
+                board.add(separator + "&c");
+                board.add(lines);
+
+            } else if (bsgPlayer.hasMatch() && bsgPlayer.getMatch().getMatchStage() == MatchStage.ENDED) {
+                Match match = bsgPlayer.getMatch();
+                board.add(lines);
+                board.add(separator + "&a");
+                board.add("Time: " + ChatColor.GREEN + ((match.getTimeEnded() - match.getTimeStarted()) / 1000) + "s");
+                board.add(separator + "&b");
+                board.add(match.getWinners().size() == 1 ? "Winner" : "Winners");
+                for (UUID winner : match.getWinners()) {
+                    Player op = match.getPlayerReference().get(winner);
+                    board.add(ChatColor.GOLD + "♚ " + ChatColor.YELLOW + op.getName());
+
+                }
+
+                board.add(separator + "&c");
+                board.add(lines);
+
+            }  else {
                 board.add(separator);
                 board.add("Kills: &a" + bsgPlayer.getKills());
                 board.add("Wins: &a" + bsgPlayer.getWins());
@@ -45,14 +95,14 @@ public class ScoreboardManager extends BukkitRunnable {
 
                 board.add(separator);
                 board.add("&ewww.hypixel.net");
-
+                if (bsgPlayer.getNick() != null && bsgPlayer.getNick().isNicked()) {
+                    PacketPlayOutChat packet = new PacketPlayOutChat(new ChatComponentText(ChatColor.RED + "You're currently nicked " + ChatColor.GRAY + "(in-game only)"), (byte) 2);
+                    ((CraftPlayer) p).getHandle().playerConnection.sendPacket(packet);
+                }
             }
             board.update(p);
 
-            if (bsgPlayer.getNick() != null && bsgPlayer.getNick().isNicked()) {
-                PacketPlayOutChat packet = new PacketPlayOutChat(new ChatComponentText(ChatColor.RED + "You're currently nicked " + ChatColor.GRAY + "(in-game only)"), (byte) 2);
-                ((CraftPlayer) p).getHandle().playerConnection.sendPacket(packet);
-            }
+
         }
     }
 
@@ -83,8 +133,12 @@ public class ScoreboardManager extends BukkitRunnable {
     }
 
 
-
     public ScoreboardHandler getScoreboardHandler() {
         return this.scoreboardHandler;
+    }
+
+    private double roundHalfDown(double d) {
+        double f = 0.5;
+        return f * Math.round(d / f);
     }
 }

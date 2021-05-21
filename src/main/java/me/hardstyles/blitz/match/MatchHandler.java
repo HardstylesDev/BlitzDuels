@@ -47,11 +47,16 @@ public class MatchHandler implements Listener {
         IPlayer ivictim = core.getPlayerManager().getPlayer(victim.getUniqueId());
         Match match = ivictim.getMatch();
         if (match == null) {
+            e.setCancelled(true);
             return;
         }
         if(match.getMatchStage() != MatchStage.STARTED){
             e.setCancelled(true);
             return;
+        }
+        if (e.getFinalDamage() >= victim.getHealth()) {
+            e.setCancelled(true);
+            match.onDeath(victim.getUniqueId());
         }
     }
     @EventHandler
@@ -65,19 +70,13 @@ public class MatchHandler implements Listener {
         if (match == null) {
             return;
         }
-        if(match.getMatchStage() != MatchStage.STARTED){
-            e.setCancelled(true);
-            return;
-        }
+
         if (!match.getAlive().contains(victim.getUniqueId())) {
             return;
         }
         if (e.getDamager() instanceof Player) {
             Player attacker = (Player) e.getDamager();
             match.getAttacks().put(victim.getUniqueId(), attacker.getUniqueId());
-        }
-        if (e.getFinalDamage() >= victim.getHealth()) {
-            match.onDeath(victim.getUniqueId());
         }
     }
 

@@ -79,7 +79,7 @@ public class Core extends JavaPlugin {
         rankManager = new RankManager();
         queueManager = new QueueManager(this);
 
-        // scoreboardManager = new ScoreboardManager();
+         scoreboardManager = new ScoreboardManager();
 
         nametagManager = new NametagManager();
         punishmentManager = new PunishmentManager();
@@ -107,7 +107,7 @@ public class Core extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new MatchHandler(this), this);
         getServer().getPluginManager().registerEvents(new IPlayerHandler(this), this);
         getServer().getPluginManager().registerEvents(new EnchantListener(this), this);
-        // getServer().getPluginManager().registerEvents(scoreboardManager.getScoreboardHandler(), this);
+        getServer().getPluginManager().registerEvents(scoreboardManager.getScoreboardHandler(), this);
 
 
         getServer().setWhitelist(false);
@@ -158,7 +158,7 @@ public class Core extends JavaPlugin {
         //Start Scoreboard:
 
 
-        // scoreboardManager.runTaskTimer(this, 20, 20);
+        scoreboardManager.runTaskTimer(this, 20, 20);
 
         //Load LobbySpawn:
 

@@ -9,6 +9,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -22,10 +23,14 @@ public class Match {
     final HashSet<UUID> players;
     final private Core core;
     final private HashSet<UUID> alive;
+    final private HashSet<UUID> dead;
     final private HashMap<UUID, UUID> attacks;
+    private HashSet<UUID> winners;
     private HashMap<UUID, Entity> entities;
     private HashMap<UUID, Player> playerReference;
     private HashSet<Location> blocksPlaced;
+    private long timeStarted;
+    private long timeEnded;
 
     public Match(Core core, Arena arena) {
         this.matchStage = MatchStage.GRACE;
@@ -36,8 +41,14 @@ public class Match {
         this.entities = new HashMap<>();
         this.players = new HashSet<>();
         this.attacks = new HashMap<>();
+        this.winners = new HashSet<>();
         this.alive = new HashSet<>();
+        this.dead = new HashSet<>();
+        this.timeStarted = 0;
+        this.timeEnded = 0;
+
         this.arena = arena;
+
     }
 
     public void add(Player player) {
@@ -66,7 +77,7 @@ public class Match {
             alive.add(uuid);
             Bukkit.broadcastMessage(arena.getSpawns().get(pos) + "");
             p.teleport(arena.getSpawns().get(pos));
-            p.getItemInHand().setType(Material.DIAMOND_AXE);
+            p.getInventory().addItem(new ItemStack(Material.DIAMOND_AXE, 1));
             p.setFoodLevel(20);
             p.setHealth(20);
             p.getActivePotionEffects().forEach(potionEffect -> p.removePotionEffect(potionEffect.getType()));
@@ -103,7 +114,8 @@ public class Match {
             send("");
             send(pre + ChatColor.YELLOW + "Started! Good luck!");
             matchStage = MatchStage.STARTED;
-        }, 20*15);
+            timeStarted = System.currentTimeMillis();
+        }, 20 * 15);
     }
 
     public HashSet<UUID> getAlive() {
@@ -137,19 +149,22 @@ public class Match {
         IPlayer player = core.getPlayerManager().getPlayer(uuid);
 
         player.addDeath();
-        getAlive().remove(p.getUniqueId());
+        core.getStatisticsManager().saveAsync(player);
+        alive.remove(p.getUniqueId());
+        dead.add(p.getUniqueId());
         if (attacks.get(p.getUniqueId()) == null) {
             send(player.getRank().getChatColor() + p.getName() + ChatColor.YELLOW + " was killed!");
         } else {
             IPlayer killer = core.getPlayerManager().getPlayer(attacks.get(p.getUniqueId()));
             killer.addKill();
             send(player.getRank().getChatColor() + p.getName() + ChatColor.YELLOW + " was killed by " + killer.getRank().getChatColor() + playerReference.get(attacks.get(p.getUniqueId())).getName() + ChatColor.YELLOW + "!");
+
+            core.getStatisticsManager().saveAsync(killer);
         }
         if (getAlive().size() <= 1) {
             matchStage = MatchStage.ENDED;
             finish();
         }
-        player.setMatch(null);
     }
 
 
@@ -159,12 +174,15 @@ public class Match {
         }
         playerReference.remove(uuid);
         alive.remove(uuid);
+        dead.add(uuid);
         players.remove(uuid);
         attacks.remove(uuid);
     }
 
     public void finish() {
+        timeEnded = System.currentTimeMillis();
         for (Player player : playerReference.values()) {
+
             for (Location location : blocksPlaced) {
                 location.getBlock().setType(Material.AIR);
             }
@@ -180,15 +198,19 @@ public class Match {
             if (wU == null) {
                 return;
             }
+            this.winners.add(wU);
             IPlayer winner = core.getPlayerManager().getPlayer(wU);
             player.sendMessage(ChatColor.YELLOW + "" + ChatColor.BOLD + "Winner: " + winner.getRank().getChatColor() + playerReference.get(wU).getName());
 
         }
-        core.getServer().getScheduler().runTaskLater(core, ()-> {
-            for(Player player : playerReference.values()){
+        core.getServer().getScheduler().runTaskLater(core, () -> {
+            for (Player player : playerReference.values()) {
+                if (core.getPlayerManager().getPlayer(player.getUniqueId()).getMatch() == this) {
+                    core.getPlayerManager().getPlayer(player.getUniqueId()).setMatch(null);
+                }
                 player.teleport(core.getLobbySpawn());
             }
-        }, 20*5);
+        }, 20 * 5);
 
     }
 
@@ -204,4 +226,21 @@ public class Match {
     public MatchStage getMatchStage() {
         return this.matchStage;
     }
+
+    public HashMap<UUID, Player> getPlayerReference() {
+        return playerReference;
+    }
+
+    public HashSet<UUID> getDead() {
+        return dead;
+    }
+
+    public long getTimeStarted() {
+        return this.timeStarted;
+    }
+
+    public long getTimeEnded() {
+        return timeEnded;
+    }
+    public HashSet<UUID>getWinners(){return winners;}
 }
