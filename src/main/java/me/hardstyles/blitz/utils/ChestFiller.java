@@ -1,5 +1,6 @@
 package me.hardstyles.blitz.utils;
 
+import me.hardstyles.blitz.Core;
 import org.bukkit.Color;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
@@ -11,13 +12,15 @@ import java.util.Random;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 
-public class ChestUtils {
+public class ChestFiller {
 
     private HashMap<ItemStack, Integer> lootTable;
 
     private int totalChance;
 
-    public ChestUtils() {
+    final private Core core;
+    public ChestFiller(Core core) {
+        this.core = core;
         loadLootTable();
     }
 

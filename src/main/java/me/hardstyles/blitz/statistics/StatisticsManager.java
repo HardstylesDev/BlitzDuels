@@ -93,6 +93,7 @@ public class StatisticsManager {
             preparedStatement.setString(1, uuid);
             preparedStatement.setString(2, gson.toJson(jsonObject));
             preparedStatement.execute();
+            preparedStatement.close();
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();

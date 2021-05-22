@@ -9,7 +9,6 @@ me\hardstyles\blitz\scoreboard\ScoreboardHelper.class
 me\hardstyles\blitz\arena\TestCommand.class
 me\hardstyles\blitz\scoreboard\ScoreboardHandler.class
 me\hardstyles\blitz\punishments\commands\Unban.class
-me\hardstyles\blitz\utils\ChestUtils.class
 me\hardstyles\blitz\punishments\PunishmentManager.class
 me\hardstyles\blitz\rank\ranks\Mvp.class
 me\hardstyles\blitz\player\IPlayerHandler.class
@@ -31,10 +30,12 @@ me\hardstyles\blitz\Core.class
 me\hardstyles\blitz\arena\arenaloader\BlockToPlace.class
 me\hardstyles\blitz\utils\world\VoidGenerator.class
 me\hardstyles\blitz\utils\database\Database.class
+me\hardstyles\blitz\match\mobs\MatchMobHandler.class
 me\hardstyles\blitz\queue\Queue.class
 me\hardstyles\blitz\utils\world\WorldCommand.class
 me\hardstyles\blitz\punishments\PunishmentManager$1.class
 me\hardstyles\blitz\rank\ranks\Vip.class
+me\hardstyles\blitz\utils\ChestFiller.class
 me\hardstyles\blitz\player\IPlayerManager.class
 me\hardstyles\blitz\rank\ranks\Default.class
 me\hardstyles\blitz\rank\ranks\Youtuber.class
@@ -46,6 +47,7 @@ me\hardstyles\blitz\statistics\StatisticsManager.class
 me\hardstyles\blitz\scoreboard\ScoreboardManager.class
 me\hardstyles\blitz\party\PartyChatCommand.class
 me\hardstyles\blitz\queue\QueueType.class
+me\hardstyles\blitz\match\mobs\MatchMobHandler$1.class
 me\hardstyles\blitz\utils\nametag\Nametag.class
 me\hardstyles\blitz\queue\QueueCommand.class
 me\hardstyles\blitz\queue\QueueManager.class

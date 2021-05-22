@@ -66,6 +66,7 @@ public class Database {
         //the maximum connection which can be created by or resides in the pool
         hikaConfig.setMaximumPoolSize(5);
 
+
         //how much time a user can wait to get a connection from the pool.
         //if it exceeds the time limit then a SQlException is thrown
         hikaConfig.setConnectionTimeout(Duration.ofSeconds(30).toMillis());

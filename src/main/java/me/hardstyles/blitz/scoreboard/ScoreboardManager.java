@@ -36,7 +36,7 @@ public class ScoreboardManager extends BukkitRunnable {
                 board.add(separator + "&a");
                 board.add("Time: " + ChatColor.GREEN + "starting...");
                 board.add(separator + "&b");
-                for (UUID uuid : match.getAlive()) {
+                for (UUID uuid : match.getAlivePlayers()) {
                     Player op = match.getPlayerReference().get(uuid);
                     board.add(ChatColor.GRAY + "➥ " + ChatColor.GREEN + op.getName() + " " + Math.round(op.getHealth()) + ChatColor.RED + "❤");
                 }
@@ -53,7 +53,7 @@ public class ScoreboardManager extends BukkitRunnable {
                 board.add(separator + "&a");
                 board.add("Time: " + ChatColor.GREEN + ((System.currentTimeMillis() - match.getTimeStarted()) / 1000) + "s");
                 board.add(separator + "&b");
-                for (UUID uuid : match.getAlive()) {
+                for (UUID uuid : match.getAlivePlayers()) {
                     Player op = match.getPlayerReference().get(uuid);
                     board.add(ChatColor.GRAY + "➥ " + ChatColor.GREEN + op.getName() + " " + Math.round(op.getHealth()) + ChatColor.RED + "❤");
                 }
@@ -81,7 +81,8 @@ public class ScoreboardManager extends BukkitRunnable {
                 board.add(lines);
 
             }  else {
-                board.add(separator);
+                board.add(lines);
+                board.add(separator + "&c");
                 board.add("Kills: &a" + bsgPlayer.getKills());
                 board.add("Wins: &a" + bsgPlayer.getWins());
                 board.add("Blitz Score: &c" + bsgPlayer.getElo());
@@ -92,13 +93,16 @@ public class ScoreboardManager extends BukkitRunnable {
 
                 board.add("Coins: &a" + bsgPlayer.getCoins());
                 board.add("Unlocks: &cN/A");
+                board.add(separator + "&c");
+                board.add(lines);
 
-                board.add(separator);
-                board.add("&ewww.hypixel.net");
                 if (bsgPlayer.getNick() != null && bsgPlayer.getNick().isNicked()) {
                     PacketPlayOutChat packet = new PacketPlayOutChat(new ChatComponentText(ChatColor.RED + "You're currently nicked " + ChatColor.GRAY + "(in-game only)"), (byte) 2);
                     ((CraftPlayer) p).getHandle().playerConnection.sendPacket(packet);
                 }
+            }
+            if(bsgPlayer.hasMatch()){
+                bsgPlayer.getMatch().entityTeleport();
             }
             board.update(p);
 

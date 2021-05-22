@@ -13,13 +13,18 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class ACBan implements CommandExecutor {
+    private final Core core;
+    public ACBan(Core core) {
+        this.core =core;
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (sender instanceof Player) {
             return true;
         }
         Player player = Bukkit.getPlayer(args[0]);
-        IPlayer iPlayer = Core.getInstance().getPlayerManager().getPlayer(player.getUniqueId());
+        IPlayer iPlayer = core.getPlayerManager().getPlayer(player.getUniqueId());
         Core.broadcast("&7&m--------------------------------------------------");
         Core.broadcast("&c&l✗ &c&lCHEAT DETECTION");
         if (iPlayer.getNick() == null || !iPlayer.getNick().isNicked())
@@ -28,11 +33,11 @@ public class ACBan implements CommandExecutor {
             Core.broadcast("&cRemoved " + iPlayer.getRank().getPrefix() + player.getDisplayName() + " &7(" + player.getName() +") &cfrom the server");
         Core.broadcast("&7&m--------------------------------------------------");
 
-        Bukkit.getScheduler().runTaskAsynchronously(Core.getInstance(), new Runnable() {
+        Bukkit.getScheduler().runTaskAsynchronously(core, new Runnable() {
             @Override
             public void run() {
                 try {
-                    Connection connection = Core.getInstance().getData().getConnection();
+                    Connection connection = core.getData().getConnection();
                     String command = String.format("REPLACE INTO `bans`(`uuid`, `reason`, `expires`, `executor`) VALUES (?,?,?,?)");
 
                     PreparedStatement preparedStatement = connection.prepareStatement(command);

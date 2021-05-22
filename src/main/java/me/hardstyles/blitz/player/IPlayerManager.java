@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import me.hardstyles.blitz.Core;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -13,9 +14,11 @@ import me.hardstyles.blitz.utils.ItemUtils;
 
 public class IPlayerManager {
 
-	private HashMap<UUID, IPlayer> bsgPlayers;
 
-	public IPlayerManager() {
+	private HashMap<UUID, IPlayer> bsgPlayers;
+final private Core core;
+	public IPlayerManager(Core core) {
+		this.core = core;
 		bsgPlayers = new HashMap<UUID, IPlayer>();
 	}
 
@@ -38,12 +41,11 @@ public class IPlayerManager {
 	
 	public void setLobbyInventoryAndNameTag(Player p) {
 		p.getInventory().clear();
-		p.getInventory().setItem(1, ItemUtils.buildItem(new ItemStack(Material.IRON_SWORD), "&b&lJoin a Game &7(Right-Click)", Arrays.asList("§7Right-Click to join a Blitz game")));
 		p.getInventory().setItem(3, ItemUtils.buildItem(new ItemStack(Material.EMERALD), "&aShop &7(Right-Click)", Arrays.asList("§7Right-Click to open the shop")));
 		p.getInventory().setItem(5, ItemUtils.buildItem(new ItemStack(Material.PAINTING), "&e&lYour Stats &7(Right-Click)", Arrays.asList("§7Right-Click to view your stats")));
 		p.getInventory().setItem(7, ItemUtils.buildItem(new ItemStack(Material.SKULL_ITEM), "&c???", Arrays.asList("§7Coming soon...")));
 
-		Core.getInstance().getNametagManager().update();
+		core.getNametagManager().update();
 
 
 		//ArrayList<NametagEdit> nametagEdits = BlitzSG.getInstance().getRankManager().getNametags();
@@ -60,7 +62,46 @@ public class IPlayerManager {
 		//}
 	}
 
+	public void hub(Player p){
+		p.spigot().setCollidesWithEntities(true);
+		p.setFlying(false);
+		p.setAllowFlight(false);
+		p.setGameMode(GameMode.SURVIVAL);
+		p.setHealth(20);
+		p.setSaturation(20);
+		p.setFoodLevel(20);
+		p.setFireTicks(0);
+		p.setFallDistance(0);
+		p.getInventory().clear();
+		p.updateInventory();
+		p.getInventory().setArmorContents(null);
+		p.getActivePotionEffects().forEach(potionEffect -> p.removePotionEffect(potionEffect.getType()));
 
+		hubIntentory(p);
+		p.teleport(core.getLobbySpawn());
+	}
+	public void hubIntentory(Player p){
+		p.getInventory().setItem(1, ItemUtils.buildItem(new ItemStack(Material.IRON_SWORD), "&eSolo Queue", Arrays.asList("§7Right-Click to join the queue")));
+		p.getInventory().setItem(2, ItemUtils.buildItem(new ItemStack(Material.IRON_SWORD, 2), "&eTeams Queue", Arrays.asList("§cSoon")));
+
+	}
+	public void reset(Player p){
+		p.spigot().setCollidesWithEntities(true);
+		p.setLevel(0);
+		p.setExp(0);
+		p.setExhaustion(0);
+		p.setFlying(false);
+		p.setAllowFlight(false);
+		p.setGameMode(GameMode.SURVIVAL);
+		p.setHealth(20);
+		p.setSaturation(20);
+		p.setFoodLevel(20);
+		p.setFireTicks(0);
+		p.setFallDistance(0);
+		p.getInventory().clear();
+		p.getInventory().setArmorContents(null);
+		p.getActivePotionEffects().forEach(potionEffect -> p.removePotionEffect(potionEffect.getType()));
+	}
 
 	public void handleKillElo(Player victim, Player killer) {
 		IPlayer victimUhc = this.getPlayer(victim.getUniqueId());

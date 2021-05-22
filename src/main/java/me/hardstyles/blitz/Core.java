@@ -4,6 +4,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import me.hardstyles.blitz.arena.ArenaManager;
 import me.hardstyles.blitz.arena.TestCommand;
 import me.hardstyles.blitz.match.MatchHandler;
+import me.hardstyles.blitz.match.mobs.MatchMobHandler;
 import me.hardstyles.blitz.nickname.NicknameCommand;
 import me.hardstyles.blitz.party.PartyChatCommand;
 import me.hardstyles.blitz.party.PartyCommand;
@@ -18,10 +19,7 @@ import me.hardstyles.blitz.rank.RankCommand;
 import me.hardstyles.blitz.rank.RankManager;
 import me.hardstyles.blitz.scoreboard.ScoreboardManager;
 import me.hardstyles.blitz.statistics.StatisticsManager;
-import me.hardstyles.blitz.utils.EnchantListener;
-import me.hardstyles.blitz.utils.FireworkCommand;
-import me.hardstyles.blitz.utils.KarhuAnticheat;
-import me.hardstyles.blitz.utils.VanillaCommands;
+import me.hardstyles.blitz.utils.*;
 import me.hardstyles.blitz.utils.database.Database;
 import me.hardstyles.blitz.utils.nametag.NametagManager;
 import me.hardstyles.blitz.utils.world.VoidGenerator;
@@ -44,6 +42,7 @@ public class Core extends JavaPlugin {
     public static Core instance;
     private KarhuAnticheat karhuAnticheat;
     private NametagManager nametagManager;
+    private ChestFiller chestFiller;
 
     private IPlayerManager iPlayerManager;
 
@@ -72,9 +71,10 @@ public class Core extends JavaPlugin {
         }
 
 
-        karhuAnticheat = new KarhuAnticheat();
+        karhuAnticheat = new KarhuAnticheat(this);
+        chestFiller = new ChestFiller(this);
         database = new Database();
-        iPlayerManager = new IPlayerManager();
+        iPlayerManager = new IPlayerManager(this);
         statisticsManager = new StatisticsManager(this);
         rankManager = new RankManager();
         queueManager = new QueueManager(this);
@@ -94,9 +94,9 @@ public class Core extends JavaPlugin {
 
         this.getCommand("fw").setExecutor(new FireworkCommand());
         this.getCommand("test").setExecutor(new TestCommand());
-        this.getCommand("acban").setExecutor(new ACBan());
+        this.getCommand("acban").setExecutor(new ACBan(this));
         this.getCommand("unban").setExecutor(new Unban());
-        this.getCommand("partychat").setExecutor(new PartyChatCommand());
+        this.getCommand("partychat").setExecutor(new PartyChatCommand(this));
         this.getCommand("party").setExecutor(new PartyCommand(this));
         this.getCommand("rank").setExecutor(new RankCommand(this));
         this.getCommand("nick").setExecutor(new NicknameCommand(this));
@@ -105,6 +105,7 @@ public class Core extends JavaPlugin {
 
         //Register Handlers:
         getServer().getPluginManager().registerEvents(new MatchHandler(this), this);
+        getServer().getPluginManager().registerEvents(new MatchMobHandler(this), this);
         getServer().getPluginManager().registerEvents(new IPlayerHandler(this), this);
         getServer().getPluginManager().registerEvents(new EnchantListener(this), this);
         getServer().getPluginManager().registerEvents(scoreboardManager.getScoreboardHandler(), this);
@@ -162,14 +163,13 @@ public class Core extends JavaPlugin {
 
         //Load LobbySpawn:
 
-        lobbySpawn = new Location(Bukkit.getWorld("world"), 0.5, 50.5, 0.5, 90, 0);
+        lobbySpawn =new Location(Bukkit.getWorld("world"), 0.5, 80, 0.5, 180, 0);
         nametagManager.update();
 
 
     }
 
     public void onDisable() {
-
 
     }
 
@@ -196,6 +196,7 @@ public class Core extends JavaPlugin {
         return punishmentManager;
     }
 
+    public ChestFiller getChestFiller(){return chestFiller;}
 
     public StatisticsManager getStatisticsManager() {
         return statisticsManager;
@@ -240,5 +241,6 @@ public class Core extends JavaPlugin {
         p.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
     }
     public Location getLobbySpawn(){return lobbySpawn;}
+
 
 }

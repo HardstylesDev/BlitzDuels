@@ -33,6 +33,7 @@ public class PartyCommand implements CommandExecutor {
             p.sendMessage(ChatColor.GREEN + "/party invite <player>");
             p.sendMessage(ChatColor.GREEN + "/party disband");
             p.sendMessage(ChatColor.GREEN + "/party transfer <player>");
+            p.sendMessage(ChatColor.GREEN + "/party match");
             return true;
         }
         IPlayer sgPlayer = core.getPlayerManager().getPlayer(p.getUniqueId());
@@ -234,6 +235,21 @@ public class PartyCommand implements CommandExecutor {
             ((CraftPlayer) target).getHandle().playerConnection.sendPacket(packet);
 
             p.sendMessage(ChatColor.BLUE + "Party > " + ChatColor.GREEN + "You've invited " + target.getName() + " to the party.");
+            return true;
+        }
+        if (args[0].equalsIgnoreCase("match")) {
+            if (sgPlayer.getParty() == null) {
+                p.chat("/p create");
+            }
+            if (sgPlayer.getParty() == null) {
+                p.sendMessage(ChatColor.BLUE + "Party > " + ChatColor.RED + "You're not in a party.");
+                return true;
+            }
+            if (sgPlayer.getParty().getMembers().size() < 2) {
+                p.sendMessage(ChatColor.BLUE + "Party > " + ChatColor.RED + "You need at least 2 players in your party!");
+                return true;
+            }
+            core.getQueueManager().startPartyMatch(sgPlayer.getParty());
             return true;
         }
         if (args.length > 0) {

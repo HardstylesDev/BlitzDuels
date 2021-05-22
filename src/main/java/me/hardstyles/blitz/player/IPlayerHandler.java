@@ -2,6 +2,7 @@ package me.hardstyles.blitz.player;
 
 import me.hardstyles.blitz.Core;
 import me.hardstyles.blitz.nickname.Nickname;
+import me.hardstyles.blitz.queue.QueueType;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -41,7 +42,7 @@ public class IPlayerHandler implements Listener {
         core.getPlayerManager().addBsgPlayer(e.getUniqueId(), core.getPlayerManager().getPlayer(e.getUniqueId()));
         //});
 
-        System.out.println("Loaded players: " + Core.getInstance().getPlayerManager().getBsgPlayers().size());
+        System.out.println("Loaded players: " + core.getPlayerManager().getBsgPlayers().size());
 
 
     }
@@ -50,15 +51,17 @@ public class IPlayerHandler implements Listener {
     public void onPlayerUse(PlayerInteractEvent event) {
         Player p = event.getPlayer();
 
-        if (p.getItemInHand().getType() == Material.BLAZE_POWDER) {
-
+        if (p.getItemInHand().getType() == Material.IRON_SWORD) {
+            if(p.getItemInHand().getItemMeta().getDisplayName().contains("Solo Queue")){
+                core.getServer().getScheduler().runTaskLater(core, () -> core.getQueueManager().add(QueueType.NORMAL, p), 2);
+            }
         }
     }
 
     @EventHandler
     public void onDisconnect(PlayerQuitEvent e) {
         e.setQuitMessage("");
-        Bukkit.getScheduler().runTaskLater(core, () -> core.getPlayerManager().removeBsgPlayer(e.getPlayer().getUniqueId()), 1);
+        Bukkit.getScheduler().runTaskLater(core, () -> core.getPlayerManager().removeBsgPlayer(e.getPlayer().getUniqueId()), 4);
 
     }
 
@@ -68,7 +71,8 @@ public class IPlayerHandler implements Listener {
 
 
         Player p = e.getPlayer();
-        p.teleport(new Location(Bukkit.getWorld("world"), 0.5, 80, 0.5, 180, 0));
+
+        core.getPlayerManager().hub(p);
         e.setJoinMessage("");
         p.getInventory().setHelmet(new ItemStack(Material.AIR, 1));
         p.getInventory().setChestplate(new ItemStack(Material.AIR, 1));
@@ -108,7 +112,7 @@ public class IPlayerHandler implements Listener {
                 uhcPlayer.setRank(core.getRankManager().getRankByName("Default"));
 
 
-        Core.getInstance().getNametagManager().update();
+       core.getNametagManager().update();
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
             IPlayer iPlayer = core.getPlayerManager().getPlayer(onlinePlayer.getUniqueId());
             if (iPlayer.getParty() != null) {
@@ -125,7 +129,7 @@ public class IPlayerHandler implements Listener {
 
     @EventHandler
     public void onAsyncChat(PlayerChatEvent e) {
-        IPlayer uhcPlayer = Core.getInstance().getPlayerManager().getPlayer(e.getPlayer().getUniqueId());
+        IPlayer uhcPlayer = core.getPlayerManager().getPlayer(e.getPlayer().getUniqueId());
         e.setFormat(uhcPlayer.getRank(true).getPrefix() + e.getPlayer().getName() + (uhcPlayer.getRank(true).getPrefix().equalsIgnoreCase(ChatColor.GRAY + "") ? ChatColor.GRAY + ": " : ChatColor.WHITE + ": ") + e.getMessage().replaceAll("%", "%%"));
     }
 

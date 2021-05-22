@@ -2,6 +2,7 @@ package me.hardstyles.blitz.party;
 
 import me.hardstyles.blitz.Core;
 import me.hardstyles.blitz.player.IPlayer;
+import net.minecraft.server.v1_8_R3.Packet;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -14,6 +15,10 @@ import java.util.UUID;
 
 public class PartyChatCommand implements CommandExecutor {
 
+    final private Core core;
+    public PartyChatCommand(Core core){
+        this.core = core;
+    }
 
     public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
         Player p = (Player) sender;
@@ -21,7 +26,7 @@ public class PartyChatCommand implements CommandExecutor {
             p.sendMessage(ChatColor.RED + "Invalid message. /pc <message>");
             return true;
         }
-        IPlayer sgPlayer = Core.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
+        IPlayer sgPlayer = core.getPlayerManager().getPlayer(p.getUniqueId());
         if (sgPlayer.getParty() == null) {
             p.sendMessage(ChatColor.RED + "You're not part of a party.");
             return true;

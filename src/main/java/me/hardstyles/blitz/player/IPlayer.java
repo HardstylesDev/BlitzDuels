@@ -270,7 +270,6 @@ public class IPlayer {
 
 
     public void addKill() {
-        Bukkit.broadcastMessage("Granted a kill to " + name);
         this.kills += 1;
     }
 
@@ -279,7 +278,6 @@ public class IPlayer {
     }
 
     public void addDeath() {
-        Bukkit.broadcastMessage("Granted a death to " + name);
         this.deaths += 1;
     }
 
@@ -374,7 +372,7 @@ public class IPlayer {
     }
 
     public void leaveMatch(){
-        match.getAlive().remove(uuid);
+        match.getAlivePlayers().remove(uuid);
         if(match.isInProgress()){
             match.onDeath(uuid);
         }

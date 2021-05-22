@@ -2,7 +2,11 @@ package me.hardstyles.blitz.match;
 
 import me.hardstyles.blitz.Core;
 import me.hardstyles.blitz.player.IPlayer;
+import me.hardstyles.blitz.utils.ItemBuilder;
+import me.hardstyles.blitz.utils.ItemUtils;
 import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -11,7 +15,13 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.*;
+import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 public class MatchHandler implements Listener {
 
@@ -27,12 +37,10 @@ public class MatchHandler implements Listener {
         Player p = e.getPlayer();
         IPlayer player = core.getPlayerManager().getPlayer(e.getPlayer().getUniqueId());
         if (player.getMatch() == null) {
-
             return;
         }
         Match match = player.getMatch();
-        if (!match.getAlive().contains(player.getUuid())) {
-
+        if (!match.getAlivePlayers().contains(player.getUuid())) {
             return;
         }
         match.onDeath(p.getUniqueId());
@@ -50,7 +58,7 @@ public class MatchHandler implements Listener {
             e.setCancelled(true);
             return;
         }
-        if(match.getMatchStage() != MatchStage.STARTED){
+        if(match.getMatchStage() != MatchStage.STARTED || !match.getAlivePlayers().contains(victim.getUniqueId())){
             e.setCancelled(true);
             return;
         }
@@ -71,7 +79,7 @@ public class MatchHandler implements Listener {
             return;
         }
 
-        if (!match.getAlive().contains(victim.getUniqueId())) {
+        if (!match.getAlivePlayers().contains(victim.getUniqueId())) {
             return;
         }
         if (e.getDamager() instanceof Player) {
@@ -139,5 +147,69 @@ public class MatchHandler implements Listener {
         e.blockList().clear();
 
     }
+
+    @EventHandler
+    public void interactSpectator(PlayerInteractEvent e){
+        IPlayer iPlayer = core.getPlayerManager().getPlayer(e.getPlayer().getUniqueId());
+        if (iPlayer.hasMatch()) {
+           if(iPlayer.getMatch().getDead().contains(iPlayer.getUuid()) || iPlayer.getMatch().getMatchStage() == MatchStage.ENDED){
+               e.setCancelled(true);
+               return;
+           }
+           Player p = e.getPlayer();
+           if(p.getItemInHand() == null || p.getItemInHand().getItemMeta() == null || p.getItemInHand().getItemMeta().getDisplayName() == null){
+               return;
+           }
+
+           if(p.getItemInHand().getItemMeta().getDisplayName().contains("Kit #1")){
+               p.playSound(p.getLocation(), Sound.CHICKEN_EGG_POP, 1, 1);
+
+               p.getInventory().clear();
+
+               p.getInventory().setHelmet(new ItemBuilder(Material.IRON_HELMET).name("&rPaladin's Iron Helmet (X)").enchantment(Enchantment.PROTECTION_ENVIRONMENTAL,1).amount(1).make());
+               p.getInventory().setBoots(new ItemBuilder(Material.DIAMOND_BOOTS).name("&rWolftamer's Diamond Boots (X)").enchantment(Enchantment.PROTECTION_ENVIRONMENTAL,4).amount(1).make());
+               p.getInventory().setChestplate(new ItemBuilder(Material.IRON_CHESTPLATE).name("&rPaladin's Iron Chestplate (X)").amount(1).make());
+               p.getInventory().setLeggings(new ItemBuilder(Material.CHAINMAIL_LEGGINGS).name("&rChain Leggings").amount(1).make());
+
+               p.getInventory().addItem(new ItemStack(Material.FISHING_ROD,1));
+               p.getInventory().addItem(new ItemBuilder(Material.STONE_SWORD).enchantment(Enchantment.DAMAGE_ALL,1 ).amount(1).make());
+
+               p.getInventory().addItem(new ItemStack(Material.COOKED_BEEF, 12));
+               PotionEffect[] effects = new PotionEffect[]{new PotionEffect(PotionEffectType.REGENERATION,20*8,0),new PotionEffect(PotionEffectType.SPEED,20*8,0) };
+               ItemStack pot = ItemUtils.buildPotion(effects, (short) 16450);
+               pot.setAmount(3);
+               p.getInventory().addItem(pot);
+
+               p.getInventory().addItem(new ItemBuilder(Material.MONSTER_EGG).durability(95).name("&rWolf Spawn Egg").amount(5).make());
+               p.getInventory().addItem(new ItemBuilder(Material.MONSTER_EGG).durability(999).name("&rSnowman Spawn Egg").amount(4).make());
+
+
+
+
+           }
+        }
+    }
+
+    @EventHandler
+    public void pickupSpectator(PlayerPickupItemEvent e){
+        IPlayer iPlayer = core.getPlayerManager().getPlayer(e.getPlayer().getUniqueId());
+        if (iPlayer.hasMatch()) {
+            if(iPlayer.getMatch().getDead().contains(iPlayer.getUuid())){
+                e.setCancelled(true);
+            }
+        }
+    }
+    @EventHandler
+    public void dropSpectator(PlayerDropItemEvent e){
+        IPlayer iPlayer = core.getPlayerManager().getPlayer(e.getPlayer().getUniqueId());
+        if (iPlayer.hasMatch()) {
+            if(iPlayer.getMatch().getDead().contains(iPlayer.getUuid()) || iPlayer.getMatch().getMatchStage() == MatchStage.ENDED){
+                e.setCancelled(true);
+            }
+        }
+    }
+
+
+
 
 }
