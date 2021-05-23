@@ -14,24 +14,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7a886556-406b-424f-8316-6290f7bbf82d" name="Default Changelist" comment="Bababoeey">
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/match/mobs/MatchMobHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/match/MatchManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/queue/QueueGui.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/utils/RenameCommand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/Core.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/Core.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/match/Match.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/match/Match.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/match/MatchHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/match/MatchHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/party/PartyChatCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/party/PartyChatCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/party/PartyCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/party/PartyCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/player/IPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/player/IPlayer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/player/IPlayerHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/player/IPlayerHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/player/IPlayerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/player/IPlayerManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/punishments/ACBan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/punishments/ACBan.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/queue/QueueManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/queue/QueueManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/scoreboard/ScoreboardHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/scoreboard/ScoreboardHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/scoreboard/ScoreboardManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/scoreboard/ScoreboardManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/statistics/StatisticsManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/statistics/StatisticsManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/utils/ChestUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/utils/ChestFiller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/utils/KarhuAnticheat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/utils/KarhuAnticheat.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/utils/database/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/utils/database/Database.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/plugin.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/plugin.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
     </list>
@@ -84,36 +77,38 @@
     <property name="settings.editor.selected.configurable" value="File.Encoding" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\Java Projects\Spigot 1.8.8\BlitzDuels" />
-      <recent name="D:\Java Projects\Spigot 1.8.8\BlitzDuels\src" />
-      <recent name="D:\Java Projects\Spigot 1.8.8\BlitzSG\src\main\resources" />
-    </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="me.syesstyles" />
       <recent name="me.hardstyles" />
-    </key>
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="me.hardstyles.blitz.match.mobs" />
-      <recent name="me.hardstyles.blitz.match" />
-      <recent name="me.hardstyles.blitz.rank" />
-      <recent name="me.hardstyles.blitz.game.ffa" />
-      <recent name="me.hardstyles.blitz.party" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Java Projects\Spigot 1.8.8\BlitzDuels" />
       <recent name="D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz" />
       <recent name="D:\Java Projects\Spigot 1.8.8\BlitzSGGame" />
     </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="me.hardstyles.blitz.utils" />
+      <recent name="me.hardstyles.blitz.match.mobs" />
+      <recent name="me.hardstyles.blitz.match" />
+      <recent name="me.hardstyles.blitz.rank" />
+      <recent name="me.hardstyles.blitz.game.ffa" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Java Projects\Spigot 1.8.8\BlitzDuels" />
+      <recent name="D:\Java Projects\Spigot 1.8.8\BlitzDuels\src" />
+      <recent name="D:\Java Projects\Spigot 1.8.8\BlitzSG\src\main\resources" />
+    </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="class" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -237,7 +232,8 @@
       <workItem from="1621607784972" duration="10000" />
       <workItem from="1621609425497" duration="7521000" />
       <workItem from="1621636601489" duration="17000" />
-      <workItem from="1621685217848" duration="23679000" />
+      <workItem from="1621685217848" duration="23710000" />
+      <workItem from="1621765559749" duration="8677000" />
     </task>
     <task id="LOCAL-00001" summary="fff">
       <created>1597086521686</created>
@@ -505,7 +501,14 @@
       <option name="project" value="LOCAL" />
       <updated>1621618272499</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="Bababoeey">
+      <created>1621722280694</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1621722280694</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -564,32 +567,32 @@
     </state>
     <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1621091133449" />
     <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1619270804835" />
-    <state width="1877" height="239" key="GridCell.Tab.0.bottom" timestamp="1621720057344">
+    <state width="1877" height="239" key="GridCell.Tab.0.bottom" timestamp="1621775709382">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="239" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@-1920.1.1920.1040" timestamp="1620507115034" />
-    <state width="1877" height="239" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1621720057344" />
+    <state width="1877" height="239" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1621775709382" />
     <state width="1877" height="239" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@-1920.2.1920.1040" timestamp="1619381034416" />
     <state width="1877" height="239" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1619434467671" />
-    <state width="1877" height="239" key="GridCell.Tab.0.center" timestamp="1621720057344">
+    <state width="1877" height="239" key="GridCell.Tab.0.center" timestamp="1621775709382">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="239" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@-1920.1.1920.1040" timestamp="1620507115034" />
-    <state width="1877" height="239" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1621720057344" />
+    <state width="1877" height="239" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1621775709382" />
     <state width="1877" height="239" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@-1920.2.1920.1040" timestamp="1619381034415" />
     <state width="1877" height="239" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1619434467671" />
-    <state width="1877" height="239" key="GridCell.Tab.0.left" timestamp="1621720057344">
+    <state width="1877" height="239" key="GridCell.Tab.0.left" timestamp="1621775709382">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="239" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@-1920.1.1920.1040" timestamp="1620507115034" />
-    <state width="1877" height="239" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1621720057344" />
+    <state width="1877" height="239" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1621775709382" />
     <state width="1877" height="239" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@-1920.2.1920.1040" timestamp="1619381034415" />
     <state width="1877" height="239" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1619434467671" />
-    <state width="1877" height="239" key="GridCell.Tab.0.right" timestamp="1621720057344">
+    <state width="1877" height="239" key="GridCell.Tab.0.right" timestamp="1621775709382">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="239" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@-1920.1.1920.1040" timestamp="1620507115034" />
-    <state width="1877" height="239" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1621720057344" />
+    <state width="1877" height="239" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1621775709382" />
     <state width="1877" height="239" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@-1920.2.1920.1040" timestamp="1619381034415" />
     <state width="1877" height="239" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1619434467671" />
     <state x="591" y="281" key="MultipleFileMergeDialog" timestamp="1619464417810">
@@ -600,19 +603,19 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="498" height="452" key="SwitcherDM/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1621193265568" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1621618335597">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1621722285733">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1621618335597" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1621722285733" />
     <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1619464447551" />
     <state x="769" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1621194988616">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="769" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1621194988616" />
-    <state x="1227" y="102" width="683" height="801" key="find.popup" timestamp="1621715091552">
+    <state x="1227" y="102" width="683" height="801" key="find.popup" timestamp="1621777314025">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="1227" y="102" width="683" height="801" key="find.popup/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1621715091552" />
+    <state x="1227" y="102" width="683" height="801" key="find.popup/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1621777314025" />
     <state x="1227" y="102" width="683" height="801" key="find.popup/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1619446562325" />
     <state x="758" y="421" key="git4idea.remote.GitConfigureRemotesDialog" timestamp="1619880840737">
       <screen x="0" y="0" width="1920" height="1040" />
@@ -626,10 +629,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="616" y="240" width="672" height="677" key="run.anything.popup/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1621716006975" />
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1621685236226">
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1621777658775">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1621685236226" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1621777658775" />
     <state x="623" y="225" key="search.everywhere.popup/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1619433335986" />
   </component>
 </project>

@@ -51,9 +51,9 @@ public class IPlayerHandler implements Listener {
     public void onPlayerUse(PlayerInteractEvent event) {
         Player p = event.getPlayer();
 
-        if (p.getItemInHand().getType() == Material.IRON_SWORD) {
-            if(p.getItemInHand().getItemMeta().getDisplayName().contains("Solo Queue")){
-                core.getServer().getScheduler().runTaskLater(core, () -> core.getQueueManager().add(QueueType.NORMAL, p), 2);
+        if (p.getItemInHand().getType() == Material.NETHER_STAR) {
+            if(p.getItemInHand().getItemMeta().getDisplayName().contains("Play")){
+                core.getServer().getScheduler().runTaskLater(core, () -> core.getQueueGui().open(p), 2);
             }
         }
     }
@@ -166,14 +166,14 @@ public class IPlayerHandler implements Listener {
 
     @EventHandler
     public void breakBlock(BlockBreakEvent e) {
-        if (e.getBlock().getWorld().getName().equalsIgnoreCase("world")) {
+        if (e.getBlock().getWorld().getName().equalsIgnoreCase("world")  && e.getPlayer().getGameMode() != GameMode.CREATIVE) {
             e.setCancelled(true);
         }
     }
 
     @EventHandler
     public void placeBlock(BlockPlaceEvent e) {
-        if (e.getBlock().getWorld().getName().equalsIgnoreCase("world")) {
+        if (e.getBlock().getWorld().getName().equalsIgnoreCase("world") && e.getPlayer().getGameMode() != GameMode.CREATIVE) {
             e.setCancelled(true);
         }
     }
@@ -187,7 +187,7 @@ public class IPlayerHandler implements Listener {
 
     @EventHandler
     public void interact(PlayerInteractEvent e) {
-        if (e.getPlayer().getWorld().getName().equalsIgnoreCase("world")) {
+        if (e.getPlayer().getWorld().getName().equalsIgnoreCase("world") && e.getPlayer().getGameMode() != GameMode.CREATIVE) {
             if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK)
                 e.setCancelled(true);
         }

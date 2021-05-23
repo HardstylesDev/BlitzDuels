@@ -35,8 +35,8 @@ D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\rank\
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\match\Match.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\rank\ranks\Moderator.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\scoreboard\ScoreboardHandler.java
+D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\utils\RenameCommand.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\match\MatchHandler.java
-D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\utils\ChestUtils.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\rank\ranks\Champion.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\utils\database\Database.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\utils\leaderboard\Leaderboard.java
@@ -50,6 +50,7 @@ D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\utils
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\kits\KitManager.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\party\PartyChatCommand.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\utils\ItemUtils.java
+D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\utils\ChestFiller.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\queue\QueueCommand.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\arena\Arena.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\statistics\StatisticsManager.java

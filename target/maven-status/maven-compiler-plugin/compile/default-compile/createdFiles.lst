@@ -6,6 +6,7 @@ me\hardstyles\blitz\utils\ImportantCommandModifier.class
 me\hardstyles\blitz\utils\FireworkCommand.class
 me\hardstyles\blitz\kits\PointShop.class
 me\hardstyles\blitz\scoreboard\ScoreboardHelper.class
+me\hardstyles\blitz\utils\RenameCommand.class
 me\hardstyles\blitz\arena\TestCommand.class
 me\hardstyles\blitz\scoreboard\ScoreboardHandler.class
 me\hardstyles\blitz\punishments\commands\Unban.class
@@ -42,6 +43,7 @@ me\hardstyles\blitz\rank\ranks\Youtuber.class
 me\hardstyles\blitz\party\Party.class
 me\hardstyles\blitz\punishments\ACBan$1.class
 me\hardstyles\blitz\utils\ItemBuilder.class
+me\hardstyles\blitz\match\MatchManager.class
 me\hardstyles\blitz\nickname\Nick.class
 me\hardstyles\blitz\statistics\StatisticsManager.class
 me\hardstyles\blitz\scoreboard\ScoreboardManager.class
@@ -60,6 +62,7 @@ me\hardstyles\blitz\utils\entity\NBT.class
 me\hardstyles\blitz\punishments\commands\Unban$1.class
 me\hardstyles\blitz\nickname\NicknameCommand.class
 me\hardstyles\blitz\nickname\Nickname.class
+me\hardstyles\blitz\queue\QueueGui.class
 me\hardstyles\blitz\rank\RankCommand.class
 me\hardstyles\blitz\rank\ranks\Helper.class
 me\hardstyles\blitz\utils\FlyCommand.class

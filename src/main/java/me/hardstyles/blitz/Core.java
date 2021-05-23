@@ -4,6 +4,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import me.hardstyles.blitz.arena.ArenaManager;
 import me.hardstyles.blitz.arena.TestCommand;
 import me.hardstyles.blitz.match.MatchHandler;
+import me.hardstyles.blitz.match.MatchManager;
 import me.hardstyles.blitz.match.mobs.MatchMobHandler;
 import me.hardstyles.blitz.nickname.NicknameCommand;
 import me.hardstyles.blitz.party.PartyChatCommand;
@@ -14,6 +15,7 @@ import me.hardstyles.blitz.punishments.ACBan;
 import me.hardstyles.blitz.punishments.PunishmentManager;
 import me.hardstyles.blitz.punishments.commands.Unban;
 import me.hardstyles.blitz.queue.QueueCommand;
+import me.hardstyles.blitz.queue.QueueGui;
 import me.hardstyles.blitz.queue.QueueManager;
 import me.hardstyles.blitz.rank.RankCommand;
 import me.hardstyles.blitz.rank.RankManager;
@@ -43,15 +45,16 @@ public class Core extends JavaPlugin {
     private KarhuAnticheat karhuAnticheat;
     private NametagManager nametagManager;
     private ChestFiller chestFiller;
+    private MatchManager matchManager;
 
     private IPlayerManager iPlayerManager;
-
     private ScoreboardManager scoreboardManager;
     private RankManager rankManager;
 
     private PunishmentManager punishmentManager;
     private StatisticsManager statisticsManager;
     private QueueManager queueManager;
+    private QueueGui queueGui;
 
     private HikariDataSource hikari;
     private  Location lobbySpawn;
@@ -78,7 +81,9 @@ public class Core extends JavaPlugin {
         statisticsManager = new StatisticsManager(this);
         rankManager = new RankManager();
         queueManager = new QueueManager(this);
+        matchManager = new MatchManager(this);
 
+        queueGui = new QueueGui(this);
          scoreboardManager = new ScoreboardManager();
 
         nametagManager = new NametagManager();
@@ -102,12 +107,15 @@ public class Core extends JavaPlugin {
         this.getCommand("nick").setExecutor(new NicknameCommand(this));
         this.getCommand("queue").setExecutor(new QueueCommand(this));
         this.getCommand("world").setExecutor(new WorldCommand(this));
+        this.getCommand("rename").setExecutor(new RenameCommand(this));
 
         //Register Handlers:
         getServer().getPluginManager().registerEvents(new MatchHandler(this), this);
         getServer().getPluginManager().registerEvents(new MatchMobHandler(this), this);
         getServer().getPluginManager().registerEvents(new IPlayerHandler(this), this);
         getServer().getPluginManager().registerEvents(new EnchantListener(this), this);
+
+        getServer().getPluginManager().registerEvents(queueGui, this);
         getServer().getPluginManager().registerEvents(scoreboardManager.getScoreboardHandler(), this);
 
 
@@ -135,6 +143,7 @@ public class Core extends JavaPlugin {
                 //
             });
         }
+
         //PlayerUtils.loadPlayerData();
         //new LoadStats().load();
         //statisticsManager.load();
@@ -242,5 +251,10 @@ public class Core extends JavaPlugin {
     }
     public Location getLobbySpawn(){return lobbySpawn;}
 
-
+    public QueueGui getQueueGui(){
+        return queueGui;
+    }
+    public MatchManager getMatchManager(){
+        return matchManager;
+    }
 }

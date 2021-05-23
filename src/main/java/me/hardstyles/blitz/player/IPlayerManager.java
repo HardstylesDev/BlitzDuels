@@ -81,8 +81,8 @@ final private Core core;
 		p.teleport(core.getLobbySpawn());
 	}
 	public void hubIntentory(Player p){
-		p.getInventory().setItem(1, ItemUtils.buildItem(new ItemStack(Material.IRON_SWORD), "&eSolo Queue", Arrays.asList("§7Right-Click to join the queue")));
-		p.getInventory().setItem(2, ItemUtils.buildItem(new ItemStack(Material.IRON_SWORD, 2), "&eTeams Queue", Arrays.asList("§cSoon")));
+		p.getInventory().setItem(4, ItemUtils.buildItem(new ItemStack(Material.NETHER_STAR), "&ePlay", Arrays.asList("§7Right-Click to play")));
+		p.getInventory().setItem(8, ItemUtils.buildItem(new ItemStack(Material.BOOK, 1), "&eKit Editor", Arrays.asList("§cSoon")));
 
 	}
 	public void reset(Player p){

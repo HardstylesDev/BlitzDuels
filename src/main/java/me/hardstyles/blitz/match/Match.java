@@ -54,6 +54,8 @@ public class Match {
 
         this.arena = arena;
 
+        core.getMatchManager().add();
+
     }
 
     public void add(Player player) {
@@ -240,6 +242,16 @@ public class Match {
 
     public void finish() {
         timeEnded = System.currentTimeMillis();
+        UUID wU = null;
+        for (UUID uuid : alivePlayers) {
+            wU = uuid;
+            break;
+        }
+        if (wU == null) {
+            return;
+        }
+        this.winners.add(wU);
+        IPlayer winner = core.getPlayerManager().getPlayer(wU);
         for (Player player : playerReference.values()) {
 
             for (Location location : blocksPlaced) {
@@ -249,16 +261,8 @@ public class Match {
             player.sendMessage("");
             player.sendMessage(ChatColor.GOLD + "Game over!");
             player.getInventory().clear();
-            UUID wU = null;
-            for (UUID uuid : alivePlayers) {
-                wU = uuid;
-                break;
-            }
-            if (wU == null) {
-                return;
-            }
-            this.winners.add(wU);
-            IPlayer winner = core.getPlayerManager().getPlayer(wU);
+
+            winner.addWin();
             player.sendMessage(ChatColor.YELLOW + "" + ChatColor.BOLD + "Winner: " + winner.getRank().getChatColor() + playerReference.get(wU).getName());
 
             for (Entity nearbyEntity : player.getWorld().getNearbyEntities(player.getLocation(), 250, 100, 250)) {
@@ -296,7 +300,7 @@ public class Match {
                 core.getPlayerManager().hub(player);
             }
         }, 20 * 5);
-
+        core.getMatchManager().remove();
     }
 
     public void end() {
@@ -351,8 +355,11 @@ public class Match {
                 if (entity.getLocation().distance(owner.getLocation()) > 15) {
                     entity.teleport(owner.getLocation());
                 }
+
             }
         }
     }
+
+
 
 }

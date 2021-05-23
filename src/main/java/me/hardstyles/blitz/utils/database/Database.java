@@ -4,19 +4,28 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 import javax.sql.DataSource;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.Duration;
+import java.util.Scanner;
 
 public class Database {
 
-    private static String host = "104.128.53.75"; // The IP-address of the database host.
-    private static String database = "s6_duels"; // The name of the database.
-    private static String user = "u6_TMv193osnH"; // The name of the database user.
-    private static String pass = "KsWWZk+CTV@J@zkaob8Hw!Qz"; // The password of the database user.
+    String auth[] = getDetails();
+
+    public Database() {
+
+    }
+
+    private String host = auth[0]; // The IP-address of the database host.
+    private String database = auth[1]; // The name of the database.
+    private String user = auth[2]; // The name of the database user.
+    private String pass = auth[3]; // The password of the database user.
 
 
-    static String jbdcUrl = String.format("jdbc:mysql://%s:3306/%s?useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=CET", host, database);
+    String jbdcUrl = String.format("jdbc:mysql://%s:3306/%s?useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=CET", host, database);
     //Call the get connection method.
     private static DataSource dataSource;
 
@@ -77,5 +86,32 @@ public class Database {
         hikaConfig.setIdleTimeout(Duration.ofMinutes(2).toMillis());
 
         return hikaConfig;
+    }
+
+    private String[] getDetails() {
+        try {
+            String[] details = new String[4];
+            File file = new File("Database.txt");
+            Scanner scanner = null;
+            scanner = new Scanner(file);
+            if (!scanner.useDelimiter("\\A").hasNext()) {
+                scanner.close();
+                return null;
+            }
+            String content = scanner.useDelimiter("\\A").next();
+
+
+            String[] contents = content.split("\n");
+            details[0] = contents[0].replaceAll("Host: ", "");
+            details[1] = contents[1].replaceAll("Database: ", "");
+            details[2] = contents[2].replaceAll("Username: ", "");
+            details[3] = contents[3].replaceAll("Password: ", "");
+
+            return details;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
