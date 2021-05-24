@@ -85,15 +85,14 @@ public class ScoreboardManager extends BukkitRunnable {
                 board.add(separator + "&c");
                 board.add("Kills: &a" + bsgPlayer.getKills());
                 board.add("Wins: &a" + bsgPlayer.getWins());
+                board.add("Streak: &a" + bsgPlayer.getStreak());
+                board.add(separator);
                 board.add("Blitz Score: &c" + bsgPlayer.getElo());
                 board.add("Blitz Rank: &cN/A");
 
 
                 board.add(separator);
 
-                board.add("Coins: &a" + bsgPlayer.getCoins());
-                board.add("Unlocks: &cN/A");
-                board.add(separator + "&c");
                 board.add(lines);
 
                 if (bsgPlayer.getNick() != null && bsgPlayer.getNick().isNicked()) {

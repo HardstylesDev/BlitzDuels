@@ -3,6 +3,9 @@ package me.hardstyles.blitz;
 import com.zaxxer.hikari.HikariDataSource;
 import me.hardstyles.blitz.arena.ArenaManager;
 import me.hardstyles.blitz.arena.TestCommand;
+import me.hardstyles.blitz.kits.KitGui;
+import me.hardstyles.blitz.leaderboard.LeaderboardLoader;
+import me.hardstyles.blitz.leaderboard.LeaderboardUpdater;
 import me.hardstyles.blitz.match.MatchHandler;
 import me.hardstyles.blitz.match.MatchManager;
 import me.hardstyles.blitz.match.mobs.MatchMobHandler;
@@ -26,7 +29,6 @@ import me.hardstyles.blitz.utils.database.Database;
 import me.hardstyles.blitz.utils.nametag.NametagManager;
 import me.hardstyles.blitz.utils.world.VoidGenerator;
 import me.hardstyles.blitz.utils.world.WorldCommand;
-import me.liwk.karhu.api.KarhuAPI;
 import net.minecraft.server.v1_8_R3.EnumChatFormat;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -46,6 +48,8 @@ public class Core extends JavaPlugin {
     private NametagManager nametagManager;
     private ChestFiller chestFiller;
     private MatchManager matchManager;
+    private LeaderboardLoader leaderboardLoader;
+    private LeaderboardUpdater leaderboardUpdater;
 
     private IPlayerManager iPlayerManager;
     private ScoreboardManager scoreboardManager;
@@ -55,8 +59,9 @@ public class Core extends JavaPlugin {
     private StatisticsManager statisticsManager;
     private QueueManager queueManager;
     private QueueGui queueGui;
+    private KitGui kitGui;
 
-    private HikariDataSource hikari;
+
     private  Location lobbySpawn;
     private ArenaManager arenaManager;
 
@@ -84,12 +89,15 @@ public class Core extends JavaPlugin {
         matchManager = new MatchManager(this);
 
         queueGui = new QueueGui(this);
+        kitGui = new KitGui(this);
          scoreboardManager = new ScoreboardManager();
 
         nametagManager = new NametagManager();
         punishmentManager = new PunishmentManager();
         arenaManager = new ArenaManager(this);
 
+        leaderboardUpdater = new LeaderboardUpdater(this);
+        leaderboardLoader =new LeaderboardLoader(this);
         //Register Commands::
 
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
@@ -116,12 +124,11 @@ public class Core extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new EnchantListener(this), this);
 
         getServer().getPluginManager().registerEvents(queueGui, this);
+        getServer().getPluginManager().registerEvents(kitGui, this);
         getServer().getPluginManager().registerEvents(scoreboardManager.getScoreboardHandler(), this);
 
 
-        getServer().setWhitelist(false);
 
-        KarhuAPI.getEventRegistry().addListener(karhuAnticheat);
 
 
         World world = Bukkit.getWorld("world");
@@ -144,33 +151,9 @@ public class Core extends JavaPlugin {
             });
         }
 
-        //PlayerUtils.loadPlayerData();
-        //new LoadStats().load();
-        //statisticsManager.load();
-        // System.out.println("looaded dataaa");
-        //     for (Player p : getServer().getOnlinePlayers()) {
-        //         statisticsManager.load(p.getUniqueId());
-        //         BlitzSGPlayer bsgPlayer = blitzSGPlayerManager.getBsgPlayer(p.getUniqueId());
-        //         blitzSGPlayerManager.addBsgPlayer(p.getUniqueId(), bsgPlayer);
-        //         System.out.println(bsgPlayer);
-        //         bsgPlayer.setName(p.getDisplayName());
-        //         bsgPlayer.setIp(p.getAddress().toString().split(":")[0].replaceAll("/", ""));
-        //          p.setPlayerListName(bsgPlayer.getRank(true).getPrefix() + p.getName() + BlitzSG.getInstance().getEloManager().getEloLevel(bsgPlayer.getElo()).getPrefix() + " [" + bsgPlayer.getElo() + "]");
-        //     }
-
-
-        // mapManager.loadArena(mapManager.getRandom());
-
-        //Load Arena:
-        //ArenaUtils.loadArenas();
-        // arenaManager.loadArena("aelinstower");
-
-        //Start Scoreboard:
-
 
         scoreboardManager.runTaskTimer(this, 20, 20);
 
-        //Load LobbySpawn:
 
         lobbySpawn =new Location(Bukkit.getWorld("world"), 0.5, 80, 0.5, 180, 0);
         nametagManager.update();
@@ -254,7 +237,18 @@ public class Core extends JavaPlugin {
     public QueueGui getQueueGui(){
         return queueGui;
     }
+
+    public KitGui getKitGui() {
+        return kitGui;
+    }
+
     public MatchManager getMatchManager(){
         return matchManager;
+    }
+    public LeaderboardUpdater getLeaderboardUpdater(){
+        return leaderboardUpdater;
+    }
+    public LeaderboardLoader getLeaderboardLoader(){
+        return leaderboardLoader;
     }
 }

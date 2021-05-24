@@ -1,6 +1,7 @@
 package me.hardstyles.blitz.utils;
 
 import me.hardstyles.blitz.Core;
+import me.liwk.karhu.api.KarhuAPI;
 import me.liwk.karhu.api.event.KarhuEvent;
 import me.liwk.karhu.api.event.KarhuListener;
 import me.liwk.karhu.api.event.impl.KarhuAlertEvent;
@@ -10,6 +11,7 @@ public class KarhuAnticheat implements KarhuListener {
     final private Core core;
     public KarhuAnticheat(Core core){
         this.core = core;
+        KarhuAPI.getEventRegistry().addListener(this);
     }
 
 
@@ -22,7 +24,6 @@ public class KarhuAnticheat implements KarhuListener {
     public void onEvent(KarhuEvent event) {
         if(event instanceof KarhuInitEvent){
             this.allowJoins();
-            System.out.println("Registered based on KarhuEvent");
             this.enabled = false;
             return;
         }

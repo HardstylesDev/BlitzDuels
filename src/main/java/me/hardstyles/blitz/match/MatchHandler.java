@@ -13,6 +13,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockExplodeEvent;
+import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.player.PlayerDropItemEvent;
@@ -98,6 +99,10 @@ public class MatchHandler implements Listener {
         }
         match.onDeath(ivictim.getUuid());
         event.getEntity().spigot().respawn();
+    }
+    @EventHandler
+    public void onIgniteEevent(BlockIgniteEvent event) {
+        event.setCancelled(true);
     }
 
     @EventHandler

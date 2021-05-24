@@ -35,6 +35,10 @@ public class IPlayer {
     private int wins;
     private int kills;
     private int deaths;
+
+
+
+    private int streak;
     private boolean hideOthers;
     private int coins;
     private Match match;
@@ -377,4 +381,13 @@ public class IPlayer {
             match.onDeath(uuid);
         }
     }
+
+    public int getStreak() {
+        return streak;
+    }
+
+    public void setStreak(int streak) {
+        this.streak = streak;
+    }
+
 }

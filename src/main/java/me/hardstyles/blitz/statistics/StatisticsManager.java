@@ -50,6 +50,7 @@ public class StatisticsManager {
         jsonObject.addProperty("deaths", bsgPlayer.getDeaths());
         jsonObject.addProperty("coins", bsgPlayer.getCoins());
         jsonObject.addProperty("elo", bsgPlayer.getElo());
+        jsonObject.addProperty("streak", bsgPlayer.getStreak());
 
         jsonObject.addProperty("ffa_deaths", bsgPlayer.getFfaDeaths());
         jsonObject.addProperty("ffa_kills", bsgPlayer.getFfaKills());
@@ -121,6 +122,7 @@ public class StatisticsManager {
                 iPlayer.setDeaths(jsonObject.get("deaths").getAsInt());
                 iPlayer.setWins(jsonObject.get("wins").getAsInt());
                 iPlayer.setCoins(jsonObject.get("coins").getAsInt());
+                iPlayer.setStreak(jsonObject.get("streak").getAsInt());
                 iPlayer.setElo(jsonObject.get("elo").getAsInt());
                 if(jsonObject.has("hide_others"))
                     iPlayer.setHideOthers(jsonObject.get("hide_others").getAsBoolean());
@@ -165,6 +167,7 @@ public class StatisticsManager {
                 iPlayer.setKills(jsonObject.get("kills").getAsInt());
                 iPlayer.setDeaths(jsonObject.get("deaths").getAsInt());
                 iPlayer.setWins(jsonObject.get("wins").getAsInt());
+                iPlayer.setStreak(jsonObject.has("streak") ? jsonObject.get("streak").getAsInt() : 0);
                 iPlayer.setCoins(jsonObject.get("coins").getAsInt());
                 iPlayer.setElo(jsonObject.get("elo").getAsInt());
                 if(jsonObject.has("custom_tag"))

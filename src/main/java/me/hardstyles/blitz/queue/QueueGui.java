@@ -1,6 +1,7 @@
 package me.hardstyles.blitz.queue;
 
 import me.hardstyles.blitz.Core;
+import me.hardstyles.blitz.player.IPlayer;
 import me.hardstyles.blitz.utils.ItemBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -68,11 +69,27 @@ public class QueueGui implements Listener {
         final Player p = (Player) e.getWhoClicked();
 
         if(clickedItem.getItemMeta().getDisplayName().contains("Solo Queue")){
+
             core.getQueueManager().add(QueueType.NORMAL, p);
+            open(p);
             return;
         }
         else if(clickedItem.getItemMeta().getDisplayName().contains("Teams Queue")){
-            p.sendMessage(ChatColor.RED + "Coming soon");
+
+            IPlayer iPlayer = core.getPlayerManager().getPlayer(p.getUniqueId());
+            if(iPlayer.getParty() == null){
+                p.sendMessage(ChatColor.RED + "You can only queue Teams with a party.");
+                return;
+            }
+            if(iPlayer.getParty().getMembers().size() != 2){
+                p.sendMessage(ChatColor.RED + "You can only queue Teams with a party of 2 players.");
+                return;
+            }
+            if(iPlayer.getParty().getOwner() != p.getUniqueId()){
+                p.sendMessage(ChatColor.RED + "You must be the owner of the party to join the Teams queue");
+                return;
+            }
+            p.sendMessage(ChatColor.YELLOW + "Coming soon...");
             return;
         }
     }

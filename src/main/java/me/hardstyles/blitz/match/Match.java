@@ -76,6 +76,7 @@ public class Match {
             IPlayer iPlayer = core.getPlayerManager().getPlayer(uuid);
             iPlayer.setMatch(this);
             Player p = playerReference.get(uuid);
+            p.closeInventory();
             if (!p.isOnline()) {
                 arena.setOccupied(false);
                 return;
@@ -205,6 +206,7 @@ public class Match {
             p.showPlayer(dead);
         }
         player.addDeath();
+        player.setStreak(0);
         core.getStatisticsManager().saveAsync(player);
 
         if (attacks.get(p.getUniqueId()) == null) {
@@ -262,7 +264,7 @@ public class Match {
             player.sendMessage(ChatColor.GOLD + "Game over!");
             player.getInventory().clear();
 
-            winner.addWin();
+
             player.sendMessage(ChatColor.YELLOW + "" + ChatColor.BOLD + "Winner: " + winner.getRank().getChatColor() + playerReference.get(wU).getName());
 
             for (Entity nearbyEntity : player.getWorld().getNearbyEntities(player.getLocation(), 250, 100, 250)) {
@@ -280,6 +282,8 @@ public class Match {
             }
             arena.setOccupied(false);
         }
+        winner.addWin();
+        winner.setStreak(winner.getStreak()+1);
         core.getServer().getScheduler().runTaskLater(core, () -> {
             for (UUID uuid : entities.keySet()) {
                 for (Entity entity : entities.get(uuid)) {
@@ -301,6 +305,7 @@ public class Match {
             }
         }, 20 * 5);
         core.getMatchManager().remove();
+        core.getLeaderboardUpdater().update();
     }
 
     public void end() {
@@ -359,7 +364,6 @@ public class Match {
             }
         }
     }
-
 
 
 }

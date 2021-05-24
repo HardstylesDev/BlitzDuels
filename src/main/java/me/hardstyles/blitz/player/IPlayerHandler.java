@@ -55,6 +55,13 @@ public class IPlayerHandler implements Listener {
             if(p.getItemInHand().getItemMeta().getDisplayName().contains("Play")){
                 core.getServer().getScheduler().runTaskLater(core, () -> core.getQueueGui().open(p), 2);
             }
+            return;
+        }
+        if (p.getItemInHand().getType() == Material.BOOK) {
+            if(p.getItemInHand().getItemMeta().getDisplayName().contains("Kit Editor")){
+                core.getServer().getScheduler().runTaskLater(core, () -> core.getKitGui().open(p), 2);
+            }
+
         }
     }
 

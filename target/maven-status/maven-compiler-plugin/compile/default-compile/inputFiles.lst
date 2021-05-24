@@ -1,3 +1,4 @@
+D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\leaderboard\LeaderboardLoader.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\rank\ranks\Admin.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\utils\nametag\NametagManager.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\nickname\NicknameCommand.java
@@ -6,6 +7,7 @@ D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\punis
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\rank\ranks\MvpPlus.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\scoreboard\ScoreboardManager.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\utils\nametag\Nametag.java
+D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\kits\KitGui.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\rank\ranks\Helper.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\utils\KarhuAnticheat.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\nickname\Skin.java
@@ -13,6 +15,7 @@ D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\utils
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\nickname\Nick.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\party\PartyCommand.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\queue\QueueManager.java
+D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\match\MatchManager.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\player\IPlayer.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\player\IPlayerHandler.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\Core.java
@@ -21,6 +24,7 @@ D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\utils
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\match\mobs\MatchMobHandler.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\party\Party.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\kits\PointShop.java
+D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\queue\QueueGui.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\scoreboard\ScoreboardHelper.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\utils\VanillaCommands.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\rank\ranks\Vip.java
@@ -34,12 +38,12 @@ D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\punis
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\rank\Rank.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\match\Match.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\rank\ranks\Moderator.java
+D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\leaderboard\LeaderboardUpdater.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\scoreboard\ScoreboardHandler.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\utils\RenameCommand.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\match\MatchHandler.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\rank\ranks\Champion.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\utils\database\Database.java
-D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\utils\leaderboard\Leaderboard.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\player\IPlayerManager.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\arena\ArenaManager.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\utils\FireworkCommand.java

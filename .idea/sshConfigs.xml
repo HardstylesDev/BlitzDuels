@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SshConfigs">
+    <configs>
+      <sshConfig authType="PASSWORD" host="us-chi-01.theblitzbot.com" id="48617414-50f2-4122-b365-3e652260c6da" port="2022" nameFormat="DESCRIPTIVE" username="tom.77c28af8" />
+    </configs>
+  </component>
+</project>
