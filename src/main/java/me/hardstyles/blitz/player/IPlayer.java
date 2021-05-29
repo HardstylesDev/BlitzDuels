@@ -1,5 +1,6 @@
 package me.hardstyles.blitz.player;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import me.hardstyles.blitz.Core;
 
@@ -14,6 +15,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.UUID;
 
@@ -23,13 +25,9 @@ public class IPlayer {
     private UUID uuid;
 
     private String customTag;
-    private boolean robinhood;
-    private boolean wobbuffet;
-    private int gameKills;
-    private boolean punched;
+
     private Nick nick;
-    private HashSet<Entity> gameEntities;
-    private Location gameSpawn;
+
     private Rank rank;
     private int elo;
     private int wins;
@@ -38,6 +36,11 @@ public class IPlayer {
 
 
 
+    private HashMap<Integer, JsonArray> layouts;
+
+
+
+    private JsonArray editingLayout;
     private int streak;
     private boolean hideOthers;
     private int coins;
@@ -45,35 +48,6 @@ public class IPlayer {
     private JsonObject jsonObject;
     private String ip;
     private Party party;
-
-    public int getFfaKills() {
-        return ffaKills;
-    }
-
-    public void setFfaKills(int ffaKills) {
-        this.ffaKills = ffaKills;
-    }
-
-    public int getFfaDeaths() {
-        return ffaDeaths;
-    }
-
-    public void setFfaDeaths(int ffaDeaths) {
-        this.ffaDeaths = ffaDeaths;
-    }
-
-    public int getFfaStreak() {
-        return ffaStreak;
-    }
-
-    public void setFfaStreak(int ffaStreak) {
-        this.ffaStreak = ffaStreak;
-    }
-
-    private int ffaKills;
-    private int ffaDeaths;
-    private int ffaStreak;
-
 
 
     private String name;
@@ -86,16 +60,8 @@ public class IPlayer {
         this.uuid = uuid;
     }
 
-    public void setGameKills(int gameKills) {
-        this.gameKills = gameKills;
-    }
-
     public void setNick(Nick nick) {
         this.nick = nick;
-    }
-
-    public void setGameEntities(HashSet<Entity> gameEntities) {
-        this.gameEntities = gameEntities;
     }
 
     public void setWins(int wins) {
@@ -130,20 +96,12 @@ public class IPlayer {
         this.coins = 0;
         this.match = null;
         this.rank = null;
-        this.gameEntities = new HashSet<Entity>();
-
-
-
-        this.ffaKills = this.ffaDeaths = this.ffaStreak = 0;
+        this.layouts = new HashMap<>();
 
 
 
 
 
-
-        this.gameKills = 0;
-        this.gameTaunt = -1;
-        this.gameSpawn = null;
 
         Core.getInstance().getPlayerManager().addBsgPlayer(this.uuid, this);
     }
@@ -159,15 +117,6 @@ public class IPlayer {
 
         return rank;
     }
-
-    public void setPunched(boolean b) {
-        this.punched = b;
-    }
-
-    public boolean getPunched() {
-        return this.punched;
-    }
-
 
 
     public Rank getRank(boolean checkNick) {
@@ -245,17 +194,6 @@ public class IPlayer {
         this.elo += -elo;
     }
 
-    public Location getGameSpawn() {
-        return gameSpawn;
-    }
-
-
-    public void setGameSpawn(Location gameSpawn) {
-        this.gameSpawn = gameSpawn;
-    }
-
-
-
     public int getWins() {
         return this.wins;
     }
@@ -266,10 +204,6 @@ public class IPlayer {
 
     public int getKills() {
         return this.kills;
-    }
-
-    public HashSet<Entity> getGameEntities() {
-        return gameEntities;
     }
 
 
@@ -304,30 +238,6 @@ public class IPlayer {
             this.rank = rank;
     }
 
-
-
-    //Game Stats
-
-    public int getGameKills() {
-        return this.gameKills;
-    }
-
-    public int getGameTaunt() {
-        return this.gameTaunt;
-    }
-
-    public void resetGameKills() {
-        this.gameKills = 0;
-    }
-
-    public void setGameTaunt(int i) {
-        this.gameTaunt = i;
-    }
-
-    public void addGameKill() {
-        this.gameKills += 1;
-        this.kills += 1;
-    }
     public boolean hasMatch(){
         return this.match != null;
     }
@@ -338,25 +248,6 @@ public class IPlayer {
     public Match getMatch(){
         return this.match;
     }
-
-
-    public void setWobbuffet(boolean idk) {
-        wobbuffet = idk;
-    }
-
-    public boolean getWobbuffet() {
-        return this.wobbuffet;
-    }
-
-    public void setRobinhood(boolean idk) {
-        robinhood = idk;
-    }
-
-    public boolean getRobinhood() {
-        return this.robinhood;
-    }
-
-
 
 
 
@@ -375,12 +266,6 @@ public class IPlayer {
         this.party = party;
     }
 
-    public void leaveMatch(){
-        match.getAlivePlayers().remove(uuid);
-        if(match.isInProgress()){
-            match.onDeath(uuid);
-        }
-    }
 
     public int getStreak() {
         return streak;
@@ -389,5 +274,20 @@ public class IPlayer {
     public void setStreak(int streak) {
         this.streak = streak;
     }
+    public HashMap<Integer, JsonArray> getLayouts() {
+        return layouts;
+    }
 
+    public void setLayouts(HashMap<Integer, JsonArray> layouts) {
+        this.layouts = layouts;
+    }
+
+    public JsonArray getEditingLayout() {
+        return editingLayout;
+    }
+
+    public void setEditingLayout(JsonArray editingLayout) {
+        this.editingLayout = editingLayout;
+    }
 }
+

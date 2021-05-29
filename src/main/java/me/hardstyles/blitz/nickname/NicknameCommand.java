@@ -3,6 +3,7 @@ package me.hardstyles.blitz.nickname;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import me.hardstyles.blitz.Core;
+import me.hardstyles.blitz.nickname.skin.Skin;
 import me.hardstyles.blitz.rank.ranks.Default;
 import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.Bukkit;

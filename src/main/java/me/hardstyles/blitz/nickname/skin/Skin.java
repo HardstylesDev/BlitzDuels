@@ -1,4 +1,4 @@
-package me.hardstyles.blitz.nickname;
+package me.hardstyles.blitz.nickname.skin;
 
 public class Skin {
 

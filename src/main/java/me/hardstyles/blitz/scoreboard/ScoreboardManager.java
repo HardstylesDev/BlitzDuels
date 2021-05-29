@@ -18,8 +18,10 @@ public class ScoreboardManager extends BukkitRunnable {
     private final ScoreboardHandler scoreboardHandler;
     private final String lines;
     private final String separator;
+    private final Core core;
 
-    public ScoreboardManager() {
+    public ScoreboardManager(Core core) {
+        this.core = core;
         this.scoreboardHandler = new ScoreboardHandler();
         this.lines = "&7&m---------------";
         this.separator = "&f";
@@ -104,6 +106,8 @@ public class ScoreboardManager extends BukkitRunnable {
                 bsgPlayer.getMatch().entityTeleport();
             }
             board.update(p);
+            core.getTabUtil().setForPlayer(p, "&e&lBLITZ DUELS\n&r", "\n&eIn match: &r" + core.getMatchManager().getMatchCount() + "\n&ePlayers: &r" + Bukkit.getOnlinePlayers().size() + "\n\n&etest.blitzsg.club");
+
 
 
         }

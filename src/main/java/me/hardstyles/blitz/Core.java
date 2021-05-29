@@ -1,9 +1,10 @@
 package me.hardstyles.blitz;
 
-import com.zaxxer.hikari.HikariDataSource;
 import me.hardstyles.blitz.arena.ArenaManager;
 import me.hardstyles.blitz.arena.TestCommand;
-import me.hardstyles.blitz.kits.KitGui;
+import me.hardstyles.blitz.kits.IItemManager;
+import me.hardstyles.blitz.kits.gui.LayoutGui;
+import me.hardstyles.blitz.kits.gui.SlotGui;
 import me.hardstyles.blitz.leaderboard.LeaderboardLoader;
 import me.hardstyles.blitz.leaderboard.LeaderboardUpdater;
 import me.hardstyles.blitz.match.MatchHandler;
@@ -26,6 +27,8 @@ import me.hardstyles.blitz.scoreboard.ScoreboardManager;
 import me.hardstyles.blitz.statistics.StatisticsManager;
 import me.hardstyles.blitz.utils.*;
 import me.hardstyles.blitz.utils.database.Database;
+import me.hardstyles.blitz.utils.database.ItemSerializer;
+import me.hardstyles.blitz.utils.entity.player.TabUtil;
 import me.hardstyles.blitz.utils.nametag.NametagManager;
 import me.hardstyles.blitz.utils.world.VoidGenerator;
 import me.hardstyles.blitz.utils.world.WorldCommand;
@@ -54,13 +57,16 @@ public class Core extends JavaPlugin {
     private IPlayerManager iPlayerManager;
     private ScoreboardManager scoreboardManager;
     private RankManager rankManager;
+    private TabUtil tabUtil;
+    private ItemSerializer itemSerializer;
 
     private PunishmentManager punishmentManager;
     private StatisticsManager statisticsManager;
     private QueueManager queueManager;
     private QueueGui queueGui;
-    private KitGui kitGui;
-
+    private LayoutGui layoutGui;
+    private SlotGui slotGui;
+    private IItemManager IItemManager;
 
     private  Location lobbySpawn;
     private ArenaManager arenaManager;
@@ -87,18 +93,21 @@ public class Core extends JavaPlugin {
         rankManager = new RankManager();
         queueManager = new QueueManager(this);
         matchManager = new MatchManager(this);
-
+        IItemManager = new IItemManager(this);
         queueGui = new QueueGui(this);
-        kitGui = new KitGui(this);
-         scoreboardManager = new ScoreboardManager();
+        layoutGui = new LayoutGui(this);
+         scoreboardManager = new ScoreboardManager(this);
 
         nametagManager = new NametagManager();
-        punishmentManager = new PunishmentManager();
+        punishmentManager = new PunishmentManager(this);
         arenaManager = new ArenaManager(this);
 
         leaderboardUpdater = new LeaderboardUpdater(this);
         leaderboardLoader =new LeaderboardLoader(this);
         //Register Commands::
+        tabUtil = new TabUtil(this);
+        itemSerializer = new ItemSerializer(this);
+        slotGui = new SlotGui(this);
 
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
@@ -124,10 +133,9 @@ public class Core extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new EnchantListener(this), this);
 
         getServer().getPluginManager().registerEvents(queueGui, this);
-        getServer().getPluginManager().registerEvents(kitGui, this);
+        getServer().getPluginManager().registerEvents(layoutGui, this);
+        getServer().getPluginManager().registerEvents(slotGui, this);
         getServer().getPluginManager().registerEvents(scoreboardManager.getScoreboardHandler(), this);
-
-
 
 
 
@@ -238,8 +246,8 @@ public class Core extends JavaPlugin {
         return queueGui;
     }
 
-    public KitGui getKitGui() {
-        return kitGui;
+    public LayoutGui getKitGui() {
+        return layoutGui;
     }
 
     public MatchManager getMatchManager(){
@@ -250,5 +258,21 @@ public class Core extends JavaPlugin {
     }
     public LeaderboardLoader getLeaderboardLoader(){
         return leaderboardLoader;
+    }
+
+    public IItemManager getItemHandler() {
+        return IItemManager;
+    }
+
+    public TabUtil getTabUtil() {
+        return tabUtil;
+    }
+
+    public ItemSerializer getItemSerializer() {
+        return itemSerializer;
+    }
+
+    public SlotGui getSlotGui() {
+        return slotGui;
     }
 }

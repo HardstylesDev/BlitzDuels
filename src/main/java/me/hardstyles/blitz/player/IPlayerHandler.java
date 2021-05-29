@@ -2,8 +2,12 @@ package me.hardstyles.blitz.player;
 
 import me.hardstyles.blitz.Core;
 import me.hardstyles.blitz.nickname.Nickname;
-import me.hardstyles.blitz.queue.QueueType;
+import me.hardstyles.blitz.punishments.BannedPlayer;
+import net.minecraft.server.v1_8_R3.IChatBaseComponent;
+import net.minecraft.server.v1_8_R3.PacketPlayOutTitle;
+import net.minecraft.server.v1_8_R3.PlayerConnection;
 import org.bukkit.*;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -23,42 +27,45 @@ public class IPlayerHandler implements Listener {
     public IPlayerHandler(Core core) {
         this.core = core;
     }
-    // @EventHandler
-    // public void banCheck(AsyncPlayerPreLoginEvent e) {
-    //     BlitzSG.getInstance().getPunishmentManager().handlePreLogin(e);
-    // }
+
+
 
     @EventHandler
-    public void onConnect(AsyncPlayerPreLoginEvent e) {
+    public void onConnect(PlayerLoginEvent e) {
+        core.getServer().getScheduler().runTaskAsynchronously(core, () -> {
+            BannedPlayer bannedPlayer = new BannedPlayer(core, e.getPlayer().getUniqueId());
+            if (bannedPlayer.isBanned) {
+                e.getPlayer().kickPlayer(bannedPlayer.reason);
+            }
+        });
+    }
 
 
-        // if(BlitzSG.getInstance().getGameManager().getRunningGames().size() != 0){
-        //     e.setLoginResult(AsyncPlayerPreLoginEvent.Result.KICK_FULL);
-        //     e.setKickMessage("sorry");
-        //     return;
-        // }
-        //   Bukkit.getScheduler().runTaskAsynchronously(BlitzSG.getInstance(), () -> {
+    @EventHandler
+    public void onJoin(PlayerPreLoginEvent e) {
         core.getStatisticsManager().load(e.getUniqueId());
         core.getPlayerManager().addBsgPlayer(e.getUniqueId(), core.getPlayerManager().getPlayer(e.getUniqueId()));
+
+
         //});
 
         System.out.println("Loaded players: " + core.getPlayerManager().getBsgPlayers().size());
-
-
     }
 
     @EventHandler
     public void onPlayerUse(PlayerInteractEvent event) {
+        Location location = event.getPlayer().getLocation();
+        location.setWorld(Bukkit.getWorld("worldName"));
         Player p = event.getPlayer();
 
         if (p.getItemInHand().getType() == Material.NETHER_STAR) {
-            if(p.getItemInHand().getItemMeta().getDisplayName().contains("Play")){
+            if (p.getItemInHand().getItemMeta().getDisplayName().contains("Play")) {
                 core.getServer().getScheduler().runTaskLater(core, () -> core.getQueueGui().open(p), 2);
             }
             return;
         }
         if (p.getItemInHand().getType() == Material.BOOK) {
-            if(p.getItemInHand().getItemMeta().getDisplayName().contains("Kit Editor")){
+            if (p.getItemInHand().getItemMeta().getDisplayName().contains("Kit Editor")) {
                 core.getServer().getScheduler().runTaskLater(core, () -> core.getKitGui().open(p), 2);
             }
 
@@ -112,14 +119,15 @@ public class IPlayerHandler implements Listener {
             } else {
                 nickname.setNick(p, uhcPlayer.getNick().getNickName(), true);
             }
-        } else
-            // e.setJoinMessage((ChatColor.YELLOW + p.getName() + " joined the game").replaceAll("  ", " "));
-
-            if (uhcPlayer.getRank() == null)
+        } else {
+            if (uhcPlayer.getRank() == null) {
                 uhcPlayer.setRank(core.getRankManager().getRankByName("Default"));
+            }
+        }
 
+        p.setPlayerListName(uhcPlayer.getRank(true).getPrefix() + p.getName());
 
-       core.getNametagManager().update();
+        core.getNametagManager().update();
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
             IPlayer iPlayer = core.getPlayerManager().getPlayer(onlinePlayer.getUniqueId());
             if (iPlayer.getParty() != null) {
@@ -173,7 +181,7 @@ public class IPlayerHandler implements Listener {
 
     @EventHandler
     public void breakBlock(BlockBreakEvent e) {
-        if (e.getBlock().getWorld().getName().equalsIgnoreCase("world")  && e.getPlayer().getGameMode() != GameMode.CREATIVE) {
+        if (e.getBlock().getWorld().getName().equalsIgnoreCase("world") && e.getPlayer().getGameMode() != GameMode.CREATIVE) {
             e.setCancelled(true);
         }
     }
@@ -206,4 +214,6 @@ public class IPlayerHandler implements Listener {
             e.setCancelled(true);
         }
     }
+
+
 }

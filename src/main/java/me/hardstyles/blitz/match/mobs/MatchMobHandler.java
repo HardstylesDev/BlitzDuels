@@ -2,8 +2,8 @@ package me.hardstyles.blitz.match.mobs;
 
 import me.hardstyles.blitz.Core;
 import me.hardstyles.blitz.match.Match;
+import me.hardstyles.blitz.match.MatchStage;
 import me.hardstyles.blitz.player.IPlayer;
-import net.minecraft.server.v1_8_R3.EntitySnowman;
 import org.bukkit.DyeColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -56,6 +56,36 @@ public class MatchMobHandler implements Listener {
         }
 
     }
+
+    @EventHandler
+    public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent e) {
+        if (!(e.getEntity() instanceof Player))
+            return;
+
+        Player p = (Player) e.getEntity();
+        IPlayer bsgPlayer = core.getPlayerManager().getPlayer(p.getUniqueId());
+        if (!bsgPlayer.hasMatch())
+            return;
+
+
+        if (bsgPlayer.getMatch().getMatchStage() == MatchStage.STARTED) {
+            if (bsgPlayer.getMatch().getEntities().containsKey(p.getUniqueId())) {
+                if (bsgPlayer.getMatch().getEntities().get(p.getUniqueId()).contains(e.getDamager()) || (e.getDamager() instanceof Snowball && bsgPlayer.getMatch().getEntities().get(p.getUniqueId()).contains(((Snowball) e.getDamager()).getShooter())) || (e.getDamager() instanceof Arrow && bsgPlayer.getMatch().getEntities().get(p.getUniqueId()).contains(((Arrow) e.getDamager()).getShooter()))) {
+                    e.setCancelled(true);
+                }
+            }
+
+            if (!(e.getDamager() instanceof Player)) {
+                if (e.getDamager() instanceof Arrow)
+                    if (((Arrow) e.getDamager()).getShooter() instanceof Player) {
+                        e.setDamage(e.getDamage() / 2);
+                        return;
+                    }
+                e.setDamage(e.getDamage() / 10);
+            }
+        }
+    }
+
 
     @EventHandler
     public void mobSpawnEvent(PlayerInteractEvent e) {
@@ -159,7 +189,7 @@ public class MatchMobHandler implements Listener {
             if (!iPlayer.hasMatch())
                 return;
             Match match = iPlayer.getMatch();
-            if (match.getEntities().values().contains(e.getEntity())) {
+            if (match.getEntities().containsKey(iPlayer.getUuid()) && match.getEntities().get(e.getEntity().getUniqueId()).contains(e.getEntity())) {
                 e.setCancelled(true);
                 for (Entity entity : e.getEntity().getNearbyEntities(15, 15, 15))
                     if (entity instanceof Player) {
@@ -181,7 +211,7 @@ public class MatchMobHandler implements Listener {
         if (!iPlayer.hasMatch())
             return;
         Match match = iPlayer.getMatch();
-        if (match.getEntities().values().contains(e.getMount()))
+        if (match.getEntities().containsKey(iPlayer.getUuid()) && match.getEntities().get(e.getEntity().getUniqueId()).contains(e.getEntity()))
             return;
         Location loc = e.getEntity().getLocation();
         loc.setPitch(e.getEntity().getLocation().getPitch());

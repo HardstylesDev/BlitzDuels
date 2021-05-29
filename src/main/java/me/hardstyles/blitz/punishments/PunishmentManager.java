@@ -14,8 +14,10 @@ import java.util.Date;
 
 public class PunishmentManager {
 
+    private final Core core;
 
-    public PunishmentManager() {
+    public PunishmentManager(Core core) {
+        this.core =core;
 
     }
 
@@ -23,11 +25,11 @@ public class PunishmentManager {
         e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_BANNED, "");
         System.out.println("yup");
 
-        Bukkit.getScheduler().runTaskAsynchronously(Core.getInstance(), new Runnable() {
+        Bukkit.getScheduler().runTaskAsynchronously(core, new Runnable() {
             @Override
             public void run() {
                 try {
-                    Connection conn = Core.getInstance().getData().getConnection();
+                    Connection conn = core.getData().getConnection();
                     String sql = "select * from bans;";
                     PreparedStatement ps = conn.prepareStatement(sql);
                     ResultSet rs = ps.executeQuery();
@@ -37,15 +39,16 @@ public class PunishmentManager {
                             if (rs.getDouble("expires") != -1) {
                                 double expireDate = rs.getDouble("expires");
                                 if (System.currentTimeMillis() > expireDate)
+
                                     //todo unban
                                     return;
                                 message = ChatColor.RED + "You're currently banned for " + ChatColor.WHITE + rs.getString("reason") + ChatColor.RED + ".\n" + ChatColor.RED + "Expires in " + ChatColor.WHITE + formatDate(expireDate);
 
                             } else
                                 message = "Permanent ban";
-                            e.disallow(PlayerPreLoginEvent.Result.KICK_BANNED, message);
+                            e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_BANNED, message);
+
                             System.out.println("User connected but is banned.");
-                            if (Bukkit.getPlayer(e.getUniqueId()) != null)
                                 Bukkit.getPlayer(e.getUniqueId()).kickPlayer(message);
                         }
                     }

@@ -1,9 +1,12 @@
 package me.hardstyles.blitz.match;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import me.hardstyles.blitz.Core;
 import me.hardstyles.blitz.player.IPlayer;
 import me.hardstyles.blitz.utils.ItemBuilder;
 import me.hardstyles.blitz.utils.ItemUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
@@ -47,6 +50,7 @@ public class MatchHandler implements Listener {
         match.onDeath(p.getUniqueId());
 
     }
+
     @EventHandler
     public void onDamage(EntityDamageEvent e) {
         if (!(e.getEntity() instanceof Player)) {
@@ -59,7 +63,7 @@ public class MatchHandler implements Listener {
             e.setCancelled(true);
             return;
         }
-        if(match.getMatchStage() != MatchStage.STARTED || !match.getAlivePlayers().contains(victim.getUniqueId())){
+        if (match.getMatchStage() != MatchStage.STARTED || !match.getAlivePlayers().contains(victim.getUniqueId())) {
             e.setCancelled(true);
             return;
         }
@@ -68,6 +72,7 @@ public class MatchHandler implements Listener {
             match.onDeath(victim.getUniqueId());
         }
     }
+
     @EventHandler
     public void onAttack(EntityDamageByEntityEvent e) {
         if (!(e.getEntity() instanceof Player)) {
@@ -100,6 +105,7 @@ public class MatchHandler implements Listener {
         match.onDeath(ivictim.getUuid());
         event.getEntity().spigot().respawn();
     }
+
     @EventHandler
     public void onIgniteEevent(BlockIgniteEvent event) {
         event.setCancelled(true);
@@ -132,11 +138,12 @@ public class MatchHandler implements Listener {
             e.setCancelled(true);
         }
     }
+
     @EventHandler
     public void saturation(FoodLevelChangeEvent e) {
         IPlayer iPlayer = core.getPlayerManager().getPlayer(e.getEntity().getUniqueId());
         if (iPlayer.hasMatch()) {
-            if(iPlayer.getMatch().getMatchStage() != MatchStage.STARTED){
+            if (iPlayer.getMatch().getMatchStage() != MatchStage.STARTED) {
                 e.setFoodLevel(20);
             }
         }
@@ -154,67 +161,75 @@ public class MatchHandler implements Listener {
     }
 
     @EventHandler
-    public void interactSpectator(PlayerInteractEvent e){
+    public void interactSpectator(PlayerInteractEvent e) {
         IPlayer iPlayer = core.getPlayerManager().getPlayer(e.getPlayer().getUniqueId());
         if (iPlayer.hasMatch()) {
-           if(iPlayer.getMatch().getDead().contains(iPlayer.getUuid()) || iPlayer.getMatch().getMatchStage() == MatchStage.ENDED){
-               e.setCancelled(true);
-               return;
-           }
-           Player p = e.getPlayer();
-           if(p.getItemInHand() == null || p.getItemInHand().getItemMeta() == null || p.getItemInHand().getItemMeta().getDisplayName() == null){
-               return;
-           }
+            if (iPlayer.getMatch().getDead().contains(iPlayer.getUuid()) || iPlayer.getMatch().getMatchStage() == MatchStage.ENDED) {
+                e.setCancelled(true);
+                return;
+            }
+            Player p = e.getPlayer();
+            if (p.getItemInHand() == null || p.getItemInHand().getItemMeta() == null || p.getItemInHand().getItemMeta().getDisplayName() == null) {
+                return;
+            }
 
-           if(p.getItemInHand().getItemMeta().getDisplayName().contains("Kit #1")){
-               p.playSound(p.getLocation(), Sound.CHICKEN_EGG_POP, 1, 1);
+            if (p.getItemInHand().getItemMeta().getDisplayName().contains("Default")) {
+                p.playSound(p.getLocation(), Sound.CHICKEN_EGG_POP, 1, 1);
 
-               p.getInventory().clear();
+                p.getInventory().clear();
 
-               p.getInventory().setHelmet(new ItemBuilder(Material.IRON_HELMET).name("&rPaladin's Iron Helmet (X)").enchantment(Enchantment.PROTECTION_ENVIRONMENTAL,1).amount(1).make());
-               p.getInventory().setBoots(new ItemBuilder(Material.DIAMOND_BOOTS).name("&rWolftamer's Diamond Boots (X)").enchantment(Enchantment.PROTECTION_ENVIRONMENTAL,4).amount(1).make());
-               p.getInventory().setChestplate(new ItemBuilder(Material.IRON_CHESTPLATE).name("&rPaladin's Iron Chestplate (X)").amount(1).make());
-               p.getInventory().setLeggings(new ItemBuilder(Material.CHAINMAIL_LEGGINGS).name("&rChain Leggings").amount(1).make());
+                p.getInventory().setHelmet(new ItemBuilder(Material.IRON_HELMET).name("&rPaladin's Iron Helmet (X)").enchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1).amount(1).make());
+                p.getInventory().setBoots(new ItemBuilder(Material.DIAMOND_BOOTS).name("&rWolftamer's Diamond Boots (X)").enchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4).amount(1).make());
+                p.getInventory().setChestplate(new ItemBuilder(Material.IRON_CHESTPLATE).name("&rPaladin's Iron Chestplate (X)").amount(1).make());
+                p.getInventory().setLeggings(new ItemBuilder(Material.CHAINMAIL_LEGGINGS).name("&rChain Leggings").amount(1).make());
 
-               p.getInventory().addItem(new ItemStack(Material.FISHING_ROD,1));
-               p.getInventory().addItem(new ItemBuilder(Material.STONE_SWORD).enchantment(Enchantment.DAMAGE_ALL,1 ).amount(1).make());
+                p.getInventory().addItem(new ItemStack(Material.FISHING_ROD, 1));
+                p.getInventory().addItem(new ItemBuilder(Material.STONE_SWORD).enchantment(Enchantment.DAMAGE_ALL, 1).amount(1).make());
 
-               p.getInventory().addItem(new ItemStack(Material.COOKED_BEEF, 12));
-               PotionEffect[] effects = new PotionEffect[]{new PotionEffect(PotionEffectType.REGENERATION,20*8,0),new PotionEffect(PotionEffectType.SPEED,20*8,0) };
-               ItemStack pot = ItemUtils.buildPotion(effects, (short) 16450);
-               pot.setAmount(3);
-               p.getInventory().addItem(pot);
+                p.getInventory().addItem(new ItemStack(Material.COOKED_BEEF, 12));
+                PotionEffect[] effects = new PotionEffect[]{new PotionEffect(PotionEffectType.REGENERATION, 20 * 8, 0), new PotionEffect(PotionEffectType.SPEED, 20 * 8, 0)};
+                ItemStack pot = ItemUtils.buildPotion(effects, (short) 16450);
+                pot.setAmount(3);
+                p.getInventory().addItem(pot);
 
-               p.getInventory().addItem(new ItemBuilder(Material.MONSTER_EGG).durability(95).name("&rWolf Spawn Egg").amount(5).make());
-               p.getInventory().addItem(new ItemBuilder(Material.MONSTER_EGG).durability(999).name("&rSnowman Spawn Egg").amount(4).make());
+                p.getInventory().addItem(new ItemBuilder(Material.MONSTER_EGG).durability(95).name("&rWolf Spawn Egg").amount(5).make());
+                p.getInventory().addItem(new ItemBuilder(Material.MONSTER_EGG).durability(999).name("&rSnowman Spawn Egg").amount(4).make());
+            }
+            if (p.getItemInHand().getItemMeta().getDisplayName().contains("Custom Kit")) {
+                int kitIndex = Integer.parseInt(p.getItemInHand().getItemMeta().getDisplayName().replaceAll(ChatColor.RESET + "Custom Kit #", ""));
+                p.playSound(p.getLocation(), Sound.CHICKEN_EGG_POP, 1, 1);
+                p.getInventory().clear();
 
+                JsonArray jsonArray = core.getPlayerManager().getPlayer(p.getUniqueId()).getLayouts().get(kitIndex);
+                for (JsonElement jsonElement : jsonArray) {
+                    p.getInventory().addItem(core.getItemSerializer().getItemFromString(jsonElement.getAsString()));
+                }
 
+            }
 
-
-           }
         }
+
     }
 
     @EventHandler
-    public void pickupSpectator(PlayerPickupItemEvent e){
+    public void pickupSpectator(PlayerPickupItemEvent e) {
         IPlayer iPlayer = core.getPlayerManager().getPlayer(e.getPlayer().getUniqueId());
         if (iPlayer.hasMatch()) {
-            if(iPlayer.getMatch().getDead().contains(iPlayer.getUuid())){
+            if (iPlayer.getMatch().getDead().contains(iPlayer.getUuid())) {
                 e.setCancelled(true);
             }
         }
     }
+
     @EventHandler
-    public void dropSpectator(PlayerDropItemEvent e){
+    public void dropSpectator(PlayerDropItemEvent e) {
         IPlayer iPlayer = core.getPlayerManager().getPlayer(e.getPlayer().getUniqueId());
         if (iPlayer.hasMatch()) {
-            if(iPlayer.getMatch().getDead().contains(iPlayer.getUuid()) || iPlayer.getMatch().getMatchStage() == MatchStage.ENDED){
+            if (iPlayer.getMatch().getDead().contains(iPlayer.getUuid()) || iPlayer.getMatch().getMatchStage() == MatchStage.ENDED) {
                 e.setCancelled(true);
             }
         }
     }
-
-
 
 
 }

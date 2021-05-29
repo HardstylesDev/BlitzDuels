@@ -1,5 +1,7 @@
 package me.hardstyles.blitz.utils;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import me.hardstyles.blitz.Core;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -30,6 +32,13 @@ public class RenameCommand implements CommandExecutor {
         if (p.getItemInHand() == null) {
             p.sendMessage("No ItemStack to rename");
             return true;
+        }
+
+        if (args[0].equalsIgnoreCase("layout")) {
+            JsonArray jsonArray = core.getPlayerManager().getPlayer(p.getUniqueId()).getEditingLayout();
+            for (JsonElement jsonElement : jsonArray) {
+                p.getInventory().addItem(core.getItemSerializer().getItemFromString(jsonElement.getAsString()));
+            }
         }
         ItemStack itemStack = p.getItemInHand();
         ItemMeta itemMeta = itemStack.getItemMeta();

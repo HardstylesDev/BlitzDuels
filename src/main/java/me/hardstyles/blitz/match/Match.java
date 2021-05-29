@@ -76,7 +76,7 @@ public class Match {
             IPlayer iPlayer = core.getPlayerManager().getPlayer(uuid);
             iPlayer.setMatch(this);
             Player p = playerReference.get(uuid);
-            p.closeInventory();
+
             if (!p.isOnline()) {
                 arena.setOccupied(false);
                 return;
@@ -86,13 +86,24 @@ public class Match {
             core.getPlayerManager().reset(p);
 
             p.teleport(arena.getSpawns().get(pos));
+            p.closeInventory();
             for (Entity nearbyEntity : arena.getSpawns().get(pos).getWorld().getNearbyEntities(arena.getSpawns().get(pos), 250, 100, 250)) {
                 if (!(nearbyEntity instanceof Player)) {
                     nearbyEntity.remove();
                 }
             }
 
-            p.getInventory().addItem(new ItemBuilder(Material.BOOK).name("&rKit #1").amount(1).make());
+            p.getInventory().addItem(new ItemBuilder(Material.BOOK).name("&rDefault").amount(1).make());
+
+
+            for (int i = 1; i < 7; i++) {
+                if(iPlayer.getLayouts().get(i) != null){
+                    p.getInventory().addItem(new ItemBuilder(Material.BOOK).name("&rCustom Kit #" + i).amount(1).make());
+                }
+            }
+
+
+
             pos++;
             if (pos == arena.getSpawns().size()) {
                 pos = 0;
