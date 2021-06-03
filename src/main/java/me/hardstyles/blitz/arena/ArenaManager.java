@@ -2,8 +2,7 @@ package me.hardstyles.blitz.arena;
 
 import me.hardstyles.blitz.Core;
 
-import java.util.Arrays;
-import java.util.HashSet;
+import java.util.*;
 
 public class ArenaManager {
     final private Core core;
@@ -16,7 +15,7 @@ public class ArenaManager {
         arenas = new HashSet<>();
         occupied = new HashSet<>();
 
-        Arrays.asList("DM4", "DM5", "DM6", "DM7").forEach(s -> arenas.add(new Arena(core, s)));
+        Arrays.asList("DM1", "DM4", "DM5", "DM6", "DM7").forEach(s -> arenas.add(new Arena(core, s)));
 
     }
 
@@ -27,7 +26,10 @@ public class ArenaManager {
 
 
     public Arena getNext() {
-        for (Arena arena : arenas) {
+        ArrayList<Arena> random = new ArrayList<>(arenas);
+        Collections.shuffle(random);
+        for (Arena arena : random) {
+
             if (arena.isOccupied()) {
                 continue;
             }

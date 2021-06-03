@@ -6,9 +6,11 @@ import me.hardstyles.blitz.Core;
 import me.hardstyles.blitz.player.IPlayer;
 import me.hardstyles.blitz.utils.ItemBuilder;
 import me.hardstyles.blitz.utils.ItemUtils;
+import net.minecraft.server.v1_8_R3.ItemArmor;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -194,15 +196,33 @@ public class MatchHandler implements Listener {
 
                 p.getInventory().addItem(new ItemBuilder(Material.MONSTER_EGG).durability(95).name("&rWolf Spawn Egg").amount(5).make());
                 p.getInventory().addItem(new ItemBuilder(Material.MONSTER_EGG).durability(999).name("&rSnowman Spawn Egg").amount(4).make());
+                return;
             }
+
             if (p.getItemInHand().getItemMeta().getDisplayName().contains("Custom Kit")) {
+
+
                 int kitIndex = Integer.parseInt(p.getItemInHand().getItemMeta().getDisplayName().replaceAll(ChatColor.RESET + "Custom Kit #", ""));
                 p.playSound(p.getLocation(), Sound.CHICKEN_EGG_POP, 1, 1);
                 p.getInventory().clear();
 
                 JsonArray jsonArray = core.getPlayerManager().getPlayer(p.getUniqueId()).getLayouts().get(kitIndex);
                 for (JsonElement jsonElement : jsonArray) {
-                    p.getInventory().addItem(core.getItemSerializer().getItemFromString(jsonElement.getAsString()));
+                    ItemStack itemStack = core.getItemSerializer().getItemFromString(jsonElement.getAsString());
+                    if (CraftItemStack.asNMSCopy(itemStack).getItem() instanceof ItemArmor) {
+                        if (itemStack.getType().name().endsWith("_HELMET")) {
+                            p.getInventory().setHelmet(itemStack);
+                        } else if (itemStack.getType().name().endsWith("_CHESTPLATE")) {
+                            p.getInventory().setChestplate(itemStack);
+                        } else if (itemStack.getType().name().endsWith("_LEGGINGS")) {
+                            p.getInventory().setLeggings(itemStack);
+                        } else if (itemStack.getType().name().endsWith("_BOOTS")) {
+                            p.getInventory().setBoots(itemStack);
+                        }
+                        continue;
+                    }
+
+                    p.getInventory().addItem(itemStack);
                 }
 
             }
