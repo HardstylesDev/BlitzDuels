@@ -86,6 +86,7 @@ public class Core extends JavaPlugin {
 
 
         karhuAnticheat = new KarhuAnticheat(this);
+        System.out.println("d");
         chestFiller = new ChestFiller(this);
         database = new Database();
         iPlayerManager = new IPlayerManager(this);

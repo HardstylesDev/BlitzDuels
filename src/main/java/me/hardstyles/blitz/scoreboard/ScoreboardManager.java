@@ -31,7 +31,13 @@ public class ScoreboardManager extends BukkitRunnable {
         for (Player p : Bukkit.getServer().getOnlinePlayers()) {
             ScoreboardHelper board = this.scoreboardHandler.getScoreboard(p);
             IPlayer bsgPlayer = Core.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
+            if(bsgPlayer == null){
+                p.kickPlayer("relog plz plz");
+            }
             board.clear();
+            if(bsgPlayer.getMatch() == null){
+                continue;
+            }
             if (bsgPlayer.hasMatch() && bsgPlayer.getMatch().getMatchStage() == MatchStage.GRACE) {
                 Match match = bsgPlayer.getMatch();
                 board.add(lines);

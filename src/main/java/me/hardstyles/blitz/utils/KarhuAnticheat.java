@@ -1,6 +1,7 @@
 package me.hardstyles.blitz.utils;
 
 import me.hardstyles.blitz.Core;
+
 import me.liwk.karhu.api.KarhuAPI;
 import me.liwk.karhu.api.event.KarhuEvent;
 import me.liwk.karhu.api.event.KarhuListener;

@@ -27,7 +27,13 @@ public class QueueManager {
 
     public void add(QueueType queueType, Player player) {
         IPlayer p = core.getPlayerManager().getPlayer(player.getUniqueId());
-        if (p.hasMatch()) {
+
+        if(p == null){
+            player.sendMessage("ur gay");
+            return;
+        }
+
+        if (p.getMatch() != null) {
             player.sendMessage(ChatColor.RED + "You're already in the " + queueType.name() + " queue.");
             return;
         }

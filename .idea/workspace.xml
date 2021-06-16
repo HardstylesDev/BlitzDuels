@@ -14,12 +14,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7a886556-406b-424f-8316-6290f7bbf82d" name="Default Changelist" comment="Bababoeey">
+      <change beforePath="$PROJECT_DIR$/.idea/sshConfigs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sshConfigs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/arena/ArenaManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/arena/ArenaManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/KarhuAPI.jar" beforeDir="false" afterPath="$PROJECT_DIR$/KarhuAPI.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/Core.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/Core.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/kits/IItemManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/kits/IItemManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/kits/gui/LayoutGui.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/kits/gui/LayoutGui.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/match/MatchHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/match/MatchHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/match/mobs/MatchMobHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/match/mobs/MatchMobHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/nickname/NicknameCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/nickname/NicknameCommand.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/queue/QueueManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/queue/QueueManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/scoreboard/ScoreboardManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/scoreboard/ScoreboardManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/utils/KarhuAnticheat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/utils/KarhuAnticheat.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,13 +40,6 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="MavenImportPreferences">
-    <option name="generalSettings">
-      <MavenGeneralSettings>
-        <option name="mavenHome" value="C:\Program Files\JetBrains\IntelliJ IDEA 2020.2.3\plugins\maven\lib\maven3" />
-      </MavenGeneralSettings>
-    </option>
   </component>
   <component name="ProjectId" id="1fuswZzG5de3w6JMMOXXYqxHbRI" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -71,14 +69,19 @@
     <property name="settings.editor.selected.configurable" value="web.server" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
-      <recent name="me.syesstyles" />
-      <recent name="me.hardstyles" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Java Projects\Spigot 1.8.8\BlitzDuels" />
       <recent name="D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz" />
       <recent name="D:\Java Projects\Spigot 1.8.8\BlitzSGGame" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Java Projects\Spigot 1.8.8\BlitzDuels" />
+      <recent name="D:\Java Projects\Spigot 1.8.8\BlitzDuels\src" />
+      <recent name="D:\Java Projects\Spigot 1.8.8\BlitzSG\src\main\resources" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="me.syesstyles" />
+      <recent name="me.hardstyles" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="me.hardstyles.blitz.kits" />
@@ -86,11 +89,6 @@
       <recent name="me.hardstyles.blitz.match.mobs" />
       <recent name="me.hardstyles.blitz.match" />
       <recent name="me.hardstyles.blitz.rank" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\Java Projects\Spigot 1.8.8\BlitzDuels" />
-      <recent name="D:\Java Projects\Spigot 1.8.8\BlitzDuels\src" />
-      <recent name="D:\Java Projects\Spigot 1.8.8\BlitzSG\src\main\resources" />
     </key>
   </component>
   <component name="RunManager" selected="Maven.fagServer [package]">
@@ -281,6 +279,15 @@
       <workItem from="1622376949170" duration="4776000" />
       <workItem from="1622390748008" duration="642000" />
       <workItem from="1622744135291" duration="607000" />
+      <workItem from="1622748634611" duration="36000" />
+      <workItem from="1622828153926" duration="3468000" />
+      <workItem from="1623003222306" duration="367000" />
+      <workItem from="1623006232358" duration="831000" />
+      <workItem from="1623007231720" duration="258000" />
+      <workItem from="1623529815546" duration="1070000" />
+      <workItem from="1623532587830" duration="1005000" />
+      <workItem from="1623533618745" duration="787000" />
+      <workItem from="1623867765914" duration="3906000" />
     </task>
     <task id="LOCAL-00001" summary="fff">
       <created>1597086521686</created>
@@ -576,7 +583,14 @@
       <option name="project" value="LOCAL" />
       <updated>1622326127091</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="Bababoeey">
+      <created>1622748644539</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1622748644539</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -617,122 +631,12 @@
     <MESSAGE value="Bababoeey" />
     <option name="LAST_COMMIT_MESSAGE" value="Bababoeey" />
   </component>
-  <component name="WindowStateProjectService">
-    <state x="515" y="94" key="#SSH_Configurations" timestamp="1621807723242">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="515" y="94" key="#SSH_Configurations/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1621807723242" />
-    <state x="515" y="105" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1622302471216">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="515" y="105" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1622302471216" />
-    <state x="765" y="221" key="#com.intellij.ide.util.MemberChooser" timestamp="1622320207563">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="765" y="221" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1622320207563" />
-    <state x="640" y="255" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1621806042233">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="640" y="255" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1621806042233" />
-    <state x="0" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1622320883050">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="0" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1622320883050" />
-    <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1621091133449">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1621091133449" />
-    <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1619270804835" />
-    <state x="680" y="253" key="#com.intellij.tools.ToolEditorDialog" timestamp="1621806881683">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="680" y="253" key="#com.intellij.tools.ToolEditorDialog/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1621806881683" />
-    <state x="740" y="274" key="FileChooserDialogImpl" timestamp="1621808767874">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="740" y="274" key="FileChooserDialogImpl/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1621808767874" />
-    <state width="938" height="169" key="GridCell.Tab.0.bottom" timestamp="1622382137319">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="239" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@-1920.1.1920.1040" timestamp="1620507115034" />
-    <state width="938" height="169" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1622382137319" />
-    <state width="1877" height="239" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@-1920.2.1920.1040" timestamp="1619381034416" />
-    <state width="1877" height="239" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1619434467671" />
-    <state width="938" height="169" key="GridCell.Tab.0.center" timestamp="1622382137318">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="239" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@-1920.1.1920.1040" timestamp="1620507115034" />
-    <state width="938" height="169" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1622382137318" />
-    <state width="1877" height="239" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@-1920.2.1920.1040" timestamp="1619381034415" />
-    <state width="1877" height="239" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1619434467671" />
-    <state width="938" height="169" key="GridCell.Tab.0.left" timestamp="1622382137318">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="239" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@-1920.1.1920.1040" timestamp="1620507115034" />
-    <state width="938" height="169" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1622382137318" />
-    <state width="1877" height="239" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@-1920.2.1920.1040" timestamp="1619381034415" />
-    <state width="1877" height="239" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1619434467671" />
-    <state width="938" height="169" key="GridCell.Tab.0.right" timestamp="1622382137318">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1877" height="239" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@-1920.1.1920.1040" timestamp="1620507115034" />
-    <state width="938" height="169" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1622382137318" />
-    <state width="1877" height="239" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@-1920.2.1920.1040" timestamp="1619381034415" />
-    <state width="1877" height="239" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1619434467671" />
-    <state x="591" y="281" key="MultipleFileMergeDialog" timestamp="1619464417810">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="591" y="281" key="MultipleFileMergeDialog/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1619464417810" />
-    <state x="433" y="119" key="SettingsEditor" timestamp="1621807723521">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="433" y="119" key="SettingsEditor/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1621807723521" />
-    <state width="498" height="452" key="SwitcherDM" timestamp="1621193265568">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="498" height="452" key="SwitcherDM/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1621193265568" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1622326128244">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1622326128244" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1619464447551" />
-    <state x="769" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1621194988616">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="769" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1621194988616" />
-    <state x="1227" y="102" width="683" height="801" key="find.popup" timestamp="1622379989890">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="1227" y="102" width="683" height="801" key="find.popup/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1622379989890" />
-    <state x="1227" y="102" width="683" height="801" key="find.popup/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1619446562325" />
-    <state x="373" y="247" key="ftp.server.browser" timestamp="1621806672855">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="373" y="247" key="ftp.server.browser/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1621806672855" />
-    <state x="758" y="421" key="git4idea.remote.GitConfigureRemotesDialog" timestamp="1619880840737">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="758" y="421" key="git4idea.remote.GitConfigureRemotesDialog/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1619880840737" />
-    <state x="755" y="267" key="refactoring.ChangeSignatureDialog" timestamp="1620507603194">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="755" y="267" key="refactoring.ChangeSignatureDialog/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1620507603194" />
-    <state x="616" y="240" width="672" height="677" key="run.anything.popup" timestamp="1621716006975">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="616" y="240" width="672" height="677" key="run.anything.popup/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1621716006975" />
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1622321108125">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.1.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1622321108125" />
-    <state x="623" y="225" key="search.everywhere.popup/0.0.1920.1040/-1920.2.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1619433335986" />
-  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/scoreboard/ScoreboardManager.java</url>
-          <line>89</line>
+          <line>95</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>

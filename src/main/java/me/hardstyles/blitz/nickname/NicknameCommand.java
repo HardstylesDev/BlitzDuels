@@ -32,6 +32,9 @@ public class NicknameCommand implements CommandExecutor {
 
 
     public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
+        if(args.length == 0){
+            sender.sendMessage(ChatColor.RED + "/nick <name>");
+        }
         if (args[0].equalsIgnoreCase("test")) {
 
 
@@ -59,11 +62,16 @@ public class NicknameCommand implements CommandExecutor {
         if (args.length == 1) {
             if (args[0].equalsIgnoreCase("unnick") || args[0].equalsIgnoreCase("reset")) {
                 Core.send(p, "&eYou are no longer nicked");
-                new Nickname().unnick(p);
+                core.getServer().getScheduler().runTaskAsynchronously(core, ()-> new Nickname().unnick(p));
+
                 return true;
             }
             Core.send(p, "&eYour nickname has been set to &e" + args[0]);
-            new Nickname().setNick(p, args[0]);
+
+
+            core.getServer().getScheduler().runTaskAsynchronously(core, ()->  new Nickname().setNick(p, args[0]));
+
+
             return true;
         }
         p.sendMessage(Core.CORE_NAME + "&e");

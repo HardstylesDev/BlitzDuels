@@ -90,16 +90,19 @@ public class IItemManager {
 
         weapons.add(new IItem(5, new ItemBuilder(Material.STONE_SWORD).name("&rStone Sword").enchantment(Enchantment.DAMAGE_ALL, 1).amount(1).make(), 15));
         weapons.add(new IItem(6, new ItemBuilder(Material.IRON_SWORD).name("&rIron Sword").enchantment(Enchantment.DURABILITY, 1).amount(1).make(), 15));
-        weapons.add(new IItem(7, new ItemBuilder(Material.DIAMOND_AXE).name("&rDiamond Axe").amount(1).make(), 20));
+        weapons.add(new IItem(7, new ItemBuilder(Material.DIAMOND_AXE).name("&rDiamond Axe").amount(1).make(), 15));
         weapons.add(new IItem(8, new ItemBuilder(Material.DIAMOND_SPADE).name("&rDiamond Shovel").enchantment(Enchantment.DAMAGE_ALL, 2).amount(1).make(), 15));
+        weapons.add(new IItem(8, new ItemBuilder(Material.GOLD_SWORD).name("&rGolden Sword").enchantment(Enchantment.DAMAGE_ALL, 2).amount(1).make(), 15));
         weapons.add(new IItem(9, new ItemBuilder(Material.DIAMOND_PICKAXE).name("&rDiamond Pickaxe").enchantment(Enchantment.DAMAGE_ALL, 1).amount(1).make(), 15));
-        weapons.add(new IItem(10, new ItemBuilder(Material.DIAMOND_SWORD).name("&rDiamond Sword").enchantment(Enchantment.DURABILITY, 1).amount(1).make(), 21));
+        weapons.add(new IItem(10, new ItemBuilder(Material.DIAMOND_SWORD).name("&rDiamond Sword").enchantment(Enchantment.DURABILITY, 1).amount(1).make(), 40));
+        weapons.add(new IItem(10, new ItemBuilder(Material.DIAMOND_SWORD).name("&rDiamond Sword").enchantment(Enchantment.DAMAGE_ALL, 1).amount(1).make(), 80));
 
 
         projectiles.add(new IItem(0, new ItemStack(Material.BARRIER), 0));
         projectiles.add(new IItem(1, new ItemBuilder(Material.FISHING_ROD).amount(1).make(), 6));
         projectiles.add(new IItem(2, new ItemBuilder(Material.EGG).amount(32).make(), 8));
         projectiles.add(new IItem(3, new ItemBuilder(Material.SNOW_BALL).amount(32).make(), 8));
+        projectiles.add(new IItem(3, new ItemBuilder(Material.FLINT_AND_STEEL).durability(Material.FLINT_AND_STEEL.getMaxDurability() - 4).make(), 15));
 
         bows.add(new IItem(0, new ItemStack(Material.BARRIER), 0));
         bows.add(new IItem(1, new ItemStack(Material.BOW), 10));

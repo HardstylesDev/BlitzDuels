@@ -7,9 +7,11 @@ import me.hardstyles.blitz.player.IPlayer;
 import me.hardstyles.blitz.utils.ItemBuilder;
 import me.hardstyles.blitz.utils.ItemUtils;
 import net.minecraft.server.v1_8_R3.ItemArmor;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
@@ -45,10 +47,12 @@ public class MatchHandler implements Listener {
         if (player.getMatch() == null) {
             return;
         }
+
         Match match = player.getMatch();
         if (!match.getAlivePlayers().contains(player.getUuid())) {
             return;
         }
+
         match.onDeath(p.getUniqueId());
 
     }
@@ -69,6 +73,7 @@ public class MatchHandler implements Listener {
             e.setCancelled(true);
             return;
         }
+
         if (e.getFinalDamage() >= victim.getHealth()) {
             e.setCancelled(true);
             match.onDeath(victim.getUniqueId());
@@ -84,16 +89,27 @@ public class MatchHandler implements Listener {
         IPlayer ivictim = core.getPlayerManager().getPlayer(victim.getUniqueId());
         Match match = ivictim.getMatch();
         if (match == null) {
+            e.setCancelled(true);
             return;
         }
 
         if (!match.getAlivePlayers().contains(victim.getUniqueId())) {
+            e.setCancelled(true);
+            return;
+        }
+        if (match.getDead().contains(e.getEntity().getUniqueId())) {
+            e.setCancelled(true);
+            return;
+        }
+        if(e.getDamager() == e.getEntity()){
+            e.setCancelled(true);
             return;
         }
         if (e.getDamager() instanceof Player) {
             Player attacker = (Player) e.getDamager();
             match.getAttacks().put(victim.getUniqueId(), attacker.getUniqueId());
         }
+
     }
 
     @EventHandler
@@ -126,14 +142,16 @@ public class MatchHandler implements Listener {
 
     @EventHandler
     public void blockPlace(BlockPlaceEvent e) {
+
         IPlayer iPlayer = core.getPlayerManager().getPlayer(e.getPlayer().getUniqueId());
+
         if (iPlayer.hasMatch()) {
             if (e.getBlockPlaced().getType() == Material.TNT) {
                 e.getBlockPlaced().setType(Material.AIR);
                 e.getPlayer().getWorld().spawnEntity(e.getBlock().getLocation(), EntityType.PRIMED_TNT);
                 return;
             }
-            if (e.getBlock().getType() == Material.CAKE_BLOCK || e.getBlock().getType() == Material.RAILS) {
+            if (e.getBlock().getType() == Material.CAKE_BLOCK || e.getBlock().getType() == Material.RAILS || e.getBlock().getType() == Material.FIRE) {
                 iPlayer.getMatch().getBlocksPlaced().add(e.getBlock().getLocation());
                 return;
             }
@@ -194,8 +212,8 @@ public class MatchHandler implements Listener {
                 pot.setAmount(3);
                 p.getInventory().addItem(pot);
 
-                p.getInventory().addItem(new ItemBuilder(Material.MONSTER_EGG).durability(95).name("&rWolf Spawn Egg").amount(5).make());
-                p.getInventory().addItem(new ItemBuilder(Material.MONSTER_EGG).durability(999).name("&rSnowman Spawn Egg").amount(4).make());
+            //    p.getInventory().addItem(new ItemBuilder(Material.MONSTER_EGG).durability(95).name("&rWolf Spawn Egg").amount(5).make());
+            //    p.getInventory().addItem(new ItemBuilder(Material.MONSTER_EGG).durability(999).name("&rSnowman Spawn Egg").amount(4).make());
                 return;
             }
 
@@ -245,7 +263,7 @@ public class MatchHandler implements Listener {
     public void dropSpectator(PlayerDropItemEvent e) {
         IPlayer iPlayer = core.getPlayerManager().getPlayer(e.getPlayer().getUniqueId());
         if (iPlayer.hasMatch()) {
-            if (iPlayer.getMatch().getDead().contains(iPlayer.getUuid()) || iPlayer.getMatch().getMatchStage() == MatchStage.ENDED) {
+            if (iPlayer.getMatch().getDead().contains(iPlayer.getUuid()) || iPlayer.getMatch().getMatchStage() == MatchStage.ENDED || iPlayer.getMatch().getMatchStage() == MatchStage.GRACE) {
                 e.setCancelled(true);
             }
         }

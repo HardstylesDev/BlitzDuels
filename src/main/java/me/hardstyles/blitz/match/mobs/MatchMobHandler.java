@@ -189,6 +189,9 @@ public class MatchMobHandler implements Listener {
             if (!iPlayer.hasMatch())
                 return;
             Match match = iPlayer.getMatch();
+            if(match.getEntities().isEmpty() || !match.getEntities().containsKey(e.getEntity().getUniqueId())){
+                return;
+            }
             if (match.getEntities().containsKey(iPlayer.getUuid()) && match.getEntities().get(e.getEntity().getUniqueId()).contains(e.getEntity())) {
                 e.setCancelled(true);
                 for (Entity entity : e.getEntity().getNearbyEntities(15, 15, 15))
