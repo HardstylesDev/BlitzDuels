@@ -16,6 +16,8 @@ import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
+import org.bukkit.entity.ThrownPotion;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -28,8 +30,10 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.potion.PotionType;
 
 public class MatchHandler implements Listener {
 
@@ -65,6 +69,7 @@ public class MatchHandler implements Listener {
         Player victim = (Player) e.getEntity();
         IPlayer ivictim = core.getPlayerManager().getPlayer(victim.getUniqueId());
         Match match = ivictim.getMatch();
+
         if (match == null) {
             e.setCancelled(true);
             return;
@@ -97,19 +102,42 @@ public class MatchHandler implements Listener {
             e.setCancelled(true);
             return;
         }
-        if (match.getDead().contains(e.getEntity().getUniqueId())) {
+        if (match.getDead().contains(e.getDamager().getUniqueId())) {
             e.setCancelled(true);
             return;
         }
+
         if(e.getDamager() == e.getEntity()){
             e.setCancelled(true);
             return;
+        }
+        if(e.getDamager() instanceof Projectile){
+            Projectile projectile = (Projectile) e.getDamager();
+            if(projectile.getShooter() instanceof Player){
+                Player shooter = (Player) projectile.getShooter();
+                if(shooter.equals(e.getEntity())){
+                    e.setCancelled(true);
+                    return;
+                }
+            }
         }
         if (e.getDamager() instanceof Player) {
             Player attacker = (Player) e.getDamager();
             match.getAttacks().put(victim.getUniqueId(), attacker.getUniqueId());
         }
 
+    }
+
+    @EventHandler
+    public void onSplash(PotionSplashEvent e){
+        ThrownPotion potion = e.getPotion();
+        if(potion.getEffects().contains(PotionType.INSTANT_DAMAGE)){
+            Projectile projectile = e.getEntity();
+            if(projectile.getShooter() instanceof Player){
+                Player shooter = (Player) projectile.getShooter();
+                e.getAffectedEntities().remove(shooter);
+            }
+        }
     }
 
     @EventHandler
@@ -165,6 +193,10 @@ public class MatchHandler implements Listener {
         if (iPlayer.hasMatch()) {
             if (iPlayer.getMatch().getMatchStage() != MatchStage.STARTED) {
                 e.setFoodLevel(20);
+            }
+            else if(iPlayer.getMatch().getDead().contains(e.getEntity().getUniqueId())){
+                e.setFoodLevel(20);
+
             }
         }
     }

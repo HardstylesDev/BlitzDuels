@@ -35,9 +35,7 @@ public class ScoreboardManager extends BukkitRunnable {
                 p.kickPlayer("relog plz plz");
             }
             board.clear();
-            if(bsgPlayer.getMatch() == null){
-                continue;
-            }
+
             if (bsgPlayer.hasMatch() && bsgPlayer.getMatch().getMatchStage() == MatchStage.GRACE) {
                 Match match = bsgPlayer.getMatch();
                 board.add(lines);

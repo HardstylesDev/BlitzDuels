@@ -116,6 +116,7 @@ public class Core extends JavaPlugin {
         // this.getCommand("world").setExecutor(new WorldCommand());
 
         this.getCommand("fw").setExecutor(new FireworkCommand());
+        this.getCommand("l").setExecutor(new HubCommand(this));
         this.getCommand("test").setExecutor(new TestCommand());
         this.getCommand("acban").setExecutor(new ACBan(this));
         this.getCommand("unban").setExecutor(new Unban());

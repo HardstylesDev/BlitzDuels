@@ -74,6 +74,9 @@ public class Match {
         int pos = 0;
         for (UUID uuid : players) {
             IPlayer iPlayer = core.getPlayerManager().getPlayer(uuid);
+            if(iPlayer == null){
+                continue;
+            }
             iPlayer.setMatch(this);
             Player p = playerReference.get(uuid);
 
@@ -246,7 +249,7 @@ public class Match {
         if (!players.contains(uuid)) {
             return;
         }
-        playerReference.remove(uuid);
+
         alivePlayers.remove(uuid);
         dead.add(uuid);
         players.remove(uuid);

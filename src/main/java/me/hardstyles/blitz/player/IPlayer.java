@@ -239,7 +239,10 @@ public class IPlayer {
     }
 
     public boolean hasMatch(){
-        return this.match != null;
+        if(this.match == null){
+            return false;
+        }
+        return true;
     }
 
     public void setMatch(Match match){

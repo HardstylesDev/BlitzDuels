@@ -265,11 +265,36 @@ public class PartyCommand implements CommandExecutor {
                 p.sendMessage(ChatColor.BLUE + "Party > " + ChatColor.RED + "That player is already in your party.");
                 return true;
             }
-            target.sendMessage(ChatColor.BLUE + "Party > " + ChatColor.YELLOW + "You've been added to " + p.getName() + "'s party");
-            p.sendMessage(ChatColor.BLUE + "Party > " + ChatColor.YELLOW + "You've added " + target.getName() + " to the party!");
-            IPlayer sgTarget = core.getPlayerManager().getPlayer(target.getUniqueId());
-            sgTarget.setParty(sgPlayer.getParty());
-            sgPlayer.getParty().addMember(target);
+            if(sgPlayer.getRank().getPosition() > 5){
+                target.sendMessage(ChatColor.BLUE + "Party > " + ChatColor.YELLOW + "You've been added to " + p.getName() + "'s party");
+                p.sendMessage(ChatColor.BLUE + "Party > " + ChatColor.YELLOW + "You've added " + target.getName() + " to the party!");
+                IPlayer sgTarget = core.getPlayerManager().getPlayer(target.getUniqueId());
+                sgTarget.setParty(sgPlayer.getParty());
+                sgPlayer.getParty().addMember(target);
+            }
+            else{
+                sgPlayer.getParty().invitePlayer(target);
+
+
+                target.sendMessage(ChatColor.BLUE + "Party > " + sgPlayer.getRank().getPrefix() + p.getName() + ChatColor.YELLOW + " has invited you to their party!");
+
+                String json = "[\"\",{\"text\":\"[ACCEPT]\",\"bold\":true,\"color\":\"green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/party accept %inviter%\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":\" " + ChatColor.YELLOW + "Click here to accept " + sgPlayer.getRank().getPrefix() + p.getName() + ChatColor.YELLOW + "'s party invite\"}},{\"text\":\" \",\"bold\":true},{\"text\":\"[DECLINE]\",\"bold\":true,\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/party decline %inviter%\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":\" " + ChatColor.YELLOW + "Click here to decline " + sgPlayer.getRank().getPrefix() + p.getName() + ChatColor.YELLOW + "'s party invite\"}},{\"text\":\"\\n \"}]";
+
+                IChatBaseComponent comp = IChatBaseComponent.ChatSerializer.a(json.replaceAll("%inviter%", p.getName()));
+                PacketPlayOutChat packet = new PacketPlayOutChat(comp);
+                ((CraftPlayer) target).getHandle().playerConnection.sendPacket(packet);
+                IPlayer sgTarget = core.getPlayerManager().getPlayer(target.getUniqueId());
+                p.sendMessage(ChatColor.BLUE + "Party > " + ChatColor.GREEN + "You've invited " + target.getName() + " to the party.");
+                OfflinePlayer memberPlayer;
+                for (UUID member : sgPlayer.getParty().getMembers()) {
+                    memberPlayer = Bukkit.getOfflinePlayer(member);
+                    if (memberPlayer.isOnline()) {
+                        memberPlayer.getPlayer().sendMessage(ChatColor.BLUE + "Party > " + sgPlayer.getRank().getPrefix() + p.getName() + ChatColor.YELLOW + " invited "+ sgTarget.getRank().getPrefix() + target.getName() + ChatColor.YELLOW +  " to the party!");
+                    }
+                }
+
+            }
+
         }
 
 

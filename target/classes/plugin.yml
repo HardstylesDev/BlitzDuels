@@ -38,4 +38,12 @@ commands:
     description: horsemeat
   rename:
     description: d
+  hub:
+    aliases:
+      - l
+      - lobby
+      - spawn
+      - exit
+      - quit
+      - leave
 
