@@ -1,4 +1,3 @@
-D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\leaderboard\LeaderboardLoader.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\rank\ranks\Admin.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\utils\nametag\NametagManager.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\nickname\NicknameCommand.java
@@ -10,6 +9,7 @@ D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\utils
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\kits\gui\SlotGui.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\rank\ranks\Helper.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\utils\KarhuAnticheat.java
+D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\leaderboard\LeaderboardLoaderStreak.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\utils\EnchantListener.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\nickname\Nick.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\party\PartyCommand.java
@@ -25,6 +25,7 @@ D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\match
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\party\Party.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\queue\QueueGui.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\scoreboard\ScoreboardHelper.java
+D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\utils\HubCommand.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\utils\VanillaCommands.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\rank\ranks\Vip.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\utils\world\WorldCommand.java
@@ -54,6 +55,7 @@ D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\rank\
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\rank\RankCommand.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\match\MatchStage.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\utils\world\VoidGenerator.java
+D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\leaderboard\LeaderboardLoaderWins.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\kits\KitManager.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\party\PartyChatCommand.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\utils\ItemUtils.java
@@ -69,4 +71,5 @@ D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\queue
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\punishments\ACBan.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\rank\ranks\Mvp.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\arena\TestCommand.java
+D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\leaderboard\LeaderboardLoaderKills.java
 D:\Java Projects\Spigot 1.8.8\BlitzDuels\src\main\java\me\hardstyles\blitz\rank\RankManager.java

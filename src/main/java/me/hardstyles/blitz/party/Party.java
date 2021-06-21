@@ -8,7 +8,7 @@ import java.util.UUID;
 public class Party {
     final private ArrayList<UUID> members;
     final private ArrayList<UUID> invited;
-    final private UUID owner;
+     private UUID owner;
 
     public Party(UUID owner) {
         this.owner = owner;
@@ -16,6 +16,9 @@ public class Party {
         this.invited = new ArrayList<>();
     }
 
+    public void setOwner(UUID p){
+        this.owner = p;
+    }
     public void addMember(Player p) {
         this.members.add(p.getUniqueId());
     }

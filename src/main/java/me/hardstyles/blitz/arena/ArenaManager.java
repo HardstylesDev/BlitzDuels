@@ -15,7 +15,7 @@ public class ArenaManager {
         arenas = new HashSet<>();
         occupied = new HashSet<>();
 
-        Arrays.asList("DM1", "DM4", "DM5", "DM6", "DM7").forEach(s -> arenas.add(new Arena(core, s)));
+        Arrays.asList("DM1", "DM4", "DM5", "DM6", "DM7","DM1_1", "DM4_1", "DM5_1", "DM6_1", "DM7_1").forEach(s -> arenas.add(new Arena(core, s)));
 
     }
 

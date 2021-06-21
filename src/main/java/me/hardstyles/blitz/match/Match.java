@@ -1,5 +1,6 @@
 package me.hardstyles.blitz.match;
 
+import lombok.Getter;
 import me.hardstyles.blitz.Core;
 import me.hardstyles.blitz.arena.Arena;
 import me.hardstyles.blitz.player.IPlayer;
@@ -10,53 +11,44 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.UUID;
+
+@Getter
 
 public class Match {
     Arena arena;
     private boolean isInProgress;
     private String pre = ChatColor.GREEN + "Match " + ChatColor.WHITE + "> ";
     private MatchStage matchStage;
-    final HashSet<UUID> players;
+    final HashSet<UUID> players = new HashSet<>();
     final private Core core;
-    final private HashSet<UUID> alivePlayers;
-    final private HashSet<Location> chests;
-    final private HashSet<UUID> dead;
-    final private HashMap<UUID, UUID> attacks;
-    private HashSet<UUID> winners;
-    private HashMap<UUID, HashSet<Entity>> entities;
-    private HashMap<UUID, Player> playerReference;
-    private HashSet<Location> blocksPlaced;
-    private long timeStarted;
-    private long timeEnded;
+    final private HashSet<UUID> alivePlayers = new HashSet<>();
+    final private HashSet<Location> chests = new HashSet<>();
+    final private HashSet<UUID> dead = new HashSet<>();
+    final private HashMap<UUID, UUID> attacks = new HashMap<>();
+    private HashSet<UUID> winners = new HashSet<>();
+    private HashMap<UUID, HashSet<Entity>> entities = new HashMap<>();
+    private HashMap<UUID, Player> playerReference = new HashMap<>();
+    private HashMap<UUID, Double> damageDone = new HashMap<>();
+    private HashSet<Location> blocksPlaced = new HashSet<>();
+    private long timeStarted, timeEnded;
 
     public Match(Core core, Arena arena) {
 
         this.core = core;
         this.matchStage = MatchStage.GRACE;
-
-        this.playerReference = new HashMap<>();
-        this.alivePlayers = new HashSet<>();
-        this.blocksPlaced = new HashSet<>();
-        this.entities = new HashMap<>();
-        this.players = new HashSet<>();
-        this.attacks = new HashMap<>();
-        this.winners = new HashSet<>();
-        this.chests = new HashSet<>();
-        this.dead = new HashSet<>();
         this.isInProgress = true;
-        this.timeStarted = 0;
-        this.timeEnded = 0;
-
         this.arena = arena;
-
         core.getMatchManager().add();
 
     }
+
 
     public void add(Player player) {
         players.add(player.getUniqueId());
@@ -74,7 +66,7 @@ public class Match {
         int pos = 0;
         for (UUID uuid : players) {
             IPlayer iPlayer = core.getPlayerManager().getPlayer(uuid);
-            if(iPlayer == null){
+            if (iPlayer == null) {
                 continue;
             }
             iPlayer.setMatch(this);
@@ -100,11 +92,10 @@ public class Match {
 
 
             for (int i = 1; i < 7; i++) {
-                if(iPlayer.getLayouts().get(i) != null){
+                if (iPlayer.getLayouts().get(i) != null) {
                     p.getInventory().addItem(new ItemBuilder(Material.BOOK).name("&rCustom Kit #" + i).amount(1).make());
                 }
             }
-
 
 
             pos++;
@@ -116,69 +107,74 @@ public class Match {
         startCooldown();
     }
 
+
     public void startCooldown() {
-        send(pre + ChatColor.YELLOW + "Starting in " + ChatColor.GREEN + "15" + ChatColor.YELLOW + " second!");
-        core.getServer().getScheduler().runTaskLater(core, () -> {
-            if (matchStage == MatchStage.GRACE) {
-                send(pre + ChatColor.YELLOW + "Starting in " + ChatColor.GREEN + "10" + ChatColor.YELLOW + " second!");
-            }
-        }, 20 * 5);
-        core.getServer().getScheduler().runTaskLater(core, () -> {
-            if (matchStage == MatchStage.GRACE) {
-                send(pre + ChatColor.YELLOW + "Starting in " + ChatColor.GREEN + "5" + ChatColor.YELLOW + " second!");
-            }
-        }, 20 * 10);
-        core.getServer().getScheduler().runTaskLater(core, () -> {
-            if (matchStage == MatchStage.GRACE) {
-                send(pre + ChatColor.YELLOW + "Starting in " + ChatColor.YELLOW + "3" + ChatColor.YELLOW + " second!");
-            }
+        new BukkitRunnable() {
+            private int timer = 10;
 
-        }, 20 * 12);
-        core.getServer().getScheduler().runTaskLater(core, () -> {
-            if (matchStage == MatchStage.GRACE) {
-                send(pre + ChatColor.YELLOW + "Starting in " + ChatColor.GOLD + "2" + ChatColor.YELLOW + " second!");
-            }
+            @Override
+            public void run() {
+                timer--;
 
-        }, 20 * 13);
-        core.getServer().getScheduler().runTaskLater(core, () -> {
-            if (matchStage == MatchStage.GRACE) {
-                send(pre + ChatColor.YELLOW + "Starting in " + ChatColor.RED + "1" + ChatColor.YELLOW + " second!");
+                if (timer == 0 || matchStage != MatchStage.GRACE) {
+                    send(pre + ChatColor.YELLOW + "Started! Good luck!");
+                    matchStage = MatchStage.STARTED;
+                    timeStarted = System.currentTimeMillis();
+                    cancel();
+                }
+                ChatColor cc;
+                switch (timer) {
+                    case 5:
+                    case 10: {
+                        cc = ChatColor.GREEN;
+                        break;
+                    }
+                    case 3:
+                        cc = ChatColor.YELLOW;
+                        break;
+                    case 2:
+                        cc = ChatColor.GOLD;
+                        break;
+                    case 1:
+                        cc = ChatColor.RED;
+                        break;
+                    default:
+                        cc = null;
+                }
+                if (cc != null) {
+                    send(pre + ChatColor.YELLOW + "Starting in " + cc + timer + ChatColor.YELLOW + " second!");
+                    sound(Sound.NOTE_STICKS, 1, 1);
+                }
             }
-        }, 20 * 14);
-        core.getServer().getScheduler().runTaskLater(core, () -> {
-            if (matchStage == MatchStage.GRACE) {
-                send("");
-                send(pre + ChatColor.YELLOW + "Started! Good luck!");
-                matchStage = MatchStage.STARTED;
-                timeStarted = System.currentTimeMillis();
-            }
-        }, 20 * 15);
+        }.runTaskTimerAsynchronously(core, 0L, 20L);
     }
 
-    public HashSet<UUID> getAlivePlayers() {
-        return this.alivePlayers;
-    }
-
-    public HashMap<UUID, UUID> getAttacks() {
-        return this.attacks;
-    }
 
     public void send(String s) {
-        for (UUID uuid : playerReference.keySet()) {
-            if (playerReference.get(uuid).isOnline()) {
-                playerReference.get(uuid).sendMessage(s);
+        for (Map.Entry<UUID, Player> entry : playerReference.entrySet()) {
+            Player p = entry.getValue();
+            if (p == null) {
+                continue;
+            }
+            if (p.isOnline()) {
+                p.sendMessage(s);
             }
         }
     }
 
+    public void sound(Sound sound, float volume, float pitch) {
+        for (Map.Entry<UUID, Player> entry : playerReference.entrySet()) {
+            Player p = entry.getValue();
+            if (p == null) {
+                continue;
+            }
+            if (p.isOnline()) {
+                p.playSound(p.getLocation(), sound, volume, pitch);
+            }
 
-    public void setInProgress(boolean a) {
-        this.isInProgress = a;
+        }
     }
 
-    public boolean isInProgress() {
-        return this.isInProgress;
-    }
 
     public void onDeath(UUID uuid) {
         Player p = playerReference.get(uuid);
@@ -224,14 +220,15 @@ public class Match {
         core.getStatisticsManager().saveAsync(player);
 
         if (attacks.get(p.getUniqueId()) == null) {
-            send(player.getRank().getChatColor() + p.getName() + ChatColor.YELLOW + " was killed!");
+            send(player.getRank(true).getChatColor() + p.getName() + ChatColor.YELLOW + " was killed!");
         } else {
             IPlayer killer = core.getPlayerManager().getPlayer(attacks.get(p.getUniqueId()));
-            killer.addKill();
-            send(player.getRank().getChatColor() + p.getName() + ChatColor.YELLOW + " was killed by " + killer.getRank().getChatColor() + playerReference.get(attacks.get(p.getUniqueId())).getName() + ChatColor.YELLOW + "!");
-            playerReference.get(killer.getUuid()).addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20 * 12, 1));
-
-            core.getStatisticsManager().saveAsync(killer);
+            if (killer != null) {
+                killer.addKill();
+                send(player.getRank(true).getChatColor() + p.getName() + ChatColor.YELLOW + " was killed by " + killer.getRank().getChatColor() + playerReference.get(attacks.get(p.getUniqueId())).getName() + ChatColor.YELLOW + "!");
+                playerReference.get(killer.getUuid()).addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20 * 12, 1));
+                core.getStatisticsManager().saveAsync(killer);
+            }
         }
         if (getAlivePlayers().size() <= 1) {
             matchStage = MatchStage.ENDED;
@@ -276,10 +273,13 @@ public class Match {
 
             player.sendMessage("");
             player.sendMessage(ChatColor.GOLD + "Game over!");
+            if (damageDone.containsKey(player.getUniqueId())) {
+                player.sendMessage(ChatColor.GRAY + "Damage dealt: " + ChatColor.WHITE + (damageDone.get(player.getUniqueId()) * 2));
+            }
             player.getInventory().clear();
 
 
-            player.sendMessage(ChatColor.YELLOW + "" + ChatColor.BOLD + "Winner: " + winner.getRank().getChatColor() + playerReference.get(wU).getName());
+            player.sendMessage(ChatColor.YELLOW + "" + ChatColor.BOLD + "Winner: " + winner.getRank(true).getChatColor() + playerReference.get(wU).getName());
 
             for (Entity nearbyEntity : player.getWorld().getNearbyEntities(player.getLocation(), 250, 100, 250)) {
                 if (!(nearbyEntity instanceof Player)) {
@@ -297,7 +297,7 @@ public class Match {
             arena.setOccupied(false);
         }
         winner.addWin();
-        winner.setStreak(winner.getStreak()+1);
+        winner.setStreak(winner.getStreak() + 1);
         core.getServer().getScheduler().runTaskLater(core, () -> {
             for (UUID uuid : entities.keySet()) {
                 for (Entity entity : entities.get(uuid)) {
@@ -323,40 +323,6 @@ public class Match {
     }
 
     public void end() {
-
-
-    }
-
-    public HashSet<Location> getBlocksPlaced() {
-        return blocksPlaced;
-    }
-
-    public MatchStage getMatchStage() {
-        return this.matchStage;
-    }
-
-    public HashMap<UUID, Player> getPlayerReference() {
-        return playerReference;
-    }
-
-    public HashSet<UUID> getDead() {
-        return dead;
-    }
-
-    public long getTimeStarted() {
-        return this.timeStarted;
-    }
-
-    public long getTimeEnded() {
-        return timeEnded;
-    }
-
-    public HashSet<UUID> getWinners() {
-        return winners;
-    }
-
-    public HashMap<UUID, HashSet<Entity>> getEntities() {
-        return entities;
     }
 
     public void addEntity(UUID uuid, Entity entity) {

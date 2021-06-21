@@ -65,8 +65,6 @@ public class SlotGui implements Listener {
 
     @EventHandler
     public void onInventoryClick(final InventoryClickEvent e) {
-        System.out.println(e.getInventory().getTitle() + " - " + name);
-
         if (!e.getInventory().getName().equalsIgnoreCase(name)) {
             return;
         }

@@ -79,7 +79,6 @@ public class ItemSerializer {
             JsonObject effects =  json.get("effects").getAsJsonObject();
             for (PotionEffectType type : PotionEffectType.values()) {
                 if(type == null) continue;
-                System.out.println(type.getName());
                 if(effects.has(type.getName())){
                     PotionEffect effect = new PotionEffect(type,effects.get(type.getName()).getAsJsonObject().get("duration").getAsInt(),effects.get(type.getName()).getAsJsonObject().get("amplifier").getAsInt());
                     potionMeta.addCustomEffect(effect, false);

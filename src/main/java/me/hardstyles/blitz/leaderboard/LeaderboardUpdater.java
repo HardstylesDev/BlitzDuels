@@ -23,24 +23,43 @@ public class LeaderboardUpdater {
 
     public void update() {
         core.getServer().getScheduler().runTaskAsynchronously(core, () -> {
-            HashMap<JsonObject, Integer> sorted = getSorted(getData());
+            HashMap<JsonObject, Integer> sorted = getSorted(getKillsData());
             int limiter = 0;
             for (JsonObject jsonObject : sorted.keySet()) {
                 String s = ChatColor.YELLOW + "" + ChatColor.BOLD + (limiter + 1) + ChatColor.YELLOW + ". " + core.getRankManager().getRankByName(jsonObject.get("rank").getAsString()).getChatColor() + jsonObject.get("name").getAsString() + ChatColor.GRAY + " - " + ChatColor.YELLOW + "" + ChatColor.BOLD + jsonObject.get("kills").getAsInt();
-                core.getLeaderboardLoader().getArmorstands().get(9 - limiter).setCustomName(s);
+                core.getLeaderboardLoaderKills().getArmorstands().get(9 - limiter).setCustomName(s);
 
 
                 limiter++;
                 if (limiter == 10) return;
 
             }
-            //  for (Integer integer : core.getLeaderboardLoader().getArmorstands().keySet()) {
-            //      core.getLeaderboardLoader().getArmorstands().get(integer).setCustomName("Int: " + integer + " ");
-            //  }
-            //  for (JsonObject jsonObject : sorted.keySet()) {
-            //      System.out.println(jsonObject.get("name").getAsString() + " kills: " + jsonObject.get("kills").getAsInt());
-            //  }
         });
+
+        core.getServer().getScheduler().runTaskAsynchronously(core, () -> {
+            HashMap<JsonObject, Integer> sorted = getSorted(getWinsData());
+            int limiter = 0;
+            for (JsonObject jsonObject : sorted.keySet()) {
+                String s = ChatColor.YELLOW + "" + ChatColor.BOLD + (limiter + 1) + ChatColor.YELLOW + ". " + core.getRankManager().getRankByName(jsonObject.get("rank").getAsString()).getChatColor() + jsonObject.get("name").getAsString() + ChatColor.GRAY + " - " + ChatColor.YELLOW + "" + ChatColor.BOLD + jsonObject.get("wins").getAsInt();
+                core.getLeaderboardLoaderWins().getArmorstands().get(9 - limiter).setCustomName(s);
+                limiter++;
+                if (limiter == 10) return;
+
+            }
+        });
+
+        core.getServer().getScheduler().runTaskAsynchronously(core, () -> {
+            HashMap<JsonObject, Integer> sorted = getSorted(getStreakData());
+            int limiter = 0;
+            for (JsonObject jsonObject : sorted.keySet()) {
+                String s = ChatColor.YELLOW + "" + ChatColor.BOLD + (limiter + 1) + ChatColor.YELLOW + ". " + core.getRankManager().getRankByName(jsonObject.get("rank").getAsString()).getChatColor() + jsonObject.get("name").getAsString() + ChatColor.GRAY + " - " + ChatColor.YELLOW + "" + ChatColor.BOLD + jsonObject.get("wins").getAsInt();
+                core.getLeaderboardLoaderStreak().getArmorstands().get(9 - limiter).setCustomName(s);
+                limiter++;
+                if (limiter == 10) return;
+
+            }
+        });
+
     }
 
     private HashMap<JsonObject, Integer> getSorted(HashMap<JsonObject, Integer> unSortedMap) {
@@ -50,7 +69,7 @@ public class LeaderboardUpdater {
     }
 
 
-    private HashMap<JsonObject, Integer> getData() {
+    private HashMap<JsonObject, Integer> getKillsData() {
         HashMap<JsonObject, Integer> objects = new HashMap<>();
 
         try {
@@ -61,6 +80,50 @@ public class LeaderboardUpdater {
             while (rs.next()) {
                 JsonObject jsonObject = new JsonParser().parse(rs.getString("data")).getAsJsonObject();
                 objects.put(jsonObject, jsonObject.get("kills").getAsInt());
+            }
+            rs.close();
+            ps.close();
+            conn.close();
+        } catch (
+                SQLException e) {
+            e.printStackTrace();
+        }
+        return objects;
+    }
+
+    private HashMap<JsonObject, Integer> getWinsData() {
+        HashMap<JsonObject, Integer> objects = new HashMap<>();
+
+        try {
+            Connection conn = Core.getInstance().getData().getConnection();
+            String sql = "select * from data;";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                JsonObject jsonObject = new JsonParser().parse(rs.getString("data")).getAsJsonObject();
+                objects.put(jsonObject, jsonObject.get("wins").getAsInt());
+            }
+            rs.close();
+            ps.close();
+            conn.close();
+        } catch (
+                SQLException e) {
+            e.printStackTrace();
+        }
+        return objects;
+    }
+    private HashMap<JsonObject, Integer> getStreakData() {
+        HashMap<JsonObject, Integer> objects = new HashMap<>();
+        try {
+            Connection conn = Core.getInstance().getData().getConnection();
+            String sql = "select * from data;";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                JsonObject jsonObject = new JsonParser().parse(rs.getString("data")).getAsJsonObject();
+                if(jsonObject.has("streak")) {
+                    objects.put(jsonObject, jsonObject.get("streak").getAsInt());
+                }
             }
             rs.close();
             ps.close();

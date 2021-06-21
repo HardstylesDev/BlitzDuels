@@ -70,8 +70,13 @@ public class QueueGui implements Listener {
 
         if(clickedItem.getItemMeta().getDisplayName().contains("Solo Queue")){
 
+            if(core.getQueueManager().getQueues().get(QueueType.NORMAL).contains(p.getUniqueId())){
+                core.getQueueManager().remove(p);
+                p.closeInventory();
+                return;
+            }
             core.getQueueManager().add(QueueType.NORMAL, p);
-            open(p);
+            p.closeInventory();
             return;
         }
         else if(clickedItem.getItemMeta().getDisplayName().contains("Teams Queue")){

@@ -5,7 +5,9 @@ import me.hardstyles.blitz.arena.TestCommand;
 import me.hardstyles.blitz.kits.IItemManager;
 import me.hardstyles.blitz.kits.gui.LayoutGui;
 import me.hardstyles.blitz.kits.gui.SlotGui;
-import me.hardstyles.blitz.leaderboard.LeaderboardLoader;
+import me.hardstyles.blitz.leaderboard.LeaderboardLoaderKills;
+import me.hardstyles.blitz.leaderboard.LeaderboardLoaderStreak;
+import me.hardstyles.blitz.leaderboard.LeaderboardLoaderWins;
 import me.hardstyles.blitz.leaderboard.LeaderboardUpdater;
 import me.hardstyles.blitz.match.MatchHandler;
 import me.hardstyles.blitz.match.MatchManager;
@@ -51,7 +53,9 @@ public class Core extends JavaPlugin {
     private NametagManager nametagManager;
     private ChestFiller chestFiller;
     private MatchManager matchManager;
-    private LeaderboardLoader leaderboardLoader;
+    private LeaderboardLoaderWins leaderboardLoaderWins;
+    private LeaderboardLoaderKills leaderboardLoaderKills;
+    private LeaderboardLoaderStreak leaderboardLoaderStreak;
     private LeaderboardUpdater leaderboardUpdater;
 
     private IPlayerManager iPlayerManager;
@@ -68,7 +72,7 @@ public class Core extends JavaPlugin {
     private SlotGui slotGui;
     private IItemManager IItemManager;
 
-    private  Location lobbySpawn;
+    private Location lobbySpawn;
     private ArenaManager arenaManager;
 
     private Database database;
@@ -78,6 +82,8 @@ public class Core extends JavaPlugin {
     }
 
     public void onEnable() {
+        new WorldCreator("arena").generator(new VoidGenerator()).createWorld();
+
         try {
             new VanillaCommands().remove();
         } catch (Exception exception) {
@@ -97,15 +103,17 @@ public class Core extends JavaPlugin {
         IItemManager = new IItemManager(this);
         queueGui = new QueueGui(this);
         layoutGui = new LayoutGui(this);
-         scoreboardManager = new ScoreboardManager(this);
+        scoreboardManager = new ScoreboardManager(this);
 
         nametagManager = new NametagManager();
         punishmentManager = new PunishmentManager(this);
         arenaManager = new ArenaManager(this);
 
         leaderboardUpdater = new LeaderboardUpdater(this);
-        leaderboardLoader =new LeaderboardLoader(this);
-        //Register Commands::
+        leaderboardLoaderWins = new LeaderboardLoaderWins(this);
+        leaderboardLoaderKills = new LeaderboardLoaderKills(this);
+        leaderboardLoaderStreak = new LeaderboardLoaderStreak(this);
+
         tabUtil = new TabUtil(this);
         itemSerializer = new ItemSerializer(this);
         slotGui = new SlotGui(this);
@@ -140,7 +148,6 @@ public class Core extends JavaPlugin {
         getServer().getPluginManager().registerEvents(scoreboardManager.getScoreboardHandler(), this);
 
 
-
         World world = Bukkit.getWorld("world");
         File playerdataFolder = new File(world.getWorldFolder() + "/playerdata/");
         File[] contents = playerdataFolder.listFiles();
@@ -149,15 +156,11 @@ public class Core extends JavaPlugin {
                 content.delete();
             }
         }
-        new WorldCreator("arena").generator(new VoidGenerator()).createWorld();
-        //Load Players:
         if (!Bukkit.getOnlinePlayers().isEmpty()) {
-
             Bukkit.getOnlinePlayers().forEach(player -> {
-                //g/etServer().getPluginManager().callEvent(new PlayerLoginEvent(player));
                 statisticsManager.load(player.getUniqueId());
-                iPlayerManager.addBsgPlayer(player.getUniqueId(), getPlayerManager().getPlayer(player.getUniqueId()));
-                //
+                iPlayerManager.addPlayer(player.getUniqueId(), getPlayerManager().getPlayer(player.getUniqueId()));
+                iPlayerManager.hub(player);
             });
         }
 
@@ -165,7 +168,7 @@ public class Core extends JavaPlugin {
         scoreboardManager.runTaskTimer(this, 20, 20);
 
 
-        lobbySpawn =new Location(Bukkit.getWorld("world"), 0.5, 80, 0.5, 180, 0);
+        lobbySpawn = new Location(Bukkit.getWorld("world"), 0.5, 80, 0.5, 180, 0);
         nametagManager.update();
 
 
@@ -198,7 +201,9 @@ public class Core extends JavaPlugin {
         return punishmentManager;
     }
 
-    public ChestFiller getChestFiller(){return chestFiller;}
+    public ChestFiller getChestFiller() {
+        return chestFiller;
+    }
 
     public StatisticsManager getStatisticsManager() {
         return statisticsManager;
@@ -242,9 +247,12 @@ public class Core extends JavaPlugin {
     public static void send(Player p, String message) {
         p.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
     }
-    public Location getLobbySpawn(){return lobbySpawn;}
 
-    public QueueGui getQueueGui(){
+    public Location getLobbySpawn() {
+        return lobbySpawn;
+    }
+
+    public QueueGui getQueueGui() {
         return queueGui;
     }
 
@@ -252,14 +260,20 @@ public class Core extends JavaPlugin {
         return layoutGui;
     }
 
-    public MatchManager getMatchManager(){
+    public MatchManager getMatchManager() {
         return matchManager;
     }
-    public LeaderboardUpdater getLeaderboardUpdater(){
+
+    public LeaderboardUpdater getLeaderboardUpdater() {
         return leaderboardUpdater;
     }
-    public LeaderboardLoader getLeaderboardLoader(){
-        return leaderboardLoader;
+
+    public LeaderboardLoaderWins getLeaderboardLoaderWins() {
+        return leaderboardLoaderWins;
+    }
+
+    public LeaderboardLoaderKills getLeaderboardLoaderKills() {
+        return leaderboardLoaderKills;
     }
 
     public IItemManager getItemHandler() {
@@ -276,5 +290,9 @@ public class Core extends JavaPlugin {
 
     public SlotGui getSlotGui() {
         return slotGui;
+    }
+
+    public LeaderboardLoaderStreak getLeaderboardLoaderStreak() {
+        return leaderboardLoaderStreak;
     }
 }

@@ -11,12 +11,7 @@ import me.hardstyles.blitz.rank.Rank;
 import me.hardstyles.blitz.nickname.Nick;
 
 
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.entity.Entity;
-
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.UUID;
 
 public class IPlayer {
@@ -103,7 +98,7 @@ public class IPlayer {
 
 
 
-        Core.getInstance().getPlayerManager().addBsgPlayer(this.uuid, this);
+        Core.getInstance().getPlayerManager().addPlayer(this.uuid, this);
     }
 
 
@@ -292,5 +287,7 @@ public class IPlayer {
     public void setEditingLayout(JsonArray editingLayout) {
         this.editingLayout = editingLayout;
     }
+
+
 }
 

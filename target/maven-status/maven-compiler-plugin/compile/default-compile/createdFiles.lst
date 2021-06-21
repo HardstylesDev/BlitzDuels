@@ -22,6 +22,7 @@ me\hardstyles\blitz\scoreboard\ScoreboardHelper$ScoreboardText.class
 me\hardstyles\blitz\match\Match.class
 me\hardstyles\blitz\utils\VanillaCommands.class
 me\hardstyles\blitz\player\IPlayer.class
+me\hardstyles\blitz\utils\HubCommand.class
 me\hardstyles\blitz\utils\EnchantListener.class
 me\hardstyles\blitz\arena\TestCommand$1.class
 me\hardstyles\blitz\rank\ranks\Champion.class
@@ -31,6 +32,7 @@ me\hardstyles\blitz\Core.class
 me\hardstyles\blitz\arena\arenaloader\BlockToPlace.class
 me\hardstyles\blitz\utils\world\VoidGenerator.class
 me\hardstyles\blitz\punishments\BannedPlayer.class
+me\hardstyles\blitz\leaderboard\LeaderboardLoaderKills.class
 me\hardstyles\blitz\leaderboard\LeaderboardUpdater.class
 me\hardstyles\blitz\utils\database\Database.class
 me\hardstyles\blitz\match\mobs\MatchMobHandler.class
@@ -39,7 +41,6 @@ me\hardstyles\blitz\utils\world\WorldCommand.class
 me\hardstyles\blitz\punishments\PunishmentManager$1.class
 me\hardstyles\blitz\kits\IItemManager.class
 me\hardstyles\blitz\nickname\skin\Skin.class
-me\hardstyles\blitz\leaderboard\LeaderboardLoader.class
 me\hardstyles\blitz\rank\ranks\Vip.class
 me\hardstyles\blitz\utils\ChestFiller.class
 me\hardstyles\blitz\player\IPlayerManager.class
@@ -60,6 +61,7 @@ me\hardstyles\blitz\utils\nametag\Nametag.class
 me\hardstyles\blitz\queue\QueueCommand.class
 me\hardstyles\blitz\queue\QueueManager.class
 me\hardstyles\blitz\utils\nametag\NametagManager.class
+me\hardstyles\blitz\leaderboard\LeaderboardLoaderStreak.class
 me\hardstyles\blitz\kits\KitManager.class
 me\hardstyles\blitz\utils\PrepareItemEnchant.class
 me\hardstyles\blitz\punishments\ACBan.class
@@ -69,6 +71,7 @@ me\hardstyles\blitz\punishments\commands\Unban$1.class
 me\hardstyles\blitz\nickname\NicknameCommand.class
 me\hardstyles\blitz\utils\database\ItemSerializer.class
 me\hardstyles\blitz\nickname\Nickname.class
+me\hardstyles\blitz\leaderboard\LeaderboardLoaderWins.class
 me\hardstyles\blitz\queue\QueueGui.class
 me\hardstyles\blitz\rank\RankCommand.class
 me\hardstyles\blitz\rank\ranks\Helper.class

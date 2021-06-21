@@ -9,19 +9,18 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 
 import java.util.HashMap;
-import java.util.HashSet;
 
-public class LeaderboardLoader {
-    private Location base = new Location(Bukkit.getWorld("world"), 11.5, 78, -10.5);
+public class LeaderboardLoaderKills {
+    private Location base = new Location(Bukkit.getWorld("world"), 11.5, 78, -5.5);
     private final Core core;
     private HashMap<Integer, Entity> armorstands;
 
-    public LeaderboardLoader(Core core) {
+    public LeaderboardLoaderKills(Core core) {
         this.core = core;
 
         armorstands = new HashMap<>();
 
-        for (org.bukkit.entity.Entity nearbyEntity : base.getWorld().getNearbyEntities(base, 0.8, 8, 0.8)) {
+        for (Entity nearbyEntity : base.getWorld().getNearbyEntities(base, 0.8, 8, 0.8)) {
             nearbyEntity.remove();
         }
 

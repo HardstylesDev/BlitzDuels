@@ -45,24 +45,10 @@ public class Nickname {
             EntityPlayer offlineplayer = new EntityPlayer(server, world, craftOfflinePlayer.getProfile(), manager);
             PacketPlayOutPlayerInfo packet = new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, player);
             p.kickPlayer(ChatColor.GREEN + "Nickname changed, please rejoin!");
-            for (Player p2 : Bukkit.getOnlinePlayers()) {
-                ((CraftPlayer) p).getHandle().playerConnection.sendPacket(packet);
-            }
-            
-            for (Player p2 : Bukkit.getOnlinePlayers()) {
-                ((CraftPlayer) p2).getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, ((CraftPlayer) p).getHandle()));
-                ((CraftPlayer) p2).getHandle().playerConnection.sendPacket(new PacketPlayOutEntityDestroy(p.getEntityId()));
-                p2.hidePlayer(p);
 
-                ((CraftPlayer) p2).getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, ((CraftPlayer) player.getBukkitEntity()).getHandle()));
-                ((CraftPlayer) p2).getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, ((CraftPlayer) offlineplayer.getBukkitEntity()).getHandle()));
-                ((CraftPlayer) p2).getHandle().playerConnection.sendPacket(new PacketPlayOutEntityDestroy(player.getBukkitEntity().getEntityId()));
-                ((CraftPlayer) p2).getHandle().playerConnection.sendPacket(new PacketPlayOutEntityDestroy(offlineplayer.getBukkitEntity().getEntityId()));
-            }
             IPlayer bsgPlayer = Core.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
             if(bsgPlayer.getNick() == null){
                 bsgPlayer.setNick(new Nick(s, null, null, true));
-
             }
             bsgPlayer.getNick().setNickName(s);
             bsgPlayer.getNick().setNicked(true);

@@ -73,7 +73,7 @@ public class LayoutGui implements Listener {
         inv.setItem(mobSlot2, core.getItemHandler().mobs.get(0).item);
 
 
-        inv.setItem(coinSlot, new ItemBuilder(Material.DOUBLE_PLANT).name("&6Points: &a0").make());
+        inv.setItem(coinSlot, new ItemBuilder(Material.DOUBLE_PLANT).name("&6Points: &a100").make());
         inv.setItem(confirmSlot, new ItemBuilder(Material.WOOL).durability(5).name("&aClick to save this layout").make());
         inv.setItem(exitslot, new ItemBuilder(Material.WOOL).durability(14).name("&cClick to exit").make());
 

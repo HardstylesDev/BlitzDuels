@@ -7,11 +7,10 @@ import me.hardstyles.blitz.player.IPlayer;
 import me.hardstyles.blitz.utils.ItemBuilder;
 import me.hardstyles.blitz.utils.ItemUtils;
 import net.minecraft.server.v1_8_R3.ItemArmor;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.block.Chest;
 import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
@@ -30,7 +29,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
@@ -107,33 +105,38 @@ public class MatchHandler implements Listener {
             return;
         }
 
-        if(e.getDamager() == e.getEntity()){
+        if (e.getDamager() == e.getEntity()) {
             e.setCancelled(true);
             return;
         }
-        if(e.getDamager() instanceof Projectile){
+        if (e.getDamager() instanceof Projectile) {
             Projectile projectile = (Projectile) e.getDamager();
-            if(projectile.getShooter() instanceof Player){
+            if (projectile.getShooter() instanceof Player) {
                 Player shooter = (Player) projectile.getShooter();
-                if(shooter.equals(e.getEntity())){
+                if (shooter.equals(e.getEntity())) {
                     e.setCancelled(true);
                     return;
                 }
             }
         }
         if (e.getDamager() instanceof Player) {
+
             Player attacker = (Player) e.getDamager();
             match.getAttacks().put(victim.getUniqueId(), attacker.getUniqueId());
+            double dmg = match.getDamageDone().getOrDefault(attacker.getUniqueId(), 0D);
+            match.getDamageDone().put(attacker.getUniqueId(), dmg + Math.round(e.getFinalDamage()));
+
+
         }
 
     }
 
     @EventHandler
-    public void onSplash(PotionSplashEvent e){
+    public void onSplash(PotionSplashEvent e) {
         ThrownPotion potion = e.getPotion();
-        if(potion.getEffects().contains(PotionType.INSTANT_DAMAGE)){
+        if (potion.getEffects().contains(PotionType.INSTANT_DAMAGE)) {
             Projectile projectile = e.getEntity();
-            if(projectile.getShooter() instanceof Player){
+            if (projectile.getShooter() instanceof Player) {
                 Player shooter = (Player) projectile.getShooter();
                 e.getAffectedEntities().remove(shooter);
             }
@@ -193,8 +196,7 @@ public class MatchHandler implements Listener {
         if (iPlayer.hasMatch()) {
             if (iPlayer.getMatch().getMatchStage() != MatchStage.STARTED) {
                 e.setFoodLevel(20);
-            }
-            else if(iPlayer.getMatch().getDead().contains(e.getEntity().getUniqueId())){
+            } else if (iPlayer.getMatch().getDead().contains(e.getEntity().getUniqueId())) {
                 e.setFoodLevel(20);
 
             }
@@ -244,8 +246,8 @@ public class MatchHandler implements Listener {
                 pot.setAmount(3);
                 p.getInventory().addItem(pot);
 
-            //    p.getInventory().addItem(new ItemBuilder(Material.MONSTER_EGG).durability(95).name("&rWolf Spawn Egg").amount(5).make());
-            //    p.getInventory().addItem(new ItemBuilder(Material.MONSTER_EGG).durability(999).name("&rSnowman Spawn Egg").amount(4).make());
+                //    p.getInventory().addItem(new ItemBuilder(Material.MONSTER_EGG).durability(95).name("&rWolf Spawn Egg").amount(5).make());
+                //    p.getInventory().addItem(new ItemBuilder(Material.MONSTER_EGG).durability(999).name("&rSnowman Spawn Egg").amount(4).make());
                 return;
             }
 
@@ -276,7 +278,18 @@ public class MatchHandler implements Listener {
                 }
 
             }
+            if (e.getClickedBlock() != null) {
+                if (e.getClickedBlock().getType() == Material.CHEST || e.getClickedBlock().getType() == Material.TRAPPED_CHEST) {
+                    if (!iPlayer.getMatch().getChests().contains(e.getClickedBlock().getLocation())) {
+                        Chest chest = (Chest) e.getClickedBlock().getState();
+                        chest.getInventory().clear();
+                        core.getChestFiller().generateChestLoot(chest.getInventory(), 3);
+                        chest.update();
+                        iPlayer.getMatch().getChests().add(e.getClickedBlock().getLocation());
+                    }
+                }
 
+            }
         }
 
     }

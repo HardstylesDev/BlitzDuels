@@ -30,7 +30,7 @@ final private Core core;
 		return bsgPlayers.get(uuid);
 	}
 
-	public void addBsgPlayer(UUID uuid, IPlayer uhcPlayer) {
+	public void addPlayer(UUID uuid, IPlayer uhcPlayer) {
 		bsgPlayers.put(uuid, uhcPlayer);
 	}
 

@@ -88,7 +88,7 @@ public class PartyCommand implements CommandExecutor {
 
                 memberPlayer = Bukkit.getOfflinePlayer(member);
                 if (memberPlayer.isOnline()) {
-                    memberPlayer.getPlayer().sendMessage(ChatColor.BLUE + "Party > " + ChatColor.YELLOW + "" + sgTarget.getRank().getPrefix() + target.getName() + ChatColor.YELLOW + " was kicked from the party");
+                    memberPlayer.getPlayer().sendMessage(ChatColor.BLUE + "Party > " + ChatColor.YELLOW + "" + sgTarget.getRank(true).getPrefix() + target.getName() + ChatColor.YELLOW + " was kicked from the party");
                 }
             }
             return true;
@@ -99,14 +99,14 @@ public class PartyCommand implements CommandExecutor {
                 return true;
             }
             p.sendMessage(ChatColor.GRAY + "" + ChatColor.STRIKETHROUGH + "--------------------");
-            p.sendMessage(ChatColor.YELLOW + "Owner - " + Bukkit.getOfflinePlayer(sgPlayer.getParty().getOwner()).getPlayer().getDisplayName());
+            p.sendMessage(ChatColor.YELLOW + "Owner - " + Bukkit.getOfflinePlayer(sgPlayer.getParty().getOwner()).getPlayer().getName());
 
 
             OfflinePlayer memberPlayer;
             for (UUID member : sgPlayer.getParty().getMembers()) {
                 memberPlayer = Bukkit.getOfflinePlayer(member);
                 if (memberPlayer.getUniqueId() != sgPlayer.getParty().getOwner()) {
-                    p.sendMessage(ChatColor.YELLOW + "Member - " + memberPlayer.getPlayer().getDisplayName() + " " + (memberPlayer.isOnline() ? ChatColor.GREEN + "●" : ChatColor.RED + "●"));
+                    p.sendMessage(ChatColor.YELLOW + "Member - " + memberPlayer.getPlayer().getName() + " " + (memberPlayer.isOnline() ? ChatColor.GREEN + "●" : ChatColor.RED + "●"));
                 }
             }
 
@@ -129,7 +129,7 @@ public class PartyCommand implements CommandExecutor {
             for (UUID member : party.getMembers()) {
                 memberPlayer = Bukkit.getOfflinePlayer(member);
                 if (memberPlayer.isOnline()) {
-                    memberPlayer.getPlayer().sendMessage(ChatColor.BLUE + "Party > " + sgPlayer.getRank().getPrefix() + p.getName() + ChatColor.YELLOW + " left the party.");
+                    memberPlayer.getPlayer().sendMessage(ChatColor.BLUE + "Party > " + sgPlayer.getRank(true).getPrefix() + p.getName() + ChatColor.YELLOW + " left the party.");
                 }
             }
             p.sendMessage(ChatColor.BLUE + "Party > " + ChatColor.YELLOW + "You've left the party.");
@@ -178,7 +178,7 @@ public class PartyCommand implements CommandExecutor {
             for (UUID member : party.getMembers()) {
                 memberPlayer = Bukkit.getOfflinePlayer(member);
                 if (memberPlayer.isOnline()) {
-                    memberPlayer.getPlayer().sendMessage(ChatColor.BLUE + "Party > " + sgPlayer.getRank().getPrefix() + p.getName() + ChatColor.YELLOW + " joined the party!");
+                    memberPlayer.getPlayer().sendMessage(ChatColor.BLUE + "Party > " + sgPlayer.getRank(true).getPrefix() + p.getName() + ChatColor.YELLOW + " joined the party!");
                 }
             }
 
@@ -226,9 +226,9 @@ public class PartyCommand implements CommandExecutor {
             party.invitePlayer(target);
 
 
-            target.sendMessage(ChatColor.BLUE + "Party > " + sgPlayer.getRank().getPrefix() + p.getName() + ChatColor.YELLOW + " has invited you to their party!");
+            target.sendMessage(ChatColor.BLUE + "Party > " + sgPlayer.getRank(true).getPrefix() + p.getName() + ChatColor.YELLOW + " has invited you to their party!");
 
-            String json = "[\"\",{\"text\":\"[ACCEPT]\",\"bold\":true,\"color\":\"green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/party accept %inviter%\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":\" " + ChatColor.YELLOW + "Click here to accept " + sgPlayer.getRank().getPrefix() + p.getName() + ChatColor.YELLOW + "'s party invite\"}},{\"text\":\" \",\"bold\":true},{\"text\":\"[DECLINE]\",\"bold\":true,\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/party decline %inviter%\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":\" " + ChatColor.YELLOW + "Click here to decline " + sgPlayer.getRank().getPrefix() + p.getName() + ChatColor.YELLOW + "'s party invite\"}},{\"text\":\"\\n \"}]";
+            String json = "[\"\",{\"text\":\"[ACCEPT]\",\"bold\":true,\"color\":\"green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/party accept %inviter%\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":\" " + ChatColor.YELLOW + "Click here to accept " + sgPlayer.getRank(true).getPrefix() + p.getName() + ChatColor.YELLOW + "'s party invite\"}},{\"text\":\" \",\"bold\":true},{\"text\":\"[DECLINE]\",\"bold\":true,\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/party decline %inviter%\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":\" " + ChatColor.YELLOW + "Click here to decline " + sgPlayer.getRank(true).getPrefix() + p.getName() + ChatColor.YELLOW + "'s party invite\"}},{\"text\":\"\\n \"}]";
 
             IChatBaseComponent comp = IChatBaseComponent.ChatSerializer.a(json.replaceAll("%inviter%", p.getName()));
             PacketPlayOutChat packet = new PacketPlayOutChat(comp);
@@ -276,9 +276,9 @@ public class PartyCommand implements CommandExecutor {
                 sgPlayer.getParty().invitePlayer(target);
 
 
-                target.sendMessage(ChatColor.BLUE + "Party > " + sgPlayer.getRank().getPrefix() + p.getName() + ChatColor.YELLOW + " has invited you to their party!");
+                target.sendMessage(ChatColor.BLUE + "Party > " + sgPlayer.getRank(true).getPrefix() + p.getName() + ChatColor.YELLOW + " has invited you to their party!");
 
-                String json = "[\"\",{\"text\":\"[ACCEPT]\",\"bold\":true,\"color\":\"green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/party accept %inviter%\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":\" " + ChatColor.YELLOW + "Click here to accept " + sgPlayer.getRank().getPrefix() + p.getName() + ChatColor.YELLOW + "'s party invite\"}},{\"text\":\" \",\"bold\":true},{\"text\":\"[DECLINE]\",\"bold\":true,\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/party decline %inviter%\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":\" " + ChatColor.YELLOW + "Click here to decline " + sgPlayer.getRank().getPrefix() + p.getName() + ChatColor.YELLOW + "'s party invite\"}},{\"text\":\"\\n \"}]";
+                String json = "[\"\",{\"text\":\"[ACCEPT]\",\"bold\":true,\"color\":\"green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/party accept %inviter%\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":\" " + ChatColor.YELLOW + "Click here to accept " + sgPlayer.getRank(true).getPrefix() + p.getName() + ChatColor.YELLOW + "'s party invite\"}},{\"text\":\" \",\"bold\":true},{\"text\":\"[DECLINE]\",\"bold\":true,\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/party decline %inviter%\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":\" " + ChatColor.YELLOW + "Click here to decline " + sgPlayer.getRank(true).getPrefix() + p.getName() + ChatColor.YELLOW + "'s party invite\"}},{\"text\":\"\\n \"}]";
 
                 IChatBaseComponent comp = IChatBaseComponent.ChatSerializer.a(json.replaceAll("%inviter%", p.getName()));
                 PacketPlayOutChat packet = new PacketPlayOutChat(comp);
@@ -289,7 +289,7 @@ public class PartyCommand implements CommandExecutor {
                 for (UUID member : sgPlayer.getParty().getMembers()) {
                     memberPlayer = Bukkit.getOfflinePlayer(member);
                     if (memberPlayer.isOnline()) {
-                        memberPlayer.getPlayer().sendMessage(ChatColor.BLUE + "Party > " + sgPlayer.getRank().getPrefix() + p.getName() + ChatColor.YELLOW + " invited "+ sgTarget.getRank().getPrefix() + target.getName() + ChatColor.YELLOW +  " to the party!");
+                        memberPlayer.getPlayer().sendMessage(ChatColor.BLUE + "Party > " + sgPlayer.getRank(true).getPrefix() + p.getName() + ChatColor.YELLOW + " invited "+ sgTarget.getRank(true).getPrefix() + target.getName() + ChatColor.YELLOW +  " to the party!");
                     }
                 }
 

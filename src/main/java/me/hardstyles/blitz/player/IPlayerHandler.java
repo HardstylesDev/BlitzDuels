@@ -3,11 +3,7 @@ package me.hardstyles.blitz.player;
 import me.hardstyles.blitz.Core;
 import me.hardstyles.blitz.nickname.Nickname;
 import me.hardstyles.blitz.punishments.BannedPlayer;
-import net.minecraft.server.v1_8_R3.IChatBaseComponent;
-import net.minecraft.server.v1_8_R3.PacketPlayOutTitle;
-import net.minecraft.server.v1_8_R3.PlayerConnection;
 import org.bukkit.*;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -44,7 +40,7 @@ public class IPlayerHandler implements Listener {
     @EventHandler
     public void onJoin(PlayerPreLoginEvent e) {
         core.getStatisticsManager().load(e.getUniqueId());
-        core.getPlayerManager().addBsgPlayer(e.getUniqueId(), core.getPlayerManager().getPlayer(e.getUniqueId()));
+        core.getPlayerManager().addPlayer(e.getUniqueId(), core.getPlayerManager().getPlayer(e.getUniqueId()));
 
 
         //});
@@ -131,9 +127,12 @@ public class IPlayerHandler implements Listener {
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
             IPlayer iPlayer = core.getPlayerManager().getPlayer(onlinePlayer.getUniqueId());
             if (iPlayer.getParty() != null) {
+                if(iPlayer.getParty().getOwner().equals(p.getUniqueId())){
+                    uhcPlayer.setParty(iPlayer.getParty());
+                    uhcPlayer.getParty().setOwner(p.getUniqueId());
+                }
                 if (iPlayer.getParty().getMembers().contains(p.getUniqueId())) {
                     uhcPlayer.setParty(iPlayer.getParty());
-
                 }
             }
         }
