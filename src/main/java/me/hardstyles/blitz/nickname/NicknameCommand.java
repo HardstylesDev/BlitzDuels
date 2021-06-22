@@ -48,7 +48,7 @@ public class NicknameCommand implements CommandExecutor {
 
             return true;
         }
-        if ((Core.getInstance().getRankManager().getRank((Player) sender) instanceof Default)) {
+        if ((Core.i().getRankManager().getRank((Player) sender) instanceof Default)) {
             sender.sendMessage(Core.CORE_NAME + "missing permission.");
 
             return true;
@@ -198,7 +198,7 @@ public class NicknameCommand implements CommandExecutor {
             return;
         }
 
-        player.sendPluginMessage(Core.getInstance(), "BungeeCord", b.toByteArray());
+        player.sendPluginMessage(Core.i(), "BungeeCord", b.toByteArray());
     }
 
 

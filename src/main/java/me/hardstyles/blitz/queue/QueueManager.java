@@ -16,7 +16,7 @@ import java.util.UUID;
 
 public class QueueManager {
     private final Core core;
-    private HashMap<QueueType, HashSet<UUID>> queues;
+    private final HashMap<QueueType, HashSet<UUID>> queues;
 
     public QueueManager(Core core) {
         this.core = core;
@@ -99,7 +99,6 @@ public class QueueManager {
             match.add(uuid);
         }
         match.start();
-        return;
     }
 
     public HashMap<QueueType, HashSet<UUID>> getQueues() {

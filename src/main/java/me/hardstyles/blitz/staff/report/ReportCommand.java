@@ -4,52 +4,46 @@ import me.hardstyles.blitz.Core;
 import me.hardstyles.blitz.player.IPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 
-public class ReportCommand implements CommandExecutor {
+public class ReportCommand extends me.hardstyles.blitz.utils.Command {
 
-    final private Core core;
+    private final HashMap<UUID, Long> cooldown = new HashMap<>();
 
-    public ReportCommand(Core core) {
-        this.core = core;
+    public ReportCommand() {
+        super("report");
     }
 
-    private HashMap<UUID, Long> cooldown = new HashMap<>();
+    @Override
+    public List<String> onTabComplete(Player player, String[] args) {
+        return null;
+    }
 
-
-    public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
-        if (!(sender instanceof Player)) return false;
-        Player p = (Player) sender;
-        IPlayer iPlayer = core.getPlayerManager().getPlayer(((Player) sender).getUniqueId());
-        if (iPlayer == null) {
-            return true;
-        }
-
+    @Override
+    public void onExecute(Player p, IPlayer iPlayer, String[] args) {
         if (args.length < 2) {
             p.sendMessage(ChatColor.RED + "Usage: /report <player> <reason>");
-            return true;
+            return;
         }
 
         Player target = Bukkit.getPlayer(args[0]);
-        if (!target.isOnline() || target == null) {
+        if (target == null || !target.isOnline()) {
             p.sendMessage(ChatColor.RED + "Couldn't find that player.");
-            return true;
+            return;
         }
 
-        Long remainingTime = 30000 - (System.currentTimeMillis() - cooldown.getOrDefault(p.getUniqueId(), 0L));
+        long remainingTime = 30000 - (System.currentTimeMillis() - cooldown.getOrDefault(p.getUniqueId(), 0L));
         if (remainingTime > 0) {
             p.sendMessage(ChatColor.RED + "Please wait before reporting another player! Wait " + (remainingTime / 1000) + " more seconds.");
-            return true;
+            return;
         }
 
-        IPlayer iTarget = core.getPlayerManager().getPlayer(target.getUniqueId());
+        IPlayer iTarget = Core.i().getPlayerManager().getPlayer(target.getUniqueId());
 
 
         StringBuilder builder = new StringBuilder(args[1]);
@@ -59,18 +53,14 @@ public class ReportCommand implements CommandExecutor {
         String message = builder.toString();
 
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-            IPlayer onlineIPlayer = core.getPlayerManager().getPlayer(onlinePlayer.getUniqueId());
-            if (onlineIPlayer.getRank().getPosition() <= 5) {
-                continue;
+            IPlayer onlineIPlayer = Core.i().getPlayerManager().getPlayer(onlinePlayer.getUniqueId());
+            if (onlineIPlayer.getRank().getPosition() > 5) {
+                onlinePlayer.sendMessage(ChatColor.RED + "[REPORT] " + iPlayer.getRank().getChatColor() + p.getDisplayName() + ChatColor.GOLD + " has reported " + iTarget.getRank().getChatColor() + target.getName() + ChatColor.RED + "\nReason: " + ChatColor.GOLD + message);
             }
-
-            onlinePlayer.sendMessage(ChatColor.RED + "[REPORT] " + iPlayer.getRank().getChatColor() + p.getDisplayName() + ChatColor.GOLD + " has reported " + iTarget.getRank().getChatColor() + target.getName() + ChatColor.RED + "\nReason: " + ChatColor.GOLD + message);
         }
 
-        core.getStaffManager().getReports().add(new ReportEntry(message, false, target.getUniqueId(), p.getUniqueId()));
+        Core.i().getStaffManager().getReports().add(new ReportEntry(message, false, target.getUniqueId(), p.getUniqueId()));
         cooldown.put(p.getUniqueId(), System.currentTimeMillis());
-        return true;
     }
-
 }
 

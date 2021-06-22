@@ -46,7 +46,7 @@ public class Nickname {
             PacketPlayOutPlayerInfo packet = new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, player);
             p.kickPlayer(ChatColor.GREEN + "Nickname changed, please rejoin!");
 
-            IPlayer bsgPlayer = Core.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
+            IPlayer bsgPlayer = Core.i().getPlayerManager().getPlayer(p.getUniqueId());
             if(bsgPlayer.getNick() == null){
                 bsgPlayer.setNick(new Nick(s, null, null, true));
             }
@@ -54,10 +54,10 @@ public class Nickname {
             bsgPlayer.getNick().setNicked(true);
             bsgPlayer.getNick().setSkinValue(skin[0]);
             bsgPlayer.getNick().setSkinSignature(skin[1]);
-            Core.getInstance().getStatisticsManager().save(bsgPlayer);
+            Core.i().getStatisticsManager().save(bsgPlayer);
             return;
         }
-        IPlayer bsgPlayer = Core.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
+        IPlayer bsgPlayer = Core.i().getPlayerManager().getPlayer(p.getUniqueId());
 
         if (bsgPlayer.getNick().getSkinSignature() == null) return;
         setSkinForSelf(p);
@@ -95,12 +95,12 @@ public class Nickname {
     }
 
     public void unnick(Player p) {
-        IPlayer bsgPlayer = Core.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
+        IPlayer bsgPlayer = Core.i().getPlayerManager().getPlayer(p.getUniqueId());
 
 
         bsgPlayer.setNick(null);
         p.kickPlayer(ChatColor.GREEN + "Please rejoin");
-        Core.getInstance().getStatisticsManager().save(bsgPlayer);
+        Core.i().getStatisticsManager().save(bsgPlayer);
 
     }
 
@@ -109,7 +109,7 @@ public class Nickname {
     }
 
     public void setPlayerNameTag(Player player, String name, Boolean unnicking) {
-        Nick nick = Core.getInstance().getPlayerManager().getPlayer(player.getUniqueId()).getNick();
+        Nick nick = Core.i().getPlayerManager().getPlayer(player.getUniqueId()).getNick();
 
         try {
             Method getHandle = player.getClass().getMethod("getHandle");
@@ -212,7 +212,7 @@ public class Nickname {
     public String[] prepareSkinTextures(Player p, String arg) {
         OfflinePlayer op = Bukkit.getServer().getOfflinePlayer(arg);
         if (op.getUniqueId().toString().equalsIgnoreCase(p.getUniqueId().toString())) {
-            IPlayer bsgPlayer = Core.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
+            IPlayer bsgPlayer = Core.i().getPlayerManager().getPlayer(p.getUniqueId());
             String skin[] = new String[]{bsgPlayer.getNick().getSkinValue(), bsgPlayer.getNick().getSkinSignature()};
             return skin;
         }
@@ -236,7 +236,7 @@ public class Nickname {
     }
 
     public boolean setPlayerSkin(Player p, String arg) {
-        Nick nick = Core.getInstance().getPlayerManager().getPlayer(p.getUniqueId()).getNick();
+        Nick nick = Core.i().getPlayerManager().getPlayer(p.getUniqueId()).getNick();
         OfflinePlayer op = Bukkit.getServer().getOfflinePlayer(arg);
         if (!op.getName().equalsIgnoreCase(arg)) {
             return false;
@@ -274,7 +274,7 @@ public class Nickname {
     }
 
     public boolean setSkinForSelf(Player p) {
-        Nick nick = Core.getInstance().getPlayerManager().getPlayer(p.getUniqueId()).getNick();
+        Nick nick = Core.i().getPlayerManager().getPlayer(p.getUniqueId()).getNick();
 
         CraftPlayer cp = (CraftPlayer) p;
         GameProfile gameProfile = cp.getHandle().getProfile();

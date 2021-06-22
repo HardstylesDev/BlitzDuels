@@ -19,7 +19,7 @@ public class Unban implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (sender instanceof Player) {
-            if (!(Core.getInstance().getRankManager().getRank((Player) sender) instanceof Admin) && !(Core.getInstance().getRankManager().getRank((Player) sender) instanceof Moderator))
+            if (!(Core.i().getRankManager().getRank((Player) sender) instanceof Admin) && !(Core.i().getRankManager().getRank((Player) sender) instanceof Moderator))
                 return true;
         }
         OfflinePlayer player = Bukkit.getOfflinePlayer(args[0]);
@@ -28,19 +28,16 @@ public class Unban implements CommandExecutor {
             return true;
         }
 
-        Bukkit.getScheduler().runTaskAsynchronously(Core.getInstance(), new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Connection connection = Core.getInstance().getData().getConnection();
-                    String command = String.format("DELETE FROM bans WHERE uuid = ?");
-                    PreparedStatement preparedStatement = connection.prepareStatement(command);
-                    preparedStatement.setString(1, player.getUniqueId().toString());
-                    preparedStatement.execute();
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+        Bukkit.getScheduler().runTaskAsynchronously(Core.i(), () -> {
+            try {
+                Connection connection = Core.i().getData().getConnection();
+                String command = "DELETE FROM bans WHERE uuid = ?";
+                PreparedStatement preparedStatement = connection.prepareStatement(command);
+                preparedStatement.setString(1, player.getUniqueId().toString());
+                preparedStatement.execute();
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         });
         sender.sendMessage(ChatColor.RED + "" + player.getName() + " was unbanned.");

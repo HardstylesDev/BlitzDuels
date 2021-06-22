@@ -21,11 +21,10 @@ import java.util.Map;
 import java.util.UUID;
 
 @Getter
-
 public class Match {
     Arena arena;
     private boolean isInProgress;
-    private String pre = ChatColor.GREEN + "Match " + ChatColor.WHITE + "> ";
+    private static final String pre = ChatColor.GREEN + "Match " + ChatColor.WHITE + "> ";
     private MatchStage matchStage;
     final HashSet<UUID> players = new HashSet<>();
     final private Core core;
@@ -33,11 +32,11 @@ public class Match {
     final private HashSet<Location> chests = new HashSet<>();
     final private HashSet<UUID> dead = new HashSet<>();
     final private HashMap<UUID, UUID> attacks = new HashMap<>();
-    private HashSet<UUID> winners = new HashSet<>();
-    private HashMap<UUID, HashSet<Entity>> entities = new HashMap<>();
-    private HashMap<UUID, Player> playerReference = new HashMap<>();
-    private HashMap<UUID, Double> damageDone = new HashMap<>();
-    private HashSet<Location> blocksPlaced = new HashSet<>();
+    private final HashSet<UUID> winners = new HashSet<>();
+    private final HashMap<UUID, HashSet<Entity>> entities = new HashMap<>();
+    private final HashMap<UUID, Player> playerReference = new HashMap<>();
+    private final HashMap<UUID, Double> damageDone = new HashMap<>();
+    private final HashSet<Location> blocksPlaced = new HashSet<>();
     private long timeStarted, timeEnded;
 
     public Match(Core core, Arena arena) {
@@ -268,7 +267,7 @@ public class Match {
         IPlayer winner = core.getPlayerManager().getPlayer(wU);
         for (Player player : playerReference.values()) {
 
-            if(!player.isOnline() || player == null){
+            if(player == null || !player.isOnline()){
                 continue;
             }
             for (Location location : blocksPlaced) {

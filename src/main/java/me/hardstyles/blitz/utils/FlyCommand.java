@@ -9,8 +9,8 @@ import org.bukkit.entity.Player;
 
 public class FlyCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
-        if ((Core.getInstance().getRankManager().getRank((Player) sender) instanceof Default)) {
-            Core.send((Player) sender, "&cThis command requires " + Core.getInstance().getRankManager().getRankByName("vip").getRankFormatted() + " &cor higher!");
+        if ((Core.i().getRankManager().getRank((Player) sender) instanceof Default)) {
+            Core.send((Player) sender, "&cThis command requires " + Core.i().getRankManager().getRankByName("vip").getRankFormatted() + " &cor higher!");
             return true;
         }
         Player p = (Player) sender;

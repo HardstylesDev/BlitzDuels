@@ -32,7 +32,7 @@ public class FireworkCommand implements CommandExecutor {
         }
 
 
-        IPlayer iPlayer = Core.getInstance().getPlayerManager().getPlayer(p.getUniqueId());
+        IPlayer iPlayer = Core.i().getPlayerManager().getPlayer(p.getUniqueId());
 
         cooldown.put(p.getUniqueId(), System.currentTimeMillis());
         this.launchFirework(p.getEyeLocation());

@@ -73,7 +73,7 @@ public class LeaderboardUpdater {
         HashMap<JsonObject, Integer> objects = new HashMap<>();
 
         try {
-            Connection conn = Core.getInstance().getData().getConnection();
+            Connection conn = Core.i().getData().getConnection();
             String sql = "select * from data;";
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -95,7 +95,7 @@ public class LeaderboardUpdater {
         HashMap<JsonObject, Integer> objects = new HashMap<>();
 
         try {
-            Connection conn = Core.getInstance().getData().getConnection();
+            Connection conn = Core.i().getData().getConnection();
             String sql = "select * from data;";
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -115,7 +115,7 @@ public class LeaderboardUpdater {
     private HashMap<JsonObject, Integer> getStreakData() {
         HashMap<JsonObject, Integer> objects = new HashMap<>();
         try {
-            Connection conn = Core.getInstance().getData().getConnection();
+            Connection conn = Core.i().getData().getConnection();
             String sql = "select * from data;";
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();

@@ -21,7 +21,7 @@ public class StatisticsManager {
     }
 
     public void save() {
-        for (IPlayer bsgPlayer : Core.getInstance().getPlayerManager().getPlayers().values()) {
+        for (IPlayer bsgPlayer : Core.i().getPlayerManager().getPlayers().values()) {
             save(bsgPlayer);
         }
     }

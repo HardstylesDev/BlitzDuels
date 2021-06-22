@@ -1,6 +1,5 @@
 package me.hardstyles.blitz.arena;
 
-import com.google.common.base.Charsets;
 import me.hardstyles.blitz.Core;
 import me.hardstyles.blitz.arena.arenaloader.BlockToPlace;
 import net.minecraft.server.v1_8_R3.NBTCompressedStreamTools;
@@ -26,7 +25,7 @@ public class TestCommand implements CommandExecutor {
 
     public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
         Player p = (Player) sender;
-        for (Arena arena : Core.getInstance().getArenaManager().getArenas()) {
+        for (Arena arena : Core.i().getArenaManager().getArenas()) {
             p.sendMessage("found: " + arena.getSpawns().get(0));
         }
        //ArrayList<Location> z = pasteSchematic(new File(args[0]), p.getLocation());
@@ -104,7 +103,7 @@ public class TestCommand implements CommandExecutor {
                     block.block.setData(block.blockdata);
                     Bukkit.broadcastMessage("placed" + block.material);
                 }
-            }.runTaskLater(Core.getInstance(), delay);
+            }.runTaskLater(Core.i(), delay);
         }
     }
 }

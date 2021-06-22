@@ -1,39 +1,31 @@
 package me.hardstyles.blitz.staff;
 
+import com.google.common.collect.ImmutableList;
 import me.hardstyles.blitz.Core;
 import me.hardstyles.blitz.player.IPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.List;
 
-public class StaffChatCommand implements CommandExecutor {
 
-    final private Core core;
+public class StaffChatCommand extends me.hardstyles.blitz.utils.Command {
 
-    public StaffChatCommand(Core core) {
-        this.core = core;
+    public StaffChatCommand() {
+        super("staffchat", ImmutableList.of("sc"), 6);
     }
 
+    @Override
+    public List<String> onTabComplete(Player player, String[] args) {
+        return null;
+    }
 
-    public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
-        if (!(sender instanceof Player)) return false;
-        Player p = (Player) sender;
-        IPlayer iPlayer = core.getPlayerManager().getPlayer(((Player) sender).getUniqueId());
-        if (iPlayer == null) {
-            return true;
-        }
-        if (iPlayer.getRank().getPosition() <= 5) {
-            p.sendMessage(ChatColor.RED + "You can't do this");
-            return true;
-        }
-
+    @Override
+    public void onExecute(Player p, IPlayer iPlayer, String[] args) {
         if (args.length == 0) {
             p.sendMessage(ChatColor.RED + "Usage: /sc <message>");
-            return true;
+            return;
         }
 
         StringBuilder builder = new StringBuilder(args[0]);
@@ -43,17 +35,13 @@ public class StaffChatCommand implements CommandExecutor {
         String message = builder.toString();
 
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-            IPlayer onlineIPlayer = core.getPlayerManager().getPlayer(onlinePlayer.getUniqueId());
+            IPlayer onlineIPlayer = Core.i().getPlayerManager().getPlayer(onlinePlayer.getUniqueId());
             if (onlineIPlayer.getRank().getPosition() <= 5) {
                 continue;
             }
 
             onlinePlayer.sendMessage(ChatColor.AQUA + "[STAFF] " + iPlayer.getRank().getChatColor() + p.getDisplayName() + ChatColor.WHITE + ": " + message);
         }
-
-
-        return true;
     }
-
 }
 

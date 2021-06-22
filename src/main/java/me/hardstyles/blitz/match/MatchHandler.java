@@ -31,7 +31,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.potion.PotionType;
 
 public class MatchHandler implements Listener {
 
@@ -134,7 +133,7 @@ public class MatchHandler implements Listener {
     @EventHandler
     public void onSplash(PotionSplashEvent e) {
         ThrownPotion potion = e.getPotion();
-        if (potion.getEffects().contains(PotionType.INSTANT_DAMAGE)) {
+        if (potion.getEffects().stream().anyMatch(effect -> effect.getType() == PotionEffectType.HARM)) {
             Projectile projectile = e.getEntity();
             if (projectile.getShooter() instanceof Player) {
                 Player shooter = (Player) projectile.getShooter();
@@ -305,12 +304,18 @@ public class MatchHandler implements Listener {
     }
 
     @EventHandler
-    public void dropSpectator(PlayerDropItemEvent e) {
+    public void drop(PlayerDropItemEvent e) {
         IPlayer iPlayer = core.getPlayerManager().getPlayer(e.getPlayer().getUniqueId());
         if (iPlayer.hasMatch()) {
             if (iPlayer.getMatch().getDead().contains(iPlayer.getUuid()) || iPlayer.getMatch().getMatchStage() == MatchStage.ENDED || iPlayer.getMatch().getMatchStage() == MatchStage.GRACE) {
                 e.setCancelled(true);
             }
+        }
+
+        //fixes people being able to use all of their kits LOL
+        String name = e.getItemDrop().getItemStack().hasItemMeta() ? e.getItemDrop().getItemStack().getItemMeta().getDisplayName() : null;
+        if (name != null && name.startsWith("§rCustom Kit #")) {
+            e.setCancelled(true);
         }
     }
 

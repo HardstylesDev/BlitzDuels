@@ -98,7 +98,7 @@ public class IPlayer {
 
 
 
-        Core.getInstance().getPlayerManager().addPlayer(this.uuid, this);
+        Core.i().getPlayerManager().addPlayer(this.uuid, this);
     }
 
 
@@ -228,7 +228,7 @@ public class IPlayer {
 
     public void setRank(Rank rank) {
         if (rank == null)
-            this.rank = Core.getInstance().getRankManager().getRankByName("Default");
+            this.rank = Core.i().getRankManager().getRankByName("Default");
         else
             this.rank = rank;
     }

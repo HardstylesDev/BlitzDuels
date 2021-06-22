@@ -27,9 +27,9 @@ import me.hardstyles.blitz.queue.QueueManager;
 import me.hardstyles.blitz.rank.RankCommand;
 import me.hardstyles.blitz.rank.RankManager;
 import me.hardstyles.blitz.scoreboard.ScoreboardManager;
+import me.hardstyles.blitz.staff.StaffChatCommand;
 import me.hardstyles.blitz.staff.StaffManager;
 import me.hardstyles.blitz.staff.report.ReportCommand;
-import me.hardstyles.blitz.staff.StaffChatCommand;
 import me.hardstyles.blitz.statistics.StatisticsManager;
 import me.hardstyles.blitz.utils.*;
 import me.hardstyles.blitz.utils.database.Database;
@@ -40,6 +40,7 @@ import me.hardstyles.blitz.utils.world.VoidGenerator;
 import me.hardstyles.blitz.utils.world.WorldCommand;
 import net.minecraft.server.v1_8_R3.EnumChatFormat;
 import org.bukkit.*;
+import org.bukkit.command.CommandMap;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import redis.clients.jedis.JedisPool;
@@ -52,7 +53,7 @@ public class Core extends JavaPlugin {
 
     private JedisPool pool;
 
-    public static Core instance;
+    private static Core instance;
     private KarhuAnticheat karhuAnticheat;
     private NametagManager nametagManager;
     private ChestFiller chestFiller;
@@ -62,7 +63,7 @@ public class Core extends JavaPlugin {
     private LeaderboardLoaderStreak leaderboardLoaderStreak;
     private LeaderboardUpdater leaderboardUpdater;
 
-    private IPlayerManager iPlayerManager;
+    private IPlayerManager playerManager;
     private ScoreboardManager scoreboardManager;
     private RankManager rankManager;
     private TabUtil tabUtil;
@@ -74,19 +75,20 @@ public class Core extends JavaPlugin {
     private QueueGui queueGui;
     private LayoutGui layoutGui;
     private SlotGui slotGui;
-    private IItemManager IItemManager;
+    private IItemManager itemHandler;
 
-    StaffManager staffManager = new StaffManager();
+    private StaffManager staffManager;
     private Location lobbySpawn;
     private ArenaManager arenaManager;
 
-    private Database database;
+    private Database data;
 
     public Core() {
         instance = this;
     }
 
     public void onEnable() {
+        instance = this;
         new WorldCreator("arena").generator(new VoidGenerator()).createWorld();
 
         try {
@@ -95,19 +97,15 @@ public class Core extends JavaPlugin {
             exception.printStackTrace();
         }
 
-
-
-
         karhuAnticheat = new KarhuAnticheat(this);
-        System.out.println("d");
         chestFiller = new ChestFiller(this);
-        database = new Database();
-        iPlayerManager = new IPlayerManager(this);
+        data = new Database();
+        playerManager = new IPlayerManager(this);
         statisticsManager = new StatisticsManager(this);
         rankManager = new RankManager();
         queueManager = new QueueManager(this);
         matchManager = new MatchManager(this);
-        IItemManager = new IItemManager(this);
+        itemHandler = new IItemManager(this);
         queueGui = new QueueGui(this);
         layoutGui = new LayoutGui(this);
         scoreboardManager = new ScoreboardManager(this);
@@ -124,6 +122,7 @@ public class Core extends JavaPlugin {
         tabUtil = new TabUtil(this);
         itemSerializer = new ItemSerializer(this);
         slotGui = new SlotGui(this);
+        staffManager = new StaffManager();
 
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
@@ -144,8 +143,9 @@ public class Core extends JavaPlugin {
         this.getCommand("rename").setExecutor(new RenameCommand(this));
         this.getCommand("spectate").setExecutor(new SpectatorCommand(this));
         this.getCommand("duel").setExecutor(new DuelCommand(this));
-        this.getCommand("staffchat").setExecutor(new StaffChatCommand(this));
-        this.getCommand("report").setExecutor(new ReportCommand(this));
+
+        new StaffChatCommand();
+        new ReportCommand();
 
         //Register Handlers:
         getServer().getPluginManager().registerEvents(new MatchHandler(this), this);
@@ -174,8 +174,8 @@ public class Core extends JavaPlugin {
         if (!Bukkit.getOnlinePlayers().isEmpty()) {
             Bukkit.getOnlinePlayers().forEach(player -> {
                 statisticsManager.load(player.getUniqueId());
-                iPlayerManager.addPlayer(player.getUniqueId(), getPlayerManager().getPlayer(player.getUniqueId()));
-                iPlayerManager.hub(player);
+                playerManager.addPlayer(player.getUniqueId(), getPlayerManager().getPlayer(player.getUniqueId()));
+                playerManager.hub(player);
             });
         }
 
@@ -189,62 +189,12 @@ public class Core extends JavaPlugin {
     }
 
     public void onDisable() {
-
-    }
-
-    public KarhuAnticheat getKarhuAnticheat() {
-        return karhuAnticheat;
-    }
-
-    public Database getData() {
-        return database;
-    }
-
-
-    public IPlayerManager getPlayerManager() {
-        return iPlayerManager;
-    }
-
-
-    public ScoreboardManager getScoreboardManager() {
-        return scoreboardManager;
-    }
-
-
-    public PunishmentManager getPunishmentManager() {
-        return punishmentManager;
-    }
-
-    public ChestFiller getChestFiller() {
-        return chestFiller;
-    }
-
-    public StatisticsManager getStatisticsManager() {
-        return statisticsManager;
-    }
-
-    public JedisPool getJedisPool() {
-        return pool;
-    }
-
-    public RankManager getRankManager() {
-        return rankManager;
-    }
-
-    public NametagManager getNametagManager() {
-        return nametagManager;
-    }
-
-    public static Core getInstance() {
-        return instance;
-    }
-
-    public QueueManager getQueueManager() {
-        return this.queueManager;
-    }
-
-    public ArenaManager getArenaManager() {
-        return this.arenaManager;
+        try {
+            CommandMap map = (CommandMap) ReflectionUtil.getField(Bukkit.getServer().getClass(), "commandMap").get(Bukkit.getServer());
+            ReflectionUtil.unregisterCommands(map, Command.getRegisteredCommands());
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void broadcast(String message, World world) {
@@ -262,51 +212,7 @@ public class Core extends JavaPlugin {
         p.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
     }
 
-    public Location getLobbySpawn() {
-        return lobbySpawn;
-    }
-
-    public QueueGui getQueueGui() {
-        return queueGui;
-    }
-
-    public LayoutGui getKitGui() {
-        return layoutGui;
-    }
-
-    public MatchManager getMatchManager() {
-        return matchManager;
-    }
-
-    public LeaderboardUpdater getLeaderboardUpdater() {
-        return leaderboardUpdater;
-    }
-
-    public LeaderboardLoaderWins getLeaderboardLoaderWins() {
-        return leaderboardLoaderWins;
-    }
-
-    public LeaderboardLoaderKills getLeaderboardLoaderKills() {
-        return leaderboardLoaderKills;
-    }
-
-    public IItemManager getItemHandler() {
-        return IItemManager;
-    }
-
-    public TabUtil getTabUtil() {
-        return tabUtil;
-    }
-
-    public ItemSerializer getItemSerializer() {
-        return itemSerializer;
-    }
-
-    public SlotGui getSlotGui() {
-        return slotGui;
-    }
-
-    public LeaderboardLoaderStreak getLeaderboardLoaderStreak() {
-        return leaderboardLoaderStreak;
+    public static Core i() {
+        return instance;
     }
 }

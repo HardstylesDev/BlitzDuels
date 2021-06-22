@@ -1,7 +1,6 @@
 package me.hardstyles.blitz.utils;
 
 import me.hardstyles.blitz.Core;
-import me.hardstyles.blitz.match.Match;
 import me.hardstyles.blitz.player.IPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -9,8 +8,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.UUID;
 
 
 public class DuelCommand implements CommandExecutor {
@@ -28,6 +25,7 @@ public class DuelCommand implements CommandExecutor {
         IPlayer player = core.getPlayerManager().getPlayer(p.getUniqueId());
         if(player == null){
             p.kickPlayer(ChatColor.AQUA + "Oopsie Daisy");
+            return true;
         }
         if (player.getMatch() != null) {
            p.sendMessage(ChatColor.RED +"Can't use this command while in a match");

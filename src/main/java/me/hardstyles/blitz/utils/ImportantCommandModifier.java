@@ -26,7 +26,7 @@ public class ImportantCommandModifier implements Listener {
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
             onlinePlayer.kickPlayer("Restarting, we'll be right back!");
         }
-        Bukkit.getScheduler().runTaskLater(Core.getInstance(), () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "stop"), 10L);
+        Bukkit.getScheduler().runTaskLater(Core.i(), () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "stop"), 10L);
 
 
     }

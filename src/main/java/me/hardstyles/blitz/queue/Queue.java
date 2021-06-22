@@ -5,8 +5,8 @@ import org.bukkit.OfflinePlayer;
 import java.util.ArrayList;
 
 public class Queue {
-    private QueueType queueType;
-    private ArrayList<OfflinePlayer> players;
+    private final QueueType queueType;
+    private final ArrayList<OfflinePlayer> players;
     public Queue(QueueType queueType){
         this.queueType = queueType;
         this.players = new ArrayList<>();
