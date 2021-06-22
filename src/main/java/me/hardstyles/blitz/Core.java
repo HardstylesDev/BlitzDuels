@@ -1,5 +1,6 @@
 package me.hardstyles.blitz;
 
+import lombok.Getter;
 import me.hardstyles.blitz.arena.ArenaManager;
 import me.hardstyles.blitz.arena.TestCommand;
 import me.hardstyles.blitz.kits.IItemManager;
@@ -26,6 +27,9 @@ import me.hardstyles.blitz.queue.QueueManager;
 import me.hardstyles.blitz.rank.RankCommand;
 import me.hardstyles.blitz.rank.RankManager;
 import me.hardstyles.blitz.scoreboard.ScoreboardManager;
+import me.hardstyles.blitz.staff.StaffManager;
+import me.hardstyles.blitz.staff.report.ReportCommand;
+import me.hardstyles.blitz.staff.StaffChatCommand;
 import me.hardstyles.blitz.statistics.StatisticsManager;
 import me.hardstyles.blitz.utils.*;
 import me.hardstyles.blitz.utils.database.Database;
@@ -41,7 +45,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import redis.clients.jedis.JedisPool;
 
 import java.io.File;
-
+@Getter
 public class Core extends JavaPlugin {
 
     public static String CORE_NAME = EnumChatFormat.GRAY + "[" + EnumChatFormat.RED + "B-SG" + EnumChatFormat.GRAY + "]: " + EnumChatFormat.WHITE;
@@ -72,6 +76,7 @@ public class Core extends JavaPlugin {
     private SlotGui slotGui;
     private IItemManager IItemManager;
 
+    StaffManager staffManager = new StaffManager();
     private Location lobbySpawn;
     private ArenaManager arenaManager;
 
@@ -89,6 +94,8 @@ public class Core extends JavaPlugin {
         } catch (Exception exception) {
             exception.printStackTrace();
         }
+
+
 
 
         karhuAnticheat = new KarhuAnticheat(this);
@@ -137,6 +144,8 @@ public class Core extends JavaPlugin {
         this.getCommand("rename").setExecutor(new RenameCommand(this));
         this.getCommand("spectate").setExecutor(new SpectatorCommand(this));
         this.getCommand("duel").setExecutor(new DuelCommand(this));
+        this.getCommand("staffchat").setExecutor(new StaffChatCommand(this));
+        this.getCommand("report").setExecutor(new ReportCommand(this));
 
         //Register Handlers:
         getServer().getPluginManager().registerEvents(new MatchHandler(this), this);

@@ -22,7 +22,7 @@ final private Core core;
 		bsgPlayers = new HashMap<UUID, IPlayer>();
 	}
 
-	public HashMap<UUID, IPlayer> getBsgPlayers() {
+	public HashMap<UUID, IPlayer> getPlayers() {
 		return bsgPlayers;
 	}
 
@@ -47,19 +47,6 @@ final private Core core;
 
 		core.getNametagManager().update();
 
-
-		//ArrayList<NametagEdit> nametagEdits = BlitzSG.getInstance().getRankManager().getNametags();
-		//for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-//
-		//	for (NametagEdit nametagEdit : nametagEdits) {
-		//		if (nametagEdit.getRequiredRank() == bsgPlayer.getRank())
-		//			nametagEdit.addPlayer(onlinePlayer);
-		//	}
-//
-		//}
-		//for (NametagEdit nametagEdit : nametagEdits) {
-		//	nametagEdit.updateAll();
-		//}
 	}
 
 	public void hub(Player p){

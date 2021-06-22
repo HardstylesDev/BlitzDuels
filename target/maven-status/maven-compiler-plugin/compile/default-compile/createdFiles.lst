@@ -28,6 +28,7 @@ me\hardstyles\blitz\utils\HubCommand.class
 me\hardstyles\blitz\utils\EnchantListener.class
 me\hardstyles\blitz\arena\TestCommand$1.class
 me\hardstyles\blitz\rank\ranks\Champion.class
+me\hardstyles\blitz\staff\Follow.class
 me\hardstyles\blitz\rank\Rank.class
 me\hardstyles\blitz\match\Match$1.class
 me\hardstyles\blitz\rank\ranks\Admin.class
@@ -36,6 +37,7 @@ me\hardstyles\blitz\arena\arenaloader\BlockToPlace.class
 me\hardstyles\blitz\utils\world\VoidGenerator.class
 me\hardstyles\blitz\punishments\BannedPlayer.class
 me\hardstyles\blitz\leaderboard\LeaderboardLoaderKills.class
+me\hardstyles\blitz\staff\ReportCommand.class
 me\hardstyles\blitz\leaderboard\LeaderboardUpdater.class
 me\hardstyles\blitz\utils\database\Database.class
 me\hardstyles\blitz\match\mobs\MatchMobHandler.class
@@ -75,8 +77,10 @@ me\hardstyles\blitz\utils\database\ItemSerializer.class
 me\hardstyles\blitz\nickname\Nickname.class
 me\hardstyles\blitz\leaderboard\LeaderboardLoaderWins.class
 me\hardstyles\blitz\queue\QueueGui.class
+me\hardstyles\blitz\staff\StaffChatCommand.class
 me\hardstyles\blitz\rank\RankCommand.class
 me\hardstyles\blitz\rank\ranks\Helper.class
 me\hardstyles\blitz\utils\FlyCommand.class
 me\hardstyles\blitz\rank\RankManager.class
 me\hardstyles\blitz\match\MatchStage.class
+me\hardstyles\blitz\staff\StaffCommand.class

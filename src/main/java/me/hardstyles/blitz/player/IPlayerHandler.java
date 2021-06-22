@@ -45,7 +45,7 @@ public class IPlayerHandler implements Listener {
 
         //});
 
-        System.out.println("Loaded players: " + core.getPlayerManager().getBsgPlayers().size());
+        System.out.println("Loaded players: " + core.getPlayerManager().getPlayers().size());
     }
 
     @EventHandler

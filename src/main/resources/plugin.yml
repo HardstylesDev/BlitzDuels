@@ -54,3 +54,8 @@ commands:
     aliases:
       - dual
       - 1v1
+  staffchat:
+    aliases:
+      - sc
+  report:
+    description: aaa
