@@ -135,6 +135,8 @@ public class Core extends JavaPlugin {
         this.getCommand("queue").setExecutor(new QueueCommand(this));
         this.getCommand("world").setExecutor(new WorldCommand(this));
         this.getCommand("rename").setExecutor(new RenameCommand(this));
+        this.getCommand("spectate").setExecutor(new SpectatorCommand(this));
+        this.getCommand("duel").setExecutor(new DuelCommand(this));
 
         //Register Handlers:
         getServer().getPluginManager().registerEvents(new MatchHandler(this), this);
@@ -156,6 +158,10 @@ public class Core extends JavaPlugin {
                 content.delete();
             }
         }
+
+        lobbySpawn = new Location(Bukkit.getWorld("world"), 0.5, 80, 0.5, 180, 0);
+
+
         if (!Bukkit.getOnlinePlayers().isEmpty()) {
             Bukkit.getOnlinePlayers().forEach(player -> {
                 statisticsManager.load(player.getUniqueId());
@@ -168,7 +174,6 @@ public class Core extends JavaPlugin {
         scoreboardManager.runTaskTimer(this, 20, 20);
 
 
-        lobbySpawn = new Location(Bukkit.getWorld("world"), 0.5, 80, 0.5, 180, 0);
         nametagManager.update();
 
 

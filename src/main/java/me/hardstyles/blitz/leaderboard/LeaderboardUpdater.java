@@ -52,7 +52,7 @@ public class LeaderboardUpdater {
             HashMap<JsonObject, Integer> sorted = getSorted(getStreakData());
             int limiter = 0;
             for (JsonObject jsonObject : sorted.keySet()) {
-                String s = ChatColor.YELLOW + "" + ChatColor.BOLD + (limiter + 1) + ChatColor.YELLOW + ". " + core.getRankManager().getRankByName(jsonObject.get("rank").getAsString()).getChatColor() + jsonObject.get("name").getAsString() + ChatColor.GRAY + " - " + ChatColor.YELLOW + "" + ChatColor.BOLD + jsonObject.get("wins").getAsInt();
+                String s = ChatColor.YELLOW + "" + ChatColor.BOLD + (limiter + 1) + ChatColor.YELLOW + ". " + core.getRankManager().getRankByName(jsonObject.get("rank").getAsString()).getChatColor() + jsonObject.get("name").getAsString() + ChatColor.GRAY + " - " + ChatColor.YELLOW + "" + ChatColor.BOLD + jsonObject.get("streak").getAsInt();
                 core.getLeaderboardLoaderStreak().getArmorstands().get(9 - limiter).setCustomName(s);
                 limiter++;
                 if (limiter == 10) return;

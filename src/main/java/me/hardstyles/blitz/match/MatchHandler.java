@@ -46,7 +46,7 @@ public class MatchHandler implements Listener {
     public void onDisconnect(PlayerQuitEvent e) {
         Player p = e.getPlayer();
         IPlayer player = core.getPlayerManager().getPlayer(e.getPlayer().getUniqueId());
-        if (player.getMatch() == null) {
+        if (player == null || player.getMatch() == null) {
             return;
         }
 

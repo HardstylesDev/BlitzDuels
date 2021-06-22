@@ -46,4 +46,11 @@ commands:
       - exit
       - quit
       - leave
-
+  spectator:
+    aliases:
+      - spec
+      - spectate
+  duel:
+    aliases:
+      - dual
+      - 1v1

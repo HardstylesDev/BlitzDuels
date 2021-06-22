@@ -47,21 +47,21 @@ public class IItemManager {
         helmets.add(new IItem(1, new ItemBuilder(Material.LEATHER_HELMET).name("&rLeather Helmet").amount(1).make(), 6));
         helmets.add(new IItem(2, new ItemBuilder(Material.GOLD_HELMET).name("&rGold Helmet").amount(1).make(), 10));
         helmets.add(new IItem(3, new ItemBuilder(Material.CHAINMAIL_HELMET).name("&rChain Helmet").amount(1).make(), 10));
-        helmets.add(new IItem(4, new ItemBuilder(Material.IRON_HELMET).name("&rPaladin's Iron Helmet (X)").enchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1).amount(1).make(), 13));
-        helmets.add(new IItem(5, new ItemBuilder(Material.GOLD_HELMET).name("&rPigman's Gold Helmet (X)").enchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 2).amount(1).make(), 17));
-        helmets.add(new IItem(6, new ItemBuilder(Material.IRON_HELMET).name("&rViking's Iron Helmet (X)").enchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 3).amount(1).make(), 19));
+        helmets.add(new IItem(4, new ItemBuilder(Material.IRON_HELMET).name("&rPaladin's Iron Helmet (X)").enchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1).amount(1).make(), 14));
+        helmets.add(new IItem(5, new ItemBuilder(Material.GOLD_HELMET).name("&rPigman's Gold Helmet (X)").enchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 2).amount(1).make(), 20));
+        helmets.add(new IItem(6, new ItemBuilder(Material.IRON_HELMET).name("&rViking's Iron Helmet (X)").enchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 3).amount(1).make(), 24));
 
-        helmets.add(new IItem(7, new ItemBuilder(Material.DIAMOND_HELMET).name("&rArcher's Diamond Helmet (X)").enchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 2).amount(1).make(), 20));
-        helmets.add(new IItem(8, new ItemBuilder(Material.DIAMOND_HELMET).name("&rMeatmaster's Diamond Helmet (X)").enchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4).amount(1).make(), 25));
+        helmets.add(new IItem(7, new ItemBuilder(Material.DIAMOND_HELMET).name("&rArcher's Diamond Helmet (X)").enchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 2).amount(1).make(), 27));
+        helmets.add(new IItem(8, new ItemBuilder(Material.DIAMOND_HELMET).name("&rMeatmaster's Diamond Helmet (X)").enchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4).amount(1).make(), 32));
 
 
         chestplates.add(new IItem(0, new ItemStack(Material.BARRIER), 0));
         chestplates.add(new IItem(1, new ItemBuilder(Material.LEATHER_CHESTPLATE).name("&rLeather Chestplate").amount(1).make(), 10));
         chestplates.add(new IItem(2, new ItemBuilder(Material.GOLD_CHESTPLATE).name("&rGolden Chestplate").amount(1).make(), 14));
         chestplates.add(new IItem(3, new ItemBuilder(Material.CHAINMAIL_CHESTPLATE).name("&rChain Chestplate").amount(1).make(), 14));
-        chestplates.add(new IItem(4, new ItemBuilder(Material.LEATHER_CHESTPLATE).name("&rLeather Chestplate").color(Color.GREEN).enchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4).amount(1).make(), 18));
-        chestplates.add(new IItem(5, new ItemBuilder(Material.IRON_CHESTPLATE).name("&rIron Chestplate").amount(1).make(), 19));
-        chestplates.add(new IItem(6, new ItemBuilder(Material.DIAMOND_CHESTPLATE).name("&rCreepertamer's Diamond Chestplate").enchantment(Enchantment.PROTECTION_EXPLOSIONS, 10).amount(1).make(), 25));
+        chestplates.add(new IItem(4, new ItemBuilder(Material.LEATHER_CHESTPLATE).name("&rLeather Chestplate").color(Color.GREEN).enchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4).amount(1).make(), 21));
+        chestplates.add(new IItem(5, new ItemBuilder(Material.IRON_CHESTPLATE).name("&rIron Chestplate").amount(1).make(), 25));
+        chestplates.add(new IItem(6, new ItemBuilder(Material.DIAMOND_CHESTPLATE).name("&rCreepertamer's Diamond Chestplate").enchantment(Enchantment.PROTECTION_EXPLOSIONS, 10).amount(1).make(), 31));
 
 
         leggings.add(new IItem(0, new ItemStack(Material.BARRIER), 0));
@@ -69,18 +69,18 @@ public class IItemManager {
         leggings.add(new IItem(2, new ItemBuilder(Material.GOLD_LEGGINGS).name("&rGold Leggings").amount(1).make(), 11));
         leggings.add(new IItem(3, new ItemBuilder(Material.CHAINMAIL_LEGGINGS).name("&rChain Leggings").amount(1).make(), 14));
         leggings.add(new IItem(4, new ItemBuilder(Material.LEATHER_LEGGINGS).name("&rLeather Leggings").color(Color.BLUE).enchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4).amount(1).make(), 18));
-        leggings.add(new IItem(5, new ItemBuilder(Material.IRON_LEGGINGS).name("&rFarmer's Iron Leggings (X)").amount(1).make(), 19));
-        leggings.add(new IItem(6, new ItemBuilder(Material.DIAMOND_LEGGINGS).name("&rTim's Diamond Leggings (X)").amount(1).make(), 23));
+        leggings.add(new IItem(5, new ItemBuilder(Material.IRON_LEGGINGS).name("&rFarmer's Iron Leggings (X)").amount(1).make(), 25));
+        leggings.add(new IItem(6, new ItemBuilder(Material.DIAMOND_LEGGINGS).name("&rTim's Diamond Leggings (X)").amount(1).make(), 29));
 
 
         boots.add(new IItem(0, new ItemStack(Material.BARRIER), 0));
-        boots.add(new IItem(1, new ItemBuilder(Material.GOLD_BOOTS).name("&rGold Boots").amount(1).make(), 5));
-        boots.add(new IItem(2, new ItemBuilder(Material.CHAINMAIL_BOOTS).name("&rChain Boots").amount(1).make(), 5));
-        boots.add(new IItem(3, new ItemBuilder(Material.IRON_BOOTS).name("&rIron Boots").amount(1).make(), 9));
-        boots.add(new IItem(4, new ItemBuilder(Material.IRON_BOOTS).name("&rMeatmaster's Iron Boots (X)").amount(1).enchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1).make(), 12));
-        boots.add(new IItem(5, new ItemBuilder(Material.DIAMOND_BOOTS).name("&rRanger's Diamond Boots (X)").amount(1).make(), 14));
-        boots.add(new IItem(6, new ItemBuilder(Material.DIAMOND_BOOTS).name("&rHorsetamer's Diamond Boots (X)").amount(1).enchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 2).make(), 20));
-        boots.add(new IItem(7, new ItemBuilder(Material.DIAMOND_BOOTS).name("&rWolftamer's Diamond Boots (X)").amount(1).enchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4).make(), 25));
+        boots.add(new IItem(1, new ItemBuilder(Material.GOLD_BOOTS).name("&rGold Boots").amount(1).make(), 7));
+        boots.add(new IItem(2, new ItemBuilder(Material.CHAINMAIL_BOOTS).name("&rChain Boots").amount(1).make(), 7));
+        boots.add(new IItem(3, new ItemBuilder(Material.IRON_BOOTS).name("&rIron Boots").amount(1).make(), 12));
+        boots.add(new IItem(4, new ItemBuilder(Material.IRON_BOOTS).name("&rMeatmaster's Iron Boots (X)").amount(1).enchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1).make(), 14));
+        boots.add(new IItem(5, new ItemBuilder(Material.DIAMOND_BOOTS).name("&rRanger's Diamond Boots (X)").amount(1).make(), 21));
+        boots.add(new IItem(6, new ItemBuilder(Material.DIAMOND_BOOTS).name("&rHorsetamer's Diamond Boots (X)").amount(1).enchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 2).make(), 26));
+        boots.add(new IItem(7, new ItemBuilder(Material.DIAMOND_BOOTS).name("&rWolftamer's Diamond Boots (X)").amount(1).enchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4).make(), 30));
 
         weapons.add(new IItem(0, new ItemStack(Material.BARRIER), 0));
         weapons.add(new IItem(1, new ItemBuilder(Material.WOOD_SWORD).name("&rWood Sword").amount(1).make(), 5));

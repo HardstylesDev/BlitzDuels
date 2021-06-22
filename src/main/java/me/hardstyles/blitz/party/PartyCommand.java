@@ -105,7 +105,7 @@ public class PartyCommand implements CommandExecutor {
             OfflinePlayer memberPlayer;
             for (UUID member : sgPlayer.getParty().getMembers()) {
                 memberPlayer = Bukkit.getOfflinePlayer(member);
-                if (memberPlayer.getUniqueId() != sgPlayer.getParty().getOwner()) {
+                if (memberPlayer.getUniqueId() != sgPlayer.getParty().getOwner() && memberPlayer.isOnline()) {
                     p.sendMessage(ChatColor.YELLOW + "Member - " + memberPlayer.getPlayer().getName() + " " + (memberPlayer.isOnline() ? ChatColor.GREEN + "●" : ChatColor.RED + "●"));
                 }
             }

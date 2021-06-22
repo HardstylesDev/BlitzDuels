@@ -6,6 +6,7 @@ import me.hardstyles.blitz.arena.Arena;
 import me.hardstyles.blitz.player.IPlayer;
 import me.hardstyles.blitz.utils.ItemBuilder;
 import org.bukkit.*;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -83,7 +84,7 @@ public class Match {
             p.teleport(arena.getSpawns().get(pos));
             p.closeInventory();
             for (Entity nearbyEntity : arena.getSpawns().get(pos).getWorld().getNearbyEntities(arena.getSpawns().get(pos), 250, 100, 250)) {
-                if (!(nearbyEntity instanceof Player)) {
+                if (!(nearbyEntity instanceof Player) && !(nearbyEntity instanceof ArmorStand)) {
                     nearbyEntity.remove();
                 }
             }
@@ -267,6 +268,9 @@ public class Match {
         IPlayer winner = core.getPlayerManager().getPlayer(wU);
         for (Player player : playerReference.values()) {
 
+            if(!player.isOnline() || player == null){
+                continue;
+            }
             for (Location location : blocksPlaced) {
                 location.getBlock().setType(Material.AIR);
             }

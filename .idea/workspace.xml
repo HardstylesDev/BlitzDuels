@@ -14,28 +14,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7a886556-406b-424f-8316-6290f7bbf82d" name="Default Changelist" comment="Bababoeey">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/leaderboard/LeaderboardLoaderStreak.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/leaderboard/LeaderboardLoaderWins.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/utils/DuelCommand.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/utils/SpectatorCommand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/Core.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/Core.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/arena/ArenaManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/arena/ArenaManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/kits/KitManager.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/kits/gui/LayoutGui.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/kits/gui/LayoutGui.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/kits/gui/SlotGui.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/kits/gui/SlotGui.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/leaderboard/LeaderboardLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/leaderboard/LeaderboardLoaderKills.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/kits/IItemManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/kits/IItemManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/leaderboard/LeaderboardUpdater.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/leaderboard/LeaderboardUpdater.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/match/Match.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/match/Match.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/match/MatchHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/match/MatchHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/nickname/Nickname.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/nickname/Nickname.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/party/PartyCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/party/PartyCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/player/IPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/player/IPlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/player/IPlayerHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/player/IPlayerHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/player/IPlayerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/player/IPlayerManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/queue/QueueGui.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/queue/QueueGui.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/utils/database/ItemSerializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/hardstyles/blitz/utils/database/ItemSerializer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/plugin.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/plugin.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,27 +85,14 @@
       <recent name="me.hardstyles" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="me.hardstyles.blitz.leaderboard" />
       <recent name="me.hardstyles.blitz.utils" />
+      <recent name="me.hardstyles.blitz.leaderboard" />
       <recent name="me.hardstyles.blitz.kits" />
       <recent name="me.hardstyles.blitz.match.mobs" />
       <recent name="me.hardstyles.blitz.match" />
     </key>
   </component>
   <component name="RunManager" selected="Maven.fagServer [package]">
-    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="BlitzDuels [package]" type="MavenRunConfiguration" factoryName="Maven">
       <MavenSettings>
         <option name="myGeneralSettings" />
@@ -315,7 +292,8 @@
       <workItem from="1623955728585" duration="3516000" />
       <workItem from="1623959513188" duration="15000" />
       <workItem from="1624048360022" duration="2226000" />
-      <workItem from="1624294824988" duration="8762000" />
+      <workItem from="1624294824988" duration="9041000" />
+      <workItem from="1624375428987" duration="7367000" />
     </task>
     <task id="LOCAL-00001" summary="fff">
       <created>1597086521686</created>
@@ -632,7 +610,14 @@
       <option name="project" value="LOCAL" />
       <updated>1623959486646</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="Bababoeey">
+      <created>1624305966949</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1624305966949</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

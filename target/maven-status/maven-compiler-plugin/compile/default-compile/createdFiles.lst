@@ -3,6 +3,7 @@ me\hardstyles\blitz\rank\ranks\Moderator.class
 me\hardstyles\blitz\rank\ranks\MvpPlus.class
 me\hardstyles\blitz\party\PartyCommand.class
 me\hardstyles\blitz\utils\ImportantCommandModifier.class
+me\hardstyles\blitz\utils\DuelCommand.class
 me\hardstyles\blitz\utils\FireworkCommand.class
 me\hardstyles\blitz\kits\IItem.class
 me\hardstyles\blitz\scoreboard\ScoreboardHelper.class
@@ -13,6 +14,7 @@ me\hardstyles\blitz\scoreboard\ScoreboardHandler.class
 me\hardstyles\blitz\punishments\commands\Unban.class
 me\hardstyles\blitz\punishments\PunishmentManager.class
 me\hardstyles\blitz\rank\ranks\Mvp.class
+me\hardstyles\blitz\utils\SpectatorCommand.class
 me\hardstyles\blitz\player\IPlayerHandler.class
 me\hardstyles\blitz\arena\Arena.class
 me\hardstyles\blitz\rank\ranks\VipPlus.class
@@ -27,6 +29,7 @@ me\hardstyles\blitz\utils\EnchantListener.class
 me\hardstyles\blitz\arena\TestCommand$1.class
 me\hardstyles\blitz\rank\ranks\Champion.class
 me\hardstyles\blitz\rank\Rank.class
+me\hardstyles\blitz\match\Match$1.class
 me\hardstyles\blitz\rank\ranks\Admin.class
 me\hardstyles\blitz\Core.class
 me\hardstyles\blitz\arena\arenaloader\BlockToPlace.class
@@ -62,7 +65,6 @@ me\hardstyles\blitz\queue\QueueCommand.class
 me\hardstyles\blitz\queue\QueueManager.class
 me\hardstyles\blitz\utils\nametag\NametagManager.class
 me\hardstyles\blitz\leaderboard\LeaderboardLoaderStreak.class
-me\hardstyles\blitz\kits\KitManager.class
 me\hardstyles\blitz\utils\PrepareItemEnchant.class
 me\hardstyles\blitz\punishments\ACBan.class
 me\hardstyles\blitz\utils\KarhuAnticheat.class
