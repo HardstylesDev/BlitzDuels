@@ -1,33 +1,26 @@
 package me.hardstyles.blitz.staff;
 
-import me.hardstyles.blitz.Core;
-import me.hardstyles.blitz.match.Match;
+import com.google.common.collect.ImmutableList;
 import me.hardstyles.blitz.player.IPlayer;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.List;
 
-public class StaffCommand implements CommandExecutor {
 
-    final private Core core;
+public class StaffCommand extends me.hardstyles.blitz.utils.Command {
 
-    public StaffCommand(Core core) {
-        this.core = core;
+    public StaffCommand() {
+        super("staff", ImmutableList.of(), 6);
     }
 
-
-    public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
-        if (!(sender instanceof Player)) return false;
-        IPlayer iPlayer = core.getPlayerManager().getPlayer(((Player) sender).getUniqueId());
-        if(iPlayer == null){
-            return true;
-        }
-
-
-        return true;
+    @Override
+    public List<String> onTabComplete(Player player, String[] args) {
+        return null;
     }
 
+    @Override
+    public void onExecute(Player p, IPlayer iPlayer, String[] args) {
+
+    }
 }
 

@@ -7,6 +7,5 @@ import java.util.HashSet;
 
 @Getter
 public class StaffManager {
-    private HashSet<ReportEntry> reports = new HashSet<>();
-
+    private final HashSet<ReportEntry> reports = new HashSet<>();
 }

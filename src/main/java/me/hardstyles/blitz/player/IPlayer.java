@@ -11,58 +11,33 @@ import me.hardstyles.blitz.match.Match;
 import me.hardstyles.blitz.party.Party;
 import me.hardstyles.blitz.rank.Rank;
 import me.hardstyles.blitz.nickname.Nick;
+import org.bukkit.entity.Player;
 
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.UUID;
 
 @Getter
 @Setter
 public class IPlayer {
 
-    private int gameTaunt;
-    private UUID uuid;
-    private String customTag;
+    private final HashMap<Integer, JsonArray> layouts = new HashMap<>();
+    private final JsonObject jsonObject = new JsonObject();
+    private final UUID uuid;
+    private UUID following;
+    private int gameTaunt, elo, wins, kills, deaths, streak, coins;
+    private String customTag, ip, name;
     private Nick nick;
     private Rank rank;
-    private int elo;
-    private int wins;
-    private int kills;
-    private int deaths;
-    private HashMap<Integer, JsonArray> layouts;
     private JsonArray editingLayout;
-    private int streak;
     private boolean hideOthers;
-    private int coins;
     private Match match;
-    private JsonObject jsonObject;
-    private String ip;
     private Party party;
 
 
-    private String name;
-
     public IPlayer(UUID uuid) {
-        this.jsonObject = new JsonObject();
-        this.party = null;
-        this.hideOthers = false;
-        this.nick = null;
         this.uuid = uuid;
-        this.elo = 0;
-        this.wins = 0;
-        this.kills = 0;
-        this.customTag = null;
-        this.deaths = 0;
-        this.coins = 0;
-        this.match = null;
-        this.rank = null;
-        this.layouts = new HashMap<>();
-
-
-
-
-
-
         Core.i().getPlayerManager().addPlayer(this.uuid, this);
     }
 
@@ -118,14 +93,8 @@ public class IPlayer {
     }
 
     public boolean hasMatch(){
-        if(this.match == null){
-            return false;
-        }
-        return true;
+        return this.match != null;
     }
-
-
-
 
 }
 

@@ -102,6 +102,14 @@ public class Match {
             if (pos == arena.getSpawns().size()) {
                 pos = 0;
             }
+
+            for (IPlayer ip : Core.i().getPlayerManager().getPlayers().values()) {
+                if (ip.getFollowing() != null && ip.getFollowing().equals(p.getUniqueId())) {
+                    Player follower = Bukkit.getPlayer(ip.getUuid());
+                    follower.sendMessage("§eFollowing " + iPlayer.getRank().getPrefix() + p.getName() + " §einto their match..");
+                    follower.performCommand("spectate " + p.getName() + " -s");
+                }
+            }
         }
 
         startCooldown();
@@ -114,8 +122,6 @@ public class Match {
 
             @Override
             public void run() {
-                timer--;
-
                 if (timer == 0 || matchStage != MatchStage.GRACE) {
                     send(pre + ChatColor.YELLOW + "Started! Good luck!");
                     matchStage = MatchStage.STARTED;
@@ -145,6 +151,7 @@ public class Match {
                     send(pre + ChatColor.YELLOW + "Starting in " + cc + timer + ChatColor.YELLOW + " second!");
                     sound(Sound.NOTE_STICKS, 1, 1);
                 }
+                timer--;
             }
         }.runTaskTimerAsynchronously(core, 0L, 20L);
     }
