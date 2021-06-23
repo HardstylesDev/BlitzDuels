@@ -109,6 +109,9 @@ public class IPlayer {
         this.elo += elo;
     }
 
+    public void addWin(){wins ++ ;}
+    public void addKill(){kills ++ ;}
+    public void addDeath(){deaths ++ ;}
     public void removeElo(int elo) {
         if (this.elo - elo <= 0) {
             this.elo = 0;

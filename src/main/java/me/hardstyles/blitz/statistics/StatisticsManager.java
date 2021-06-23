@@ -53,8 +53,8 @@ public class StatisticsManager {
         jsonObject.addProperty("streak", iPlayer.getStreak());
 
 
-       if(iPlayer.doesHideOthers())
-            jsonObject.addProperty("hide_others",iPlayer.doesHideOthers());
+       if(iPlayer.isHideOthers())
+            jsonObject.addProperty("hide_others",iPlayer.isHideOthers());
 
         if (iPlayer.getCustomTag() != null)
             jsonObject.addProperty("custom_tag", iPlayer.getCustomTag());

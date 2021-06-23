@@ -139,7 +139,7 @@ public class IPlayerHandler implements Listener {
                 }
             }
 
-            NametagAPI.setNametag(p.getName(), uhcPlayer.getRank().getPrefix(), "");
+         //   NametagAPI.setNametag(p.getName(), uhcPlayer.getRank().getPrefix(), "");
 
 
 
