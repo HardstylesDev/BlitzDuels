@@ -1,6 +1,7 @@
 package me.hardstyles.blitz;
 
 import lombok.Getter;
+import me.elijuh.nametagapi.NametagAPI;
 import me.hardstyles.blitz.arena.ArenaManager;
 import me.hardstyles.blitz.arena.TestCommand;
 import me.hardstyles.blitz.kits.IItemManager;
@@ -89,6 +90,7 @@ public class Core extends JavaPlugin {
 
     public void onEnable() {
         instance = this;
+        new NametagAPI(this);
         new WorldCreator("arena").generator(new VoidGenerator()).createWorld();
 
         try {
