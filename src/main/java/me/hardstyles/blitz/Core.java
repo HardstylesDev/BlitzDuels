@@ -90,7 +90,7 @@ public class Core extends JavaPlugin {
 
     public void onEnable() {
         instance = this;
-        new NametagAPI(this);
+        NametagAPI nametagAPI = new NametagAPI(this);
         new WorldCreator("arena").generator(new VoidGenerator()).createWorld();
 
         try {

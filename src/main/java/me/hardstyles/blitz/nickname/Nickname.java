@@ -32,19 +32,8 @@ public class Nickname {
     public void setNick(Player p, String s, boolean onJoin) {
         if (!onJoin) {
             String skin[] = prepareSkinTextures(p, s);
-            System.out.println(skin.length + " >>> " + skin[0]);
-
-            GameProfile gameProfile = ((CraftPlayer) p).getProfile();
-            CraftPlayer craftOfflinePlayer = (CraftPlayer) Bukkit.getOfflinePlayer(p.getUniqueId());
-
-            MinecraftServer server = MinecraftServer.getServer();
-            WorldServer world = server.getWorldServer(0);
-            PlayerInteractManager manager = new PlayerInteractManager(world);
-            EntityPlayer player = new EntityPlayer(server, world, gameProfile, manager);
-
-            EntityPlayer offlineplayer = new EntityPlayer(server, world, craftOfflinePlayer.getProfile(), manager);
-            PacketPlayOutPlayerInfo packet = new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, player);
-            p.kickPlayer(ChatColor.GREEN + "Nickname changed, please rejoin!");
+          //  System.out.println(skin.length + " >>> " + skin[0]);
+          p.kickPlayer(ChatColor.GREEN + "Nickname changed, please rejoin!");
 
             IPlayer bsgPlayer = Core.i().getPlayerManager().getPlayer(p.getUniqueId());
             if(bsgPlayer.getNick() == null){
