@@ -95,7 +95,6 @@ final private Core core;
 	public void handleKillElo(Player victim, Player killer) {
 		IPlayer victimUhc = this.getPlayer(victim.getUniqueId());
 		IPlayer killerUhc = this.getPlayer(killer.getUniqueId());
-		
 		double eloChange = 0;
 		if(killerUhc.getElo() > 0)
 			eloChange = Math.sqrt(victimUhc.getElo()/killerUhc.getElo()) + 1;

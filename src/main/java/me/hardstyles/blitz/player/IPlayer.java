@@ -22,23 +22,14 @@ public class IPlayer {
 
     private int gameTaunt;
     private UUID uuid;
-
     private String customTag;
-
     private Nick nick;
-
     private Rank rank;
     private int elo;
     private int wins;
     private int kills;
     private int deaths;
-
-
-
     private HashMap<Integer, JsonArray> layouts;
-
-
-
     private JsonArray editingLayout;
     private int streak;
     private boolean hideOthers;
@@ -53,7 +44,6 @@ public class IPlayer {
 
     public IPlayer(UUID uuid) {
         this.jsonObject = new JsonObject();
-
         this.party = null;
         this.hideOthers = false;
         this.nick = null;

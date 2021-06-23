@@ -27,6 +27,7 @@ public class ReportCommand extends Command {
 
     @Override
     public void onExecute(Player p, IPlayer iPlayer, String[] args) {
+
         if (args.length < 2) {
 
             p.sendMessage(ChatColor.RED + "Usage: /report <player> <reason>");
@@ -61,7 +62,7 @@ public class ReportCommand extends Command {
             }
         }
 
-        Core.i().getStaffManager().getReports().add(new ReportEntry(System.currentTimeMillis(),message, false, target.getUniqueId(), p.getUniqueId()));
+        Core.i().getStaffManager().getReports().add(new ReportEntry(System.currentTimeMillis(), message, false, target.getUniqueId(), p.getUniqueId()));
         cooldown.put(p.getUniqueId(), System.currentTimeMillis());
     }
 }

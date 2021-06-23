@@ -4,6 +4,8 @@ import lombok.Getter;
 import me.elijuh.nametagapi.NametagAPI;
 import me.hardstyles.blitz.arena.ArenaManager;
 import me.hardstyles.blitz.arena.TestCommand;
+import me.hardstyles.blitz.duels.DuelCommand;
+import me.hardstyles.blitz.duels.DuelManager;
 import me.hardstyles.blitz.kits.IItemManager;
 import me.hardstyles.blitz.kits.gui.LayoutGui;
 import me.hardstyles.blitz.kits.gui.SlotGui;
@@ -65,6 +67,7 @@ public class Core extends JavaPlugin {
     private LeaderboardLoaderStreak leaderboardLoaderStreak;
     private LeaderboardUpdater leaderboardUpdater;
 
+    private DuelManager duelManager;
     private IPlayerManager playerManager;
     private ScoreboardManager scoreboardManager;
     private RankManager rankManager;
@@ -121,6 +124,8 @@ public class Core extends JavaPlugin {
         leaderboardLoaderWins = new LeaderboardLoaderWins(this);
         leaderboardLoaderKills = new LeaderboardLoaderKills(this);
         leaderboardLoaderStreak = new LeaderboardLoaderStreak(this);
+
+        duelManager = new DuelManager(this);
 
         tabUtil = new TabUtil(this);
         itemSerializer = new ItemSerializer(this);
