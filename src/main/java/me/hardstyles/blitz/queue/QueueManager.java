@@ -27,12 +27,24 @@ public class QueueManager {
 
     public void add(QueueType queueType, Player player) {
         IPlayer p = core.getPlayerManager().getPlayer(player.getUniqueId());
-
+        if(core.disableQueues){
+            player.sendMessage("Queues are disabled right now, please wait");
+            return;
+        }
         if(p == null){
             player.sendMessage("ur gay");
             return;
         }
+        if(p.getParty() != null){
 
+            if(p.getParty().getOwner().equals(p.getUuid())){
+                player.chat("/p match");
+            }
+            else{
+                player.sendMessage(ChatColor.RED + "Can't queue while in a party!");
+            }
+            return;
+        }
         if (p.getMatch() != null) {
             player.sendMessage(ChatColor.RED + "You're already in the " + queueType.name() + " queue.");
             return;

@@ -313,8 +313,7 @@ public class MatchHandler implements Listener {
         }
 
         //fixes people being able to use all of their kits LOL
-        String name = e.getItemDrop().getItemStack().hasItemMeta() ? e.getItemDrop().getItemStack().getItemMeta().getDisplayName() : null;
-        if (name != null && name.startsWith("§rCustom Kit #")) {
+        if (e.getItemDrop().getItemStack().getType() == Material.BOOK) {
             e.setCancelled(true);
         }
     }

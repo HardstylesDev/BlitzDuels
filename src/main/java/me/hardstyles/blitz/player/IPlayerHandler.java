@@ -79,7 +79,7 @@ public class IPlayerHandler implements Listener {
     @EventHandler
 
     public void onJoin(PlayerJoinEvent e) {
-
+        e.setJoinMessage("");
         core.getServer().getScheduler().runTaskLater(core, () -> {
 
             Player p = e.getPlayer();
@@ -138,8 +138,8 @@ public class IPlayerHandler implements Listener {
                     }
                 }
             }
+            NametagAPI.setNametag(p.getName(), uhcPlayer.getRank().getPrefix(), "", uhcPlayer.getRank().getPosition());
 
-         //   NametagAPI.setNametag(p.getName(), uhcPlayer.getRank().getPrefix(), "");
 
 
 

@@ -31,7 +31,7 @@ public class ScoreboardManager extends BukkitRunnable {
         for (Player p : Bukkit.getServer().getOnlinePlayers()) {
             ScoreboardHelper board = this.scoreboardHandler.getScoreboard(p);
             IPlayer bsgPlayer = Core.i().getPlayerManager().getPlayer(p.getUniqueId());
-            if(bsgPlayer == null){
+            if(bsgPlayer == null || board == null){
                 p.kickPlayer("relog plz plz");
             }
             board.clear();

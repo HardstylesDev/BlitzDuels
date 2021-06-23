@@ -23,6 +23,10 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.spigotmc.event.entity.EntityMountEvent;
 
+import java.util.HashSet;
+import java.util.Map;
+import java.util.UUID;
+
 public class MatchMobHandler implements Listener {
     final private Core core;
 
@@ -59,31 +63,72 @@ public class MatchMobHandler implements Listener {
 
     @EventHandler
     public void onEntityDamageByEntityEvent(EntityDamageByEntityEvent e) {
-        if (!(e.getEntity() instanceof Player))
-            return;
+        if ((e.getEntity() instanceof Player)) {
+            Player p = (Player) e.getEntity();
+            IPlayer bsgPlayer = core.getPlayerManager().getPlayer(p.getUniqueId());
+            if (!bsgPlayer.hasMatch()) {
+                return;
+            }
 
-        Player p = (Player) e.getEntity();
-        IPlayer bsgPlayer = core.getPlayerManager().getPlayer(p.getUniqueId());
-        if (!bsgPlayer.hasMatch())
-            return;
+            Match match = bsgPlayer.getMatch();
+            if (match.getDead().contains(e.getDamager().getUniqueId())) {
+                e.setCancelled(true);
+                return;
+            }
+            if (e.getDamager() instanceof Player && !match.getAlivePlayers().contains(e.getDamager().getUniqueId())) {
+                e.setCancelled(true);
+                return;
+            }
+            if (!match.getAlivePlayers().contains(e.getEntity().getUniqueId())) {
+                e.setCancelled(true);
+                return;
+            }
 
 
-        if (bsgPlayer.getMatch().getMatchStage() == MatchStage.STARTED) {
-            if (bsgPlayer.getMatch().getEntities().containsKey(p.getUniqueId())) {
-                if (bsgPlayer.getMatch().getEntities().get(p.getUniqueId()).contains(e.getDamager()) || (e.getDamager() instanceof Snowball && bsgPlayer.getMatch().getEntities().get(p.getUniqueId()).contains(((Snowball) e.getDamager()).getShooter())) || (e.getDamager() instanceof Arrow && bsgPlayer.getMatch().getEntities().get(p.getUniqueId()).contains(((Arrow) e.getDamager()).getShooter()))) {
+            if (e.getDamager() instanceof Projectile) {
+                Entity shooter = (Entity) ((Projectile) e.getDamager()).getShooter();
+                Player owner = null;
+                for (Map.Entry<UUID, HashSet<Entity>> entry : match.getEntities().entrySet()) {
+                    if (entry.getValue().contains(shooter)) {
+                        owner = match.getPlayerReference().get(entry.getKey());
+                        break;
+                    }
+                }
+                if (owner == e.getEntity()) {
                     e.setCancelled(true);
+                    return;
+                }
+
+            }
+
+            if (match.getMatchStage() == MatchStage.STARTED) {
+                if (match.getEntities().containsKey(p.getUniqueId())) {
+                    if (match.getEntities().get(p.getUniqueId()).contains(e.getDamager()) || (e.getDamager() instanceof Snowball && match.getEntities().get(p.getUniqueId()).contains(((Snowball) e.getDamager()).getShooter())) || (e.getDamager() instanceof Arrow && bsgPlayer.getMatch().getEntities().get(p.getUniqueId()).contains(((Arrow) e.getDamager()).getShooter()))) {
+                        e.setCancelled(true);
+                    }
+                }
+
+                if (!(e.getDamager() instanceof Player)) {
+                    if (e.getDamager() instanceof Arrow)
+                        if (((Arrow) e.getDamager()).getShooter() instanceof Player) {
+                            e.setDamage(e.getDamage() / 2);
+                            return;
+                        }
+                    e.setDamage(e.getDamage() / 10);
                 }
             }
+        } else if (e.getDamager() instanceof Player) {
+            IPlayer damager = core.getPlayerManager().getPlayer(e.getDamager().getUniqueId());
+            if (damager == null) return;
+            Match match = damager.getMatch();
+            if (match == null) return;
+            if (match.getDead().contains(damager.getUuid())) {
+                e.setCancelled(true);
 
-            if (!(e.getDamager() instanceof Player)) {
-                if (e.getDamager() instanceof Arrow)
-                    if (((Arrow) e.getDamager()).getShooter() instanceof Player) {
-                        e.setDamage(e.getDamage() / 2);
-                        return;
-                    }
-                e.setDamage(e.getDamage() / 10);
             }
         }
+
+
     }
 
 
@@ -143,7 +188,7 @@ public class MatchMobHandler implements Listener {
                 for (Entity entityList : entity.getNearbyEntities(15, 15, 15))
                     if (entityList instanceof Player) {
                         Player potentialTarget = (Player) entityList;
-                        if (!match.getDead().contains(potentialTarget) && potentialTarget != e.getPlayer())
+                        if (!match.getDead().contains(potentialTarget.getUniqueId()) && potentialTarget != e.getPlayer())
                             if (entity instanceof Monster)
                                 ((Monster) entity).setTarget(potentialTarget);
                             else if (entity instanceof Wolf)
@@ -184,23 +229,48 @@ public class MatchMobHandler implements Listener {
     @EventHandler
     public void onTarget(EntityTargetEvent e) {
         if (e.getTarget() instanceof Player) {
+            e.setCancelled(true);
+
             Player target = (Player) e.getTarget();
             IPlayer iPlayer = core.getPlayerManager().getPlayer(target.getUniqueId());
             if (!iPlayer.hasMatch())
                 return;
+
+
             Match match = iPlayer.getMatch();
-            if(match.getEntities().isEmpty() || !match.getEntities().containsKey(e.getEntity().getUniqueId())){
+            Player owner = null;
+            for (Map.Entry<UUID, HashSet<Entity>> entry : match.getEntities().entrySet()) {
+                if (entry.getValue().contains(e.getEntity())) {
+                    owner = match.getPlayerReference().get(entry.getKey());
+                    break;
+                }
+            }
+            if (owner == null) return;
+
+            if (!iPlayer.getMatch().getAlivePlayers().contains(iPlayer.getUuid())) {
+                targetNearby(match, owner, (Creature) e.getEntity());
                 return;
             }
-            if (match.getEntities().containsKey(iPlayer.getUuid()) && match.getEntities().get(e.getEntity().getUniqueId()).contains(e.getEntity())) {
-                e.setCancelled(true);
-                for (Entity entity : e.getEntity().getNearbyEntities(15, 15, 15))
-                    if (entity instanceof Player) {
-                        Player potentialTarget = (Player) entity;
-                        if (!match.getDead().contains(potentialTarget) && potentialTarget != target)
-                            e.setTarget(potentialTarget);
 
-                    }
+            if (match.getEntities().isEmpty() || !match.getEntities().containsKey(target.getUniqueId())) {
+                return;
+            }
+
+            if (match.getEntities().containsKey(iPlayer.getUuid()) && match.getEntities().get(target.getUniqueId()).contains(e.getEntity())) {
+                targetNearby(match, owner, (Creature) e.getEntity());
+            }
+        }
+
+    }
+
+    private void targetNearby(Match match, Player owner, Creature e) {
+        for (Entity entity : e.getLocation().getWorld().getNearbyEntities(e.getLocation(), 15, 15, 15)) {
+            if (entity instanceof Player) {
+                Player potentialTarget = (Player) entity;
+                if (match.getAlivePlayers().contains(potentialTarget.getUniqueId()) && potentialTarget != owner) {
+                    e.setTarget(potentialTarget);
+                    break;
+                }
             }
         }
     }
@@ -214,7 +284,7 @@ public class MatchMobHandler implements Listener {
         if (!iPlayer.hasMatch())
             return;
         Match match = iPlayer.getMatch();
-        if (match.getEntities().containsKey(iPlayer.getUuid()) && match.getEntities().get(e.getEntity().getUniqueId()).contains(e.getEntity()))
+        if (match.getEntities().containsKey(iPlayer.getUuid()) && match.getEntities().get(e.getEntity().getUniqueId()).contains(e.getMount()))
             return;
         Location loc = e.getEntity().getLocation();
         loc.setPitch(e.getEntity().getLocation().getPitch());

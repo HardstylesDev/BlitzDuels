@@ -55,6 +55,7 @@ public class Core extends JavaPlugin {
     private JedisPool pool;
 
     private static Core instance;
+    public boolean disableQueues = false;
     private KarhuAnticheat karhuAnticheat;
     private NametagManager nametagManager;
     private ChestFiller chestFiller;
@@ -90,7 +91,7 @@ public class Core extends JavaPlugin {
 
     public void onEnable() {
         instance = this;
-    //    NametagAPI nametagAPI = new NametagAPI(this);
+         new NametagAPI(this);
         new WorldCreator("arena").generator(new VoidGenerator()).createWorld();
 
         try {

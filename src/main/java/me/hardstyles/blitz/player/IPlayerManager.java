@@ -7,6 +7,7 @@ import java.util.UUID;
 import me.hardstyles.blitz.Core;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -63,6 +64,7 @@ final private Core core;
 		p.updateInventory();
 		p.getInventory().setArmorContents(null);
 		p.getActivePotionEffects().forEach(potionEffect -> p.removePotionEffect(potionEffect.getType()));
+		((CraftPlayer) p).getHandle().getDataWatcher().watch(9, (byte) 0);
 
 		hubIntentory(p);
 		p.teleport(core.getLobbySpawn());

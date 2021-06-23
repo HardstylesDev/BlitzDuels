@@ -102,6 +102,7 @@
             <groupId>me.elijuh</groupId>
             <artifactId>NametagAPI</artifactId>
             <version>1.0</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>
