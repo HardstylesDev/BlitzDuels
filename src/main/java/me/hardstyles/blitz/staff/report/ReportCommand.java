@@ -2,6 +2,7 @@ package me.hardstyles.blitz.staff.report;
 
 import me.hardstyles.blitz.Core;
 import me.hardstyles.blitz.player.IPlayer;
+import me.hardstyles.blitz.utils.Command;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 
-public class ReportCommand extends me.hardstyles.blitz.utils.Command {
+public class ReportCommand extends Command {
 
     private final HashMap<UUID, Long> cooldown = new HashMap<>();
 
@@ -27,6 +28,7 @@ public class ReportCommand extends me.hardstyles.blitz.utils.Command {
     @Override
     public void onExecute(Player p, IPlayer iPlayer, String[] args) {
         if (args.length < 2) {
+
             p.sendMessage(ChatColor.RED + "Usage: /report <player> <reason>");
             return;
         }
@@ -59,7 +61,7 @@ public class ReportCommand extends me.hardstyles.blitz.utils.Command {
             }
         }
 
-        Core.i().getStaffManager().getReports().add(new ReportEntry(message, false, target.getUniqueId(), p.getUniqueId()));
+        Core.i().getStaffManager().getReports().add(new ReportEntry(System.currentTimeMillis(),message, false, target.getUniqueId(), p.getUniqueId()));
         cooldown.put(p.getUniqueId(), System.currentTimeMillis());
     }
 }

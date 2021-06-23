@@ -1,8 +1,10 @@
 package me.hardstyles.blitz.staff;
 
 import com.google.common.collect.ImmutableList;
+import lombok.RequiredArgsConstructor;
 import me.hardstyles.blitz.Core;
 import me.hardstyles.blitz.player.IPlayer;
+import me.hardstyles.blitz.utils.Command;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -10,7 +12,8 @@ import org.bukkit.entity.Player;
 import java.util.List;
 
 
-public class StaffChatCommand extends me.hardstyles.blitz.utils.Command {
+public class StaffChatCommand extends Command {
+
 
     public StaffChatCommand() {
         super("staffchat", ImmutableList.of("sc"), 6);

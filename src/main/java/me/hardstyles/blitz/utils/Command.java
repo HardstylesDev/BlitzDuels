@@ -20,6 +20,7 @@ public abstract class Command extends org.bukkit.command.Command {
     private static final List<String> registeredCommands = new ArrayList<>();
     private final int position;
     private final String name;
+    public final Core core = Core.i();
     private final List<String> aliases;
 
     public Command(String name) {

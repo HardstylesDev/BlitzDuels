@@ -7,6 +7,7 @@ import java.util.UUID;
 @Getter
 @AllArgsConstructor
 public class ReportEntry {
+    private long time;
     private String reason;
     private boolean handled;
     private UUID target;
