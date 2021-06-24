@@ -30,7 +30,8 @@ public class FollowCommand extends Command {
                 return;
             }
 
-            if (iPlayer.getFollowing().equals(target.getUniqueId())) {
+
+            if (iPlayer.getFollowing() != null && iPlayer.getFollowing().equals(target.getUniqueId())) {
                 p.sendMessage("You are no longer following " + targetIp.getRank().getPrefix() + target.getName());
                 iPlayer.setFollowing(null);
             } else {

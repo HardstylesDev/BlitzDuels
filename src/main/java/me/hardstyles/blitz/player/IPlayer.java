@@ -23,7 +23,7 @@ import java.util.UUID;
 public class IPlayer {
 
     private final HashMap<Integer, JsonArray> layouts = new HashMap<>();
-    private final JsonObject jsonObject = new JsonObject();
+    private JsonObject jsonObject = new JsonObject();
     private final UUID uuid;
     private UUID following;
     private int gameTaunt, elo, wins, kills, deaths, streak, coins;
@@ -63,6 +63,9 @@ public class IPlayer {
         return (nick.isNicked());
     }
 
+    public void setJsonObject(JsonObject jsonObject){
+        this.jsonObject = jsonObject;
+    }
 
     // public String getNickName() {
     //     if (this.nick != null)

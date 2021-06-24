@@ -31,6 +31,7 @@ import me.hardstyles.blitz.queue.QueueManager;
 import me.hardstyles.blitz.rank.RankCommand;
 import me.hardstyles.blitz.rank.RankManager;
 import me.hardstyles.blitz.scoreboard.ScoreboardManager;
+import me.hardstyles.blitz.staff.FollowCommand;
 import me.hardstyles.blitz.staff.StaffChatCommand;
 import me.hardstyles.blitz.staff.StaffManager;
 import me.hardstyles.blitz.staff.report.ReportCommand;
@@ -155,6 +156,7 @@ public class Core extends JavaPlugin {
         new QueueCommand();
         new StaffChatCommand();
         new ReportCommand();
+        new FollowCommand();
 
         //Register Handlers:
         getServer().getPluginManager().registerEvents(new MatchHandler(this), this);
