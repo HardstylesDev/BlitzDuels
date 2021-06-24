@@ -32,8 +32,6 @@ commands:
     description: yes
   nick:
     description: lol
-  queue:
-    description: x
   world:
     description: horsemeat
   rename:

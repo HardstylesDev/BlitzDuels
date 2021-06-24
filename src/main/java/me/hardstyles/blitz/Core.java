@@ -1,6 +1,7 @@
 package me.hardstyles.blitz;
 
 import lombok.Getter;
+import lombok.Setter;
 import me.elijuh.nametagapi.NametagAPI;
 import me.hardstyles.blitz.arena.ArenaManager;
 import me.hardstyles.blitz.arena.TestCommand;
@@ -57,7 +58,7 @@ public class Core extends JavaPlugin {
     private JedisPool pool;
 
     private static Core instance;
-    public boolean disableQueues = false;
+    @Setter private boolean disableQueues;
     private KarhuAnticheat karhuAnticheat;
     private NametagManager nametagManager;
     private ChestFiller chestFiller;
@@ -146,12 +147,12 @@ public class Core extends JavaPlugin {
         this.getCommand("party").setExecutor(new PartyCommand(this));
         this.getCommand("rank").setExecutor(new RankCommand(this));
         this.getCommand("nick").setExecutor(new NicknameCommand(this));
-        this.getCommand("queue").setExecutor(new QueueCommand(this));
         this.getCommand("world").setExecutor(new WorldCommand(this));
         this.getCommand("rename").setExecutor(new RenameCommand(this));
         this.getCommand("spectate").setExecutor(new SpectatorCommand(this));
         this.getCommand("duel").setExecutor(new DuelCommand(this));
 
+        new QueueCommand();
         new StaffChatCommand();
         new ReportCommand();
 

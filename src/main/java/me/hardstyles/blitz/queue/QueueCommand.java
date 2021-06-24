@@ -2,52 +2,56 @@ package me.hardstyles.blitz.queue;
 
 import me.hardstyles.blitz.Core;
 import me.hardstyles.blitz.player.IPlayer;
+import me.hardstyles.blitz.utils.Command;
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.UUID;
+import java.util.List;
 
-public class QueueCommand implements CommandExecutor {
+public class QueueCommand extends Command {
 
-    public static HashMap<UUID, Long> cooldown = new HashMap<>();
-    final private Core core;
+    final private Core core = Core.i();
 
-    public QueueCommand(Core core) {
-        this.core = core;
+    public QueueCommand() {
+        super("queue");
     }
 
-    public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
-        Player p = (Player) sender;
-        if (args.length == 0) {
-            return true;
-        }
-        if (args[0].equalsIgnoreCase("list")) {
-            for (QueueType value : QueueType.values()) {
-                p.sendMessage(ChatColor.YELLOW + value.name() + " - " + core.getQueueManager().getQueues().get(value).size());
+    @Override
+    public List<String> onTabComplete(Player player, String[] args) {
+        return null;
+    }
+
+    @Override
+    public void onExecute(Player p, IPlayer iPlayer, String[] args) {
+        if (args.length > 0) {
+            switch (args[0].toLowerCase()) {
+                case "list": {
+                    for (QueueType value : QueueType.values()) {
+                        p.sendMessage(ChatColor.YELLOW + value.name() + " - " + core.getQueueManager().getQueues().get(value).size());
+                    }
+                    break;
+                }
+                case "disable": {
+                    if (iPlayer.getRank().getRank().equalsIgnoreCase("admin")) {
+                        core.setDisableQueues(core.isDisableQueues());
+                        p.sendMessage("Queue " + (core.isDisableQueues() ? "disabled" : "enabled"));
+                    }
+                    break;
+                }
+                default: {
+                    try {
+                        QueueType type = QueueType.valueOf(args[0]);
+                        core.getQueueManager().handleQueue(type, p);
+                    } catch (IllegalArgumentException e) {
+                        p.sendMessage("§cThat queue does not exist.");
+                    }
+                }
             }
+        } else {
+            p.sendMessage("§8§m-----------------------");
+            p.sendMessage("§c/queue list");
+            p.sendMessage("§c/queue <queue>");
+            p.sendMessage("§8§m-----------------------");
         }
-        if (args[0].equalsIgnoreCase("join")) {
-            core.getQueueManager().add(QueueType.NORMAL, p);
-
-        }
-        if (args[0].equalsIgnoreCase("disable")) {
-            IPlayer iPlayer = core.getPlayerManager().getPlayer(p.getUniqueId());
-            if (iPlayer.getRank().getRank().equalsIgnoreCase("admin")) {
-                core.disableQueues = !core.disableQueues;
-                p.sendMessage("Queue " + (core.disableQueues ? "disabled" : "enabled"));
-                return true;
-            }
-
-        }
-        if (args[0].equalsIgnoreCase("leave")) {
-            core.getQueueManager().remove(p);
-        }
-
-
-        return true;
     }
 }

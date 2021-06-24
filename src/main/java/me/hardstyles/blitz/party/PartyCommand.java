@@ -249,7 +249,7 @@ public class PartyCommand implements CommandExecutor {
                 p.sendMessage(ChatColor.BLUE + "Party > " + ChatColor.RED + "You need at least 2 players in your party!");
                 return true;
             }
-            core.getQueueManager().startPartyMatch(sgPlayer.getParty());
+            core.getQueueManager().tryStart(sgPlayer.getParty());
             return true;
         }
         if (args.length > 0) {

@@ -1,12 +1,11 @@
 package me.hardstyles.blitz.queue;
 
+import lombok.Getter;
 import me.hardstyles.blitz.Core;
 import me.hardstyles.blitz.arena.Arena;
 import me.hardstyles.blitz.match.Match;
 import me.hardstyles.blitz.party.Party;
 import me.hardstyles.blitz.player.IPlayer;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -14,93 +13,76 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.UUID;
 
+@Getter
 public class QueueManager {
     private final Core core;
-    private final HashMap<QueueType, HashSet<UUID>> queues;
+    private final HashMap<QueueType, HashSet<UUID>> queues = new HashMap<>();
 
     public QueueManager(Core core) {
         this.core = core;
-        this.queues = new HashMap<>();
-        this.queues.put(QueueType.NORMAL, new HashSet<>());
-        this.queues.put(QueueType.TEAMS, new HashSet<>());
+        for (QueueType type : QueueType.values()) {
+            this.queues.put(type, new HashSet<>());
+        }
     }
 
-    public void add(QueueType queueType, Player player) {
+    public void handleQueue(QueueType queueType, Player player) {
         IPlayer p = core.getPlayerManager().getPlayer(player.getUniqueId());
-        if(core.disableQueues){
-            player.sendMessage("Queues are disabled right now, please wait");
-            return;
-        }
-        if(p == null){
-            player.sendMessage("ur gay");
-            return;
-        }
-        if(p.getParty() != null){
-
-            if(p.getParty().getOwner().equals(p.getUuid())){
+        if(core.isDisableQueues() || p == null) {
+            player.sendMessage("§cYou cannot queue right now.");
+        } else if (p.getMatch() != null) {
+            player.sendMessage("§cYou cannot queue in a game.");
+        } else if (p.getParty() != null) {
+            if (p.getParty().getOwner().equals(p.getUuid())) {
                 player.chat("/p match");
+            } else {
+                player.sendMessage("§cYou cannot queue in a party.");
             }
-            else{
-                player.sendMessage(ChatColor.RED + "Can't queue while in a party!");
-            }
-            return;
-        }
-        if (p.getMatch() != null) {
-            player.sendMessage(ChatColor.RED + "You're already in the " + queueType.name() + " queue.");
-            return;
-        }
-        for (QueueType value : QueueType.values()) {
-            this.queues.get(value).remove(player.getUniqueId());
-        }
-        this.queues.get(queueType).add(player.getUniqueId());
-        player.sendMessage(ChatColor.GREEN + "You joined the " + queueType.name() + " queue.");
-        if (queues.size() == 2) {
-            if(core.getArenaManager().getNext() == null){
-                for (UUID uuid : queues.get(QueueType.NORMAL)) {
-                    Bukkit.getPlayer(uuid).sendMessage("No arena available.");
-
-                }return;
-            }
-            startMatch();
+        } else if (getQueue(p.getUuid()) != null) {
+            QueueType current = getQueue(p.getUuid());
+            this.queues.get(current).remove(player.getUniqueId());
+            player.sendMessage("§aYou have left the " + current.name().toLowerCase() + " queue.");
+        } else if (core.getArenaManager().getNext() == null) {
+            player.sendMessage("§cThere are currently no arenas available, try again later.");
+        } else {
+            this.queues.get(queueType).add(player.getUniqueId());
+            player.sendMessage("§aYou have joined the " + queueType.name().toLowerCase() + " queue.");
+            tryStart(queueType);
         }
     }
 
     public void remove(Player player) {
         for (QueueType value : QueueType.values()) {
             this.queues.get(value).remove(player.getUniqueId());
-
         }
-        player.sendMessage(ChatColor.GREEN + "You left the queue.");
-
+        player.sendMessage("§aYou have left the queue.");
     }
 
-    private void startMatch() {
+    private void tryStart(QueueType type) {
         Arena arena = core.getArenaManager().getNext();
-        if (arena == null) {
-            Bukkit.broadcastMessage("Horse meat");
+        ArrayList<UUID> players = new ArrayList<>(queues.get(type));
+        if (arena == null || players.size() < 2) {
             return;
 
         }
-        ArrayList<UUID> players = new ArrayList<>();
-        for (UUID uuid : queues.get(QueueType.NORMAL)) {
-            players.add(uuid);
-            if (players.size() == 2) {
-                Match match = new Match(core, arena);
-                match.add(players.get(0));
-                match.add(players.get(1));
-                // Bukkit.broadcastMessage("" +queues.get(QueueType.NORMAL).size());
-                queues.get(QueueType.NORMAL).remove(players.get(0));
-                queues.get(QueueType.NORMAL).remove(players.get(1));
-                players.clear();
-                // Bukkit.broadcastMessage("" +queues.get(QueueType.NORMAL).size());
 
-                match.start();
-                return;
-            }
-        }
+        Match match = new Match(core, arena);
+        match.add(players.get(0));
+        match.add(players.get(1));
+        queues.get(type).remove(players.get(0));
+        queues.get(type).remove(players.get(1));
+        match.start();
     }
 
-    public void startPartyMatch(Party party) {
+    public QueueType getQueue(UUID uuid) {
+        for (QueueType type : QueueType.values()) {
+            if (queues.get(type).contains(uuid)) {
+                return type;
+            }
+        }
+        return null;
+    }
+
+    public void tryStart(Party party) {
         Arena arena = core.getArenaManager().getNext();
         if (arena == null) {
             return;
@@ -111,9 +93,5 @@ public class QueueManager {
             match.add(uuid);
         }
         match.start();
-    }
-
-    public HashMap<QueueType, HashSet<UUID>> getQueues() {
-        return queues;
     }
 }

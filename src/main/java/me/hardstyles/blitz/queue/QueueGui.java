@@ -33,16 +33,14 @@ public class QueueGui implements Listener {
     }
 
     public void open(Player p){
-
-
         ItemStack solo = new ItemStack(Material.IRON_SWORD,1);
         ItemMeta soloMeta = solo.getItemMeta();
         soloMeta.setDisplayName(ChatColor.YELLOW + "Solo Queue");
         List<String> loreList = new ArrayList<String>();
-        loreList.add(ChatColor.GRAY + "In queue: " + ChatColor.WHITE + core.getQueueManager().getQueues().get(QueueType.NORMAL).size());
+        loreList.add(ChatColor.GRAY + "In queue: " + ChatColor.WHITE + core.getQueueManager().getQueues().get(QueueType.SOLO).size());
         loreList.add(ChatColor.GRAY + "In match: " + ChatColor.WHITE + core.getMatchManager().getMatchCount());
         loreList.add("");
-        loreList.add(ChatColor.GRAY +"Click here to join!");
+        loreList.add(ChatColor.GRAY + "Click here to join!");
         soloMeta.setLore(loreList);
         solo.setItemMeta(soloMeta);
 
@@ -69,33 +67,19 @@ public class QueueGui implements Listener {
         final Player p = (Player) e.getWhoClicked();
 
         if(clickedItem.getItemMeta().getDisplayName().contains("Solo Queue")){
-
-            if(core.getQueueManager().getQueues().get(QueueType.NORMAL).contains(p.getUniqueId())){
-                core.getQueueManager().remove(p);
-                p.closeInventory();
-                return;
-            }
-            core.getQueueManager().add(QueueType.NORMAL, p);
+            core.getQueueManager().handleQueue(QueueType.SOLO, p);
             p.closeInventory();
-            return;
-        }
-        else if(clickedItem.getItemMeta().getDisplayName().contains("Teams Queue")){
-
+        } else if (clickedItem.getItemMeta().getDisplayName().contains("Teams Queue")) {
             IPlayer iPlayer = core.getPlayerManager().getPlayer(p.getUniqueId());
             if(iPlayer.getParty() == null){
                 p.sendMessage(ChatColor.RED + "You can only queue Teams with a party.");
-                return;
-            }
-            if(iPlayer.getParty().getMembers().size() != 2){
+            } else if(iPlayer.getParty().getMembers().size() != 2){
                 p.sendMessage(ChatColor.RED + "You can only queue Teams with a party of 2 players.");
-                return;
-            }
-            if(iPlayer.getParty().getOwner() != p.getUniqueId()){
+            } else if (iPlayer.getParty().getOwner() != p.getUniqueId()) {
                 p.sendMessage(ChatColor.RED + "You must be the owner of the party to join the Teams queue");
-                return;
+            } else {
+                p.sendMessage(ChatColor.RED + "Coming soon...");
             }
-            p.sendMessage(ChatColor.YELLOW + "Coming soon...");
-            return;
         }
     }
 
