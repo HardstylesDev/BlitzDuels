@@ -124,8 +124,6 @@ public class IPlayerHandler implements Listener {
             }
 
             p.setPlayerListName(uhcPlayer.getRank(true).getPrefix() + p.getName());
-
-            core.getNametagManager().update();
             for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
                 IPlayer iPlayer = core.getPlayerManager().getPlayer(onlinePlayer.getUniqueId());
                 if (iPlayer.getParty() != null) {
