@@ -26,9 +26,10 @@ public class QueueCommand extends Command {
         if (args.length > 0) {
             switch (args[0].toLowerCase()) {
                 case "list": {
-                    for (QueueType value : QueueType.values()) {
-                        p.sendMessage(ChatColor.YELLOW + value.name() + " - " + core.getQueueManager().getQueues().get(value).size());
-                    }
+
+                    p.sendMessage(ChatColor.YELLOW + "Solo - " + core.getQueueManager().getSoloQueues().size());
+                    p.sendMessage(ChatColor.YELLOW + "Teams - " + core.getQueueManager().getTeamsQueues().size());
+
                     break;
                 }
                 case "disable": {

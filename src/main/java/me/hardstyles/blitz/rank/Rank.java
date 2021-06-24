@@ -20,6 +20,7 @@ public class Rank {
         return multiplier;
     }
     public String getPrefix() {
+
         return prefix;
     }
 

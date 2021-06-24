@@ -3,6 +3,9 @@ package me.hardstyles.blitz.match;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import me.hardstyles.blitz.Core;
+import me.hardstyles.blitz.match.match.Match;
+import me.hardstyles.blitz.match.match.TeamMatch;
+import me.hardstyles.blitz.party.Party;
 import me.hardstyles.blitz.player.IPlayer;
 import me.hardstyles.blitz.utils.ItemBuilder;
 import me.hardstyles.blitz.utils.ItemUtils;
@@ -31,6 +34,8 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+
+import java.util.UUID;
 
 public class MatchHandler implements Listener {
 
@@ -108,10 +113,29 @@ public class MatchHandler implements Listener {
             e.setCancelled(true);
             return;
         }
+
+        if (match instanceof TeamMatch) {
+            Party party = ivictim.getParty();
+            if (party != null) {
+                if (party.getMembers().contains(e.getDamager().getUniqueId())) {
+                    e.setCancelled(true);
+                    return;
+                }
+            }
+        }
         if (e.getDamager() instanceof Projectile) {
             Projectile projectile = (Projectile) e.getDamager();
             if (projectile.getShooter() instanceof Player) {
                 Player shooter = (Player) projectile.getShooter();
+                if (match instanceof TeamMatch) {
+                    Party party = ivictim.getParty();
+                    if (party != null) {
+                        if (party.getMembers().contains(shooter.getUniqueId())) {
+                            e.setCancelled(true);
+                            return;
+                        }
+                    }
+                }
                 if (shooter.equals(e.getEntity())) {
                     e.setCancelled(true);
                     return;
@@ -137,6 +161,16 @@ public class MatchHandler implements Listener {
             Projectile projectile = e.getEntity();
             if (projectile.getShooter() instanceof Player) {
                 Player shooter = (Player) projectile.getShooter();
+                IPlayer iPlayer = core.getPlayerManager().getPlayer(shooter.getUniqueId());
+                Match match = iPlayer.getMatch();
+                if (match instanceof TeamMatch && iPlayer.getParty() != null) {
+                    for (UUID member : iPlayer.getParty().getMembers()) {
+                        Player memberPlayer = match.getPlayerReference().getOrDefault(member, null);
+                        if (memberPlayer != null) {
+                            e.getAffectedEntities().remove(memberPlayer);
+                        }
+                    }
+                }
                 e.getAffectedEntities().remove(shooter);
             }
         }

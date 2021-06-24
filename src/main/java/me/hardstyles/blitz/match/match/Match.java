@@ -1,8 +1,10 @@
-package me.hardstyles.blitz.match;
+package me.hardstyles.blitz.match.match;
 
 import lombok.Getter;
+import lombok.Setter;
 import me.hardstyles.blitz.Core;
 import me.hardstyles.blitz.arena.Arena;
+import me.hardstyles.blitz.match.MatchStage;
 import me.hardstyles.blitz.player.IPlayer;
 import me.hardstyles.blitz.utils.ItemBuilder;
 import org.bukkit.*;
@@ -21,6 +23,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Getter
+@Setter
 public class Match {
     Arena arena;
     private boolean isInProgress;
@@ -58,12 +61,13 @@ public class Match {
     public void add(UUID uuid) {
 
         players.add(uuid);
-        playerReference.put(uuid, Bukkit.getPlayer(uuid));
+        playerReference.put(uuid, core.getServer().getPlayer(uuid));
     }
 
     public void start() {
         arena.setOccupied(true);
         int pos = 0;
+        teleportToSpawns();
         for (UUID uuid : players) {
             IPlayer iPlayer = core.getPlayerManager().getPlayer(uuid);
             if (iPlayer == null) {
@@ -80,7 +84,6 @@ public class Match {
             alivePlayers.add(uuid);
             core.getPlayerManager().reset(p);
 
-            p.teleport(arena.getSpawns().get(pos));
             p.closeInventory();
             for (Entity nearbyEntity : arena.getSpawns().get(pos).getWorld().getNearbyEntities(arena.getSpawns().get(pos), 250, 100, 250)) {
                 if (!(nearbyEntity instanceof Player) && !(nearbyEntity instanceof ArmorStand)) {
@@ -98,11 +101,6 @@ public class Match {
             }
 
 
-            pos++;
-            if (pos == arena.getSpawns().size()) {
-                pos = 0;
-            }
-
             for (IPlayer ip : Core.i().getPlayerManager().getPlayers().values()) {
                 if (ip.getFollowing() != null && ip.getFollowing().equals(p.getUniqueId())) {
                     Player follower = Bukkit.getPlayer(ip.getUuid());
@@ -115,6 +113,18 @@ public class Match {
         startCooldown();
     }
 
+    public void teleportToSpawns() {
+        int spawnIndex = 0;
+        for (UUID playerUuid : players) {
+            if (spawnIndex == arena.getSpawns().size()) {
+                spawnIndex = 0;
+            }
+            Player p = core.getServer().getPlayer(playerUuid);
+            p.teleport(arena.getSpawns().get(spawnIndex));
+            spawnIndex++;
+
+        }
+    }
 
     public void startCooldown() {
         new BukkitRunnable() {
@@ -189,7 +199,6 @@ public class Match {
 
 
         p.getWorld().strikeLightningEffect(p.getLocation());
-        p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 99999, 1), true);
         p.setGameMode(GameMode.SURVIVAL);
         IPlayer player = core.getPlayerManager().getPlayer(uuid);
         for (ItemStack i : p.getInventory().getContents()) {
@@ -237,10 +246,7 @@ public class Match {
                 core.getStatisticsManager().saveAsync(killer);
             }
         }
-        if (getAlivePlayers().size() <= 1) {
-            matchStage = MatchStage.ENDED;
-            finish();
-        }
+        finishCheck();
         if (entities.containsKey(uuid)) {
             for (Entity entity : entities.get(uuid)) {
                 entity.remove();
@@ -248,6 +254,12 @@ public class Match {
         }
     }
 
+    public void finishCheck() {
+        if (getAlivePlayers().size() <= 1) {
+            matchStage = MatchStage.ENDED;
+            finish();
+        }
+    }
 
     public void leave(UUID uuid) {
         if (!players.contains(uuid)) {
@@ -260,54 +272,57 @@ public class Match {
         attacks.remove(uuid);
     }
 
+    public UUID getWinner() {
+        return alivePlayers.stream().findFirst().orElse(null);
+    }
+
     public void finish() {
         timeEnded = System.currentTimeMillis();
-        UUID wU = null;
-        for (UUID uuid : alivePlayers) {
-            wU = uuid;
-            break;
-        }
-        if (wU == null) {
-            return;
-        }
-        this.winners.add(wU);
-        IPlayer winner = core.getPlayerManager().getPlayer(wU);
-        for (Player player : playerReference.values()) {
 
-            if(player == null || !player.isOnline()){
-                continue;
-            }
-            for (Location location : blocksPlaced) {
-                location.getBlock().setType(Material.AIR);
-            }
+        UUID winnerUuid = getWinner();
+        if (winnerUuid != null) {
+            IPlayer winner = core.getPlayerManager().getPlayer(winnerUuid);
+            for (Player player : playerReference.values()) {
 
-            player.sendMessage("");
-            player.sendMessage(ChatColor.GOLD + "Game over!");
-            if (damageDone.containsKey(player.getUniqueId())) {
-                player.sendMessage(ChatColor.GRAY + "Damage dealt: " + ChatColor.WHITE + (damageDone.get(player.getUniqueId()) * 2));
-            }
-            player.getInventory().clear();
-
-
-            player.sendMessage(ChatColor.YELLOW + "" + ChatColor.BOLD + "Winner: " + winner.getRank(true).getChatColor() + playerReference.get(wU).getName());
-
-            for (Entity nearbyEntity : player.getWorld().getNearbyEntities(player.getLocation(), 250, 100, 250)) {
-                if (!(nearbyEntity instanceof Player)) {
-                    nearbyEntity.remove();
+                if (player == null || !player.isOnline()) {
+                    continue;
                 }
-            }
-            for (UUID uuid : dead) {
-                Player dead = playerReference.get(uuid);
-                for (UUID alivePlayer : alivePlayers) {
-                    Player alive = playerReference.get(alivePlayer);
-                    alive.showPlayer(dead);
-                    dead.removePotionEffect(PotionEffectType.INVISIBILITY);
+                for (Location location : blocksPlaced) {
+                    location.getBlock().setType(Material.AIR);
                 }
+
+                player.sendMessage("");
+                player.sendMessage(ChatColor.GOLD + "Game over!");
+                if (damageDone.containsKey(player.getUniqueId())) {
+                    player.sendMessage(ChatColor.GRAY + "Damage dealt: " + ChatColor.WHITE + (damageDone.get(player.getUniqueId()) * 2));
+                }
+                player.getInventory().clear();
+
+
+                player.sendMessage(ChatColor.YELLOW + "" + ChatColor.BOLD + "Winner: " + winner.getRank(true).getChatColor() + playerReference.get(winner.getUuid()).getName());
+
+                for (Entity nearbyEntity : player.getWorld().getNearbyEntities(player.getLocation(), 250, 100, 250)) {
+                    if (!(nearbyEntity instanceof Player)) {
+                        nearbyEntity.remove();
+                    }
+                }
+                for (UUID uuid : dead) {
+                    Player dead = playerReference.get(uuid);
+                    for (UUID alivePlayer : alivePlayers) {
+                        Player alive = playerReference.get(alivePlayer);
+                        alive.showPlayer(dead);
+                    }
+                }
+                arena.setOccupied(false);
             }
-            arena.setOccupied(false);
+            winner.addWin();
+            winner.setStreak(winner.getStreak() + 1);
         }
-        winner.addWin();
-        winner.setStreak(winner.getStreak() + 1);
+        end();
+    }
+
+    public void end() {
+
         core.getServer().getScheduler().runTaskLater(core, () -> {
             for (UUID uuid : entities.keySet()) {
                 for (Entity entity : entities.get(uuid)) {
@@ -330,9 +345,6 @@ public class Match {
         }, 20 * 5);
         core.getMatchManager().remove();
         core.getLeaderboardUpdater().update();
-    }
-
-    public void end() {
     }
 
     public void addEntity(UUID uuid, Entity entity) {

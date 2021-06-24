@@ -1,6 +1,8 @@
 package me.hardstyles.blitz.party;
 
 import me.hardstyles.blitz.Core;
+import me.hardstyles.blitz.arena.Arena;
+import me.hardstyles.blitz.match.match.Match;
 import me.hardstyles.blitz.player.IPlayer;
 import net.minecraft.server.v1_8_R3.IChatBaseComponent;
 import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
@@ -119,7 +121,7 @@ public class PartyCommand implements CommandExecutor {
                 return true;
             }
             if (sgPlayer.getParty().getOwner() == p.getUniqueId()) {
-                p.chat("/p disband");
+                p.chat("/party disband");
                 return true;
             }
             Party party = sgPlayer.getParty();
@@ -188,7 +190,7 @@ public class PartyCommand implements CommandExecutor {
         }
         if (args[0].equalsIgnoreCase("invite")) {
             if (sgPlayer.getParty() == null) {
-                p.chat("/p create");
+                p.chat("/party create");
             }
             if (sgPlayer.getParty() == null) {
                 p.sendMessage(ChatColor.BLUE + "Party > " + ChatColor.RED + "You're not in a party.");
@@ -239,7 +241,7 @@ public class PartyCommand implements CommandExecutor {
         }
         if (args[0].equalsIgnoreCase("match")) {
             if (sgPlayer.getParty() == null) {
-                p.chat("/p create");
+                p.chat("/party create");
             }
             if (sgPlayer.getParty() == null) {
                 p.sendMessage(ChatColor.BLUE + "Party > " + ChatColor.RED + "You're not in a party.");
@@ -249,50 +251,57 @@ public class PartyCommand implements CommandExecutor {
                 p.sendMessage(ChatColor.BLUE + "Party > " + ChatColor.RED + "You need at least 2 players in your party!");
                 return true;
             }
-            core.getQueueManager().tryStart(sgPlayer.getParty());
+            Arena arena = core.getArenaManager().getNext();
+
+
+            if (arena == null) {
+                p.sendMessage(ChatColor.RED + "No available arena!");
+                return true;
+            }
+            Match match = new Match(core,arena );
+            for (UUID member : sgPlayer.getParty().getMembers()) {
+                match.add(member);
+            }
+            match.start();
             return true;
         }
-        if (args.length > 0) {
-            if (sgPlayer.getParty() == null) {
-                p.chat("/p create");
-            }
-            Player target = Bukkit.getPlayer(args[0]);
-            if (target == null) {
-                p.sendMessage(ChatColor.BLUE + "Party > " + ChatColor.RED + "Couldn't find that player.");
-                return true;
-            }
-            if (sgPlayer.getParty().has(target)) {
-                p.sendMessage(ChatColor.BLUE + "Party > " + ChatColor.RED + "That player is already in your party.");
-                return true;
-            }
-            if(sgPlayer.getRank().getPosition() > 5){
-                target.sendMessage(ChatColor.BLUE + "Party > " + ChatColor.YELLOW + "You've been added to " + p.getName() + "'s party");
-                p.sendMessage(ChatColor.BLUE + "Party > " + ChatColor.YELLOW + "You've added " + target.getName() + " to the party!");
-                IPlayer sgTarget = core.getPlayerManager().getPlayer(target.getUniqueId());
-                sgTarget.setParty(sgPlayer.getParty());
-                sgPlayer.getParty().addMember(target);
-            }
-            else{
-                sgPlayer.getParty().invitePlayer(target);
+        if (sgPlayer.getParty() == null) {
+            p.chat("/party create");
+        }
+        Player target = Bukkit.getPlayer(args[0]);
+        if (target == null) {
+            p.sendMessage(ChatColor.BLUE + "Party > " + ChatColor.RED + "Couldn't find that player.");
+            return true;
+        }
+        if (sgPlayer.getParty().has(target)) {
+            p.sendMessage(ChatColor.BLUE + "Party > " + ChatColor.RED + "That player is already in your party.");
+            return true;
+        }
+        if (sgPlayer.getRank().getPosition() > 5) {
+            target.sendMessage(ChatColor.BLUE + "Party > " + ChatColor.YELLOW + "You've been added to " + p.getName() + "'s party");
+            p.sendMessage(ChatColor.BLUE + "Party > " + ChatColor.YELLOW + "You've added " + target.getName() + " to the party!");
+            IPlayer sgTarget = core.getPlayerManager().getPlayer(target.getUniqueId());
+            sgTarget.setParty(sgPlayer.getParty());
+            sgPlayer.getParty().addMember(target);
+        } else {
+            sgPlayer.getParty().invitePlayer(target);
 
 
-                target.sendMessage(ChatColor.BLUE + "Party > " + sgPlayer.getRank(true).getPrefix() + p.getName() + ChatColor.YELLOW + " has invited you to their party!");
+            target.sendMessage(ChatColor.BLUE + "Party > " + sgPlayer.getRank(true).getPrefix() + p.getName() + ChatColor.YELLOW + " has invited you to their party!");
 
-                String json = "[\"\",{\"text\":\"[ACCEPT]\",\"bold\":true,\"color\":\"green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/party accept %inviter%\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":\" " + ChatColor.YELLOW + "Click here to accept " + sgPlayer.getRank(true).getPrefix() + p.getName() + ChatColor.YELLOW + "'s party invite\"}},{\"text\":\" \",\"bold\":true},{\"text\":\"[DECLINE]\",\"bold\":true,\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/party decline %inviter%\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":\" " + ChatColor.YELLOW + "Click here to decline " + sgPlayer.getRank(true).getPrefix() + p.getName() + ChatColor.YELLOW + "'s party invite\"}}]";
+            String json = "[\"\",{\"text\":\"[ACCEPT]\",\"bold\":true,\"color\":\"green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/party accept %inviter%\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":\" " + ChatColor.YELLOW + "Click here to accept " + sgPlayer.getRank(true).getPrefix() + p.getName() + ChatColor.YELLOW + "'s party invite\"}},{\"text\":\" \",\"bold\":true},{\"text\":\"[DECLINE]\",\"bold\":true,\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/party decline %inviter%\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":\" " + ChatColor.YELLOW + "Click here to decline " + sgPlayer.getRank(true).getPrefix() + p.getName() + ChatColor.YELLOW + "'s party invite\"}}]";
 
-                IChatBaseComponent comp = IChatBaseComponent.ChatSerializer.a(json.replaceAll("%inviter%", p.getName()));
-                PacketPlayOutChat packet = new PacketPlayOutChat(comp);
-                ((CraftPlayer) target).getHandle().playerConnection.sendPacket(packet);
-                IPlayer sgTarget = core.getPlayerManager().getPlayer(target.getUniqueId());
-                p.sendMessage(ChatColor.BLUE + "Party > " + ChatColor.GREEN + "You've invited " + target.getName() + " to the party.");
-                OfflinePlayer memberPlayer;
-                for (UUID member : sgPlayer.getParty().getMembers()) {
-                    memberPlayer = Bukkit.getOfflinePlayer(member);
-                    if (memberPlayer.isOnline()) {
-                        memberPlayer.getPlayer().sendMessage(ChatColor.BLUE + "Party > " + sgPlayer.getRank(true).getPrefix() + p.getName() + ChatColor.YELLOW + " invited "+ sgTarget.getRank(true).getPrefix() + target.getName() + ChatColor.YELLOW +  " to the party!");
-                    }
+            IChatBaseComponent comp = IChatBaseComponent.ChatSerializer.a(json.replaceAll("%inviter%", p.getName()));
+            PacketPlayOutChat packet = new PacketPlayOutChat(comp);
+            ((CraftPlayer) target).getHandle().playerConnection.sendPacket(packet);
+            IPlayer sgTarget = core.getPlayerManager().getPlayer(target.getUniqueId());
+            p.sendMessage(ChatColor.BLUE + "Party > " + ChatColor.GREEN + "You've invited " + target.getName() + " to the party.");
+            OfflinePlayer memberPlayer;
+            for (UUID member : sgPlayer.getParty().getMembers()) {
+                memberPlayer = Bukkit.getOfflinePlayer(member);
+                if (memberPlayer.isOnline()) {
+                    memberPlayer.getPlayer().sendMessage(ChatColor.BLUE + "Party > " + sgPlayer.getRank(true).getPrefix() + p.getName() + ChatColor.YELLOW + " invited " + sgTarget.getRank(true).getPrefix() + target.getName() + ChatColor.YELLOW + " to the party!");
                 }
-
             }
 
         }

@@ -2,7 +2,7 @@ package me.hardstyles.blitz.duels;
 
 import me.hardstyles.blitz.Core;
 import me.hardstyles.blitz.arena.Arena;
-import me.hardstyles.blitz.match.Match;
+import me.hardstyles.blitz.match.match.Match;
 import me.hardstyles.blitz.player.IPlayer;
 import net.minecraft.server.v1_8_R3.IChatBaseComponent;
 import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
@@ -57,13 +57,16 @@ public class DuelCommand implements CommandExecutor {
                 return true;
             }
             UUID requester = null;
+            DuelRequest duelRequest = null;
             for (DuelRequest request : core.getDuelManager().getRequests()) {
                 if (request.getSender() == target.getUniqueId()) {
                     requester = request.getTarget();
-                    core.getDuelManager().getRequests().remove(request);
-                    continue;
+                    duelRequest = request;
+                    break;
                 }
             }
+            core.getDuelManager().getRequests().remove(duelRequest);
+
             if (requester == null) {
                 p.sendMessage(ChatColor.RED + "Player hasn't challenged you to a duel");
                 return true;
@@ -99,7 +102,7 @@ public class DuelCommand implements CommandExecutor {
                 if (request.getSender() == target.getUniqueId()) {
                     requester = request.getTarget();
                     core.getDuelManager().getRequests().remove(request);
-                    continue;
+                    break;
                 }
             }
             if (requester == null) {

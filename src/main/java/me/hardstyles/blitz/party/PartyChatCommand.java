@@ -44,11 +44,11 @@ public class PartyChatCommand implements CommandExecutor {
 
 
     private String joined(String[] args) {
-        String a = "";
+        StringBuilder a = new StringBuilder();
         for (String part : args) {
-            if (a != "") a += " ";
-            a += part;
+            if (!a.toString().equalsIgnoreCase("")) a.append(" ");
+            a.append(part);
         }
-        return a;
+        return a.toString();
     }
 }

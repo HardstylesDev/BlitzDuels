@@ -1,7 +1,7 @@
 package me.hardstyles.blitz.utils;
 
 import me.hardstyles.blitz.Core;
-import me.hardstyles.blitz.match.Match;
+import me.hardstyles.blitz.match.match.Match;
 import me.hardstyles.blitz.player.IPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -71,7 +71,6 @@ public class SpectatorCommand implements CommandExecutor {
             alive.hidePlayer(p);
         }
         player.setMatch(match);
-        p.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 99999, 1), true);
         p.spigot().setCollidesWithEntities(false);
         p.setAllowFlight(true);
         p.setFlying(true);

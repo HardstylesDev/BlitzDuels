@@ -40,7 +40,6 @@ import me.hardstyles.blitz.utils.*;
 import me.hardstyles.blitz.utils.database.Database;
 import me.hardstyles.blitz.utils.database.ItemSerializer;
 import me.hardstyles.blitz.utils.entity.player.TabUtil;
-import me.hardstyles.blitz.utils.nametag.NametagManager;
 import me.hardstyles.blitz.utils.world.VoidGenerator;
 import me.hardstyles.blitz.utils.world.WorldCommand;
 import net.minecraft.server.v1_8_R3.EnumChatFormat;
@@ -51,6 +50,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import redis.clients.jedis.JedisPool;
 
 import java.io.File;
+
 @Getter
 public class Core extends JavaPlugin {
 
@@ -59,9 +59,9 @@ public class Core extends JavaPlugin {
     private JedisPool pool;
 
     private static Core instance;
-    @Setter private boolean disableQueues;
+    @Setter
+    private boolean disableQueues;
     private KarhuAnticheat karhuAnticheat;
-    private NametagManager nametagManager;
     private ChestFiller chestFiller;
     private MatchManager matchManager;
     private LeaderboardLoaderWins leaderboardLoaderWins;
@@ -96,7 +96,7 @@ public class Core extends JavaPlugin {
 
     public void onEnable() {
         instance = this;
-         new NametagAPI(this);
+        new NametagAPI(this);
         new WorldCreator("arena").generator(new VoidGenerator()).createWorld();
 
         try {
@@ -117,8 +117,6 @@ public class Core extends JavaPlugin {
         queueGui = new QueueGui(this);
         layoutGui = new LayoutGui(this);
         scoreboardManager = new ScoreboardManager(this);
-
-        nametagManager = new NametagManager();
         punishmentManager = new PunishmentManager(this);
         arenaManager = new ArenaManager(this);
 
@@ -187,6 +185,7 @@ public class Core extends JavaPlugin {
                 statisticsManager.load(player.getUniqueId());
                 playerManager.addPlayer(player.getUniqueId(), getPlayerManager().getPlayer(player.getUniqueId()));
                 playerManager.hub(player);
+                NametagAPI.setNametag(player.getName(), playerManager.getPlayer(player.getUniqueId()).getRank().getPrefix(), "", playerManager.getPlayer(player.getUniqueId()).getRank().getPosition());
             });
         }
 
@@ -194,7 +193,7 @@ public class Core extends JavaPlugin {
         scoreboardManager.runTaskTimer(this, 20, 20);
 
 
-        nametagManager.update();
+        //  nametagManager.update();
 
 
     }

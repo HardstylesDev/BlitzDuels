@@ -7,15 +7,13 @@ import lombok.Setter;
 import me.hardstyles.blitz.Core;
 
 
-import me.hardstyles.blitz.match.Match;
+import me.hardstyles.blitz.match.match.Match;
 import me.hardstyles.blitz.party.Party;
 import me.hardstyles.blitz.rank.Rank;
 import me.hardstyles.blitz.nickname.Nick;
-import org.bukkit.entity.Player;
 
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.UUID;
 
 @Getter

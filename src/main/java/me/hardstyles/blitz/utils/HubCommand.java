@@ -1,17 +1,12 @@
 package me.hardstyles.blitz.utils;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import me.hardstyles.blitz.Core;
-import me.hardstyles.blitz.match.Match;
+import me.hardstyles.blitz.match.match.Match;
 import me.hardstyles.blitz.player.IPlayer;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 
 public class HubCommand implements CommandExecutor {

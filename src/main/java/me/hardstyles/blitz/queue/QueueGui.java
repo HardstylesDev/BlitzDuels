@@ -26,9 +26,6 @@ public class QueueGui implements Listener {
         this.core = core;
         inv = Bukkit.createInventory(null, 9, ChatColor.GRAY + "Queue Selector");
 
-        inv.setItem(3, new ItemBuilder(Material.IRON_SWORD).name("&eSolo Queue").lore("§7Click here to join the solo queue").make());
-        inv.setItem(5, new ItemBuilder(Material.IRON_SWORD).name("&eTeams Queue").lore("§cSoon").amount(2).make());
-
 
     }
 
@@ -37,7 +34,7 @@ public class QueueGui implements Listener {
         ItemMeta soloMeta = solo.getItemMeta();
         soloMeta.setDisplayName(ChatColor.YELLOW + "Solo Queue");
         List<String> loreList = new ArrayList<String>();
-        loreList.add(ChatColor.GRAY + "In queue: " + ChatColor.WHITE + core.getQueueManager().getQueues().get(QueueType.SOLO).size());
+        loreList.add(ChatColor.GRAY + "In queue: " + ChatColor.WHITE + core.getQueueManager().getSoloQueues().size());
         loreList.add(ChatColor.GRAY + "In match: " + ChatColor.WHITE + core.getMatchManager().getMatchCount());
         loreList.add("");
         loreList.add(ChatColor.GRAY + "Click here to join!");
@@ -45,6 +42,21 @@ public class QueueGui implements Listener {
         solo.setItemMeta(soloMeta);
 
         inv.setItem(3, solo);
+
+
+        solo = solo.clone();
+        soloMeta.setDisplayName("§eTeams Queue");
+        loreList.clear();
+        loreList.add(ChatColor.GRAY + "In queue: " + ChatColor.WHITE + core.getQueueManager().getTeamsQueues().size());
+        loreList.add(ChatColor.GRAY + "In match: " + ChatColor.WHITE + core.getMatchManager().getMatchCount());
+        loreList.add("");
+        loreList.add(ChatColor.GRAY + "Click here to join!");
+        soloMeta.setLore(loreList);
+        solo.setItemMeta(soloMeta);
+
+
+        inv.setItem(5, solo);
+
 
         p.openInventory(inv);
 
@@ -78,7 +90,7 @@ public class QueueGui implements Listener {
             } else if (iPlayer.getParty().getOwner() != p.getUniqueId()) {
                 p.sendMessage(ChatColor.RED + "You must be the owner of the party to join the Teams queue");
             } else {
-                p.sendMessage(ChatColor.RED + "Coming soon...");
+                core.getQueueManager().handleQueue(QueueType.TEAMS, p);
             }
         }
     }

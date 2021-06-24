@@ -1,7 +1,7 @@
 package me.hardstyles.blitz.match.mobs;
 
 import me.hardstyles.blitz.Core;
-import me.hardstyles.blitz.match.Match;
+import me.hardstyles.blitz.match.match.Match;
 import me.hardstyles.blitz.match.MatchStage;
 import me.hardstyles.blitz.player.IPlayer;
 import org.bukkit.DyeColor;

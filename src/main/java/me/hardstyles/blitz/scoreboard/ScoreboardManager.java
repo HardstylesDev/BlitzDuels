@@ -1,7 +1,7 @@
 package me.hardstyles.blitz.scoreboard;
 
 import me.hardstyles.blitz.Core;
-import me.hardstyles.blitz.match.Match;
+import me.hardstyles.blitz.match.match.Match;
 import me.hardstyles.blitz.match.MatchStage;
 import me.hardstyles.blitz.player.IPlayer;
 import net.minecraft.server.v1_8_R3.ChatComponentText;
