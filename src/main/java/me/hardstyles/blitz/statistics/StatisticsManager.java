@@ -62,7 +62,7 @@ public class StatisticsManager {
         if(!iPlayer.getLayouts().isEmpty()){
             JsonObject layout = new JsonObject();
 
-            iPlayer.getLayouts().forEach((integer, jsonElements) -> layout.add(String.valueOf(integer), jsonElements));
+            iPlayer.getLayouts().forEach((integer, string) -> layout.addProperty(String.valueOf(integer), string));
             jsonObject.add("layouts", layout);
         }
 
@@ -102,10 +102,6 @@ public class StatisticsManager {
         }
     }
 
-
-
-
-
     public void load(UUID uuid) {
         try {
             Connection conn = core.getData().getConnection();
@@ -139,8 +135,8 @@ public class StatisticsManager {
                 if(jsonObject.has("layouts")){
                 JsonObject layout = jsonObject.get("layouts").getAsJsonObject();
                     for (int i = 1; i < 7; i++) {
-                        if(layout.has("" + i)){
-                            iPlayer.getLayouts().put(i, layout.get("" + i).getAsJsonArray());
+                        if(layout.has(String.valueOf(i))){
+                            iPlayer.getLayouts().put(i, layout.get(String.valueOf(i)).getAsString());
                         }
                     }
                 }
@@ -153,12 +149,6 @@ public class StatisticsManager {
                 SQLException e) {
             e.printStackTrace();
         }
-    }
-    private int asInt(JsonObject j,String v){
-        if(j.has(v)){
-            return j.get(v).getAsInt();
-        }
-        return 0;
     }
 
 }

@@ -1,7 +1,5 @@
 package me.hardstyles.blitz.kits.gui;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonPrimitive;
 import me.hardstyles.blitz.Core;
 import me.hardstyles.blitz.kits.IItem;
 import me.hardstyles.blitz.player.IPlayer;
@@ -19,41 +17,51 @@ import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class LayoutGui implements Listener {
     private final Core core;
-    private final Map<UUID, Integer> cache = new HashMap<>();
+    private final Map<UUID, Integer> indexCache = new HashMap<>();
+    private final Map<UUID, Map<Integer, IItem>> layoutCache = new HashMap<>();
     private final String name = ChatColor.GRAY + "Equipment Selector";
+    private final int[] slots = {10, 19, 28, 37, 12, 13, 14, 22, 16, 25, 34, 43, 39, 41};
 
     public LayoutGui(Core core) {
         this.core = core;
     }
 
     public void open(Player p, int index) {
-        cache.put(p.getUniqueId(), index);
+        indexCache.put(p.getUniqueId(), index);
+        layoutCache.put(p.getUniqueId(), new HashMap<>());
         Inventory inv = Bukkit.createInventory(null, 9 * 6, ChatColor.GRAY + "Equipment Selector");
         for (int i = 0; i < (9 * 6); i++) {
-            inv.setItem(i, new ItemBuilder(Material.STAINED_GLASS_PANE).durability(9).name("&e").make());
+            inv.setItem(i, new ItemBuilder(Material.STAINED_GLASS_PANE).durability(9).name(" ").make());
         }
 
+        IPlayer iPlayer = core.getPlayerManager().getPlayer(p.getUniqueId());
 
-
-        inv.setItem(10, core.getItemHandler().getHelmets().get(0).item);
-        inv.setItem(19, core.getItemHandler().getChestplates().get(0).item);
-        inv.setItem(28, core.getItemHandler().getLeggings().get(0).item);
-        inv.setItem(38, core.getItemHandler().getBows().get(0).item);
-        inv.setItem(12, core.getItemHandler().getWeapons().get(0).item);
-        inv.setItem(13, core.getItemHandler().getProjectiles().get(0).item);
-        inv.setItem(22, core.getItemHandler().getArrows().get(0).item);
-        inv.setItem(14, core.getItemHandler().getBows().get(0).item);
-        inv.setItem(16, core.getItemHandler().getPotions().get(0).item);
-        inv.setItem(25, core.getItemHandler().getPotions().get(0).item);
-        inv.setItem(34, core.getItemHandler().getPotions().get(0).item);
-        inv.setItem(43, core.getItemHandler().getPotions().get(0).item);
-
-        inv.setItem(39, core.getItemHandler().getMobs().get(0).item);
-        inv.setItem(41, core.getItemHandler().getMobs().get(0).item);
+        if (iPlayer.getLayouts().containsKey(index)) {
+            String[] layout = iPlayer.getLayouts().get(index).split(";");
+            for (int i = 0; i < layout.length; i++) {
+                IItem item;
+                try {
+                    item = IItem.valueOf(layout[i]);
+                } catch (IllegalArgumentException e) {
+                    System.out.println("non-existing ID found in " + iPlayer.getUuid() + " layout #" + index);
+                    layoutCache.get(p.getUniqueId()).put(slots[i], IItem.BLANK);
+                    continue;
+                }
+                inv.setItem(slots[i], item.getItem());
+                layoutCache.get(p.getUniqueId()).put(slots[i], item);
+            }
+        } else {
+            for (int i : slots) {
+                inv.setItem(i, IItem.BLANK.getItem());
+                layoutCache.get(p.getUniqueId()).put(i, IItem.BLANK);
+            }
+        }
 
 
         inv.setItem(49, new ItemBuilder(Material.DOUBLE_PLANT).name("&6Points: &a100").make());
@@ -86,7 +94,7 @@ public class LayoutGui implements Listener {
         } else {
             handleClick(e);
 
-            int points = getUsedPoints(e.getInventory());
+            int points = getUsedPoints(e.getWhoClicked().getUniqueId());
             e.getInventory().setItem(49, new ItemBuilder(Material.DOUBLE_PLANT).name("&6Points: " + (points > 100 ? ChatColor.RED : ChatColor.GREEN) + (100 - points)).make());
             if (points > 100) {
                 e.getInventory().setItem(53, new ItemBuilder(Material.WOOL).durability(7).name("&cYou've gone over the 100 point limit").make());
@@ -99,21 +107,24 @@ public class LayoutGui implements Listener {
     @EventHandler
     public void onClose(InventoryCloseEvent e) {
         if (e.getView().getTitle().equals(name)) {
-            if (getUsedPoints(e.getInventory()) <= 100) {
-                JsonArray jsonArray = new JsonArray();
-                int[] slots = {10, 19, 28, 37, 12, 13, 14, 22, 16, 25, 34, 43, 39, 41};
-                for (int i : slots) {
-                    if (e.getInventory().getItem(i).getType() != Material.BARRIER) {
-                        jsonArray.add(new JsonPrimitive(core.getItemSerializer().getStringFromItem(e.getInventory().getItem(i))));
-                    }
+            Map<Integer, IItem> layout = layoutCache.get(e.getPlayer().getUniqueId());
+            if (layout.isEmpty()) {
+                IPlayer p = core.getPlayerManager().getPlayer(e.getPlayer().getUniqueId());
+                p.getLayouts().remove(indexCache.get(p.getUuid()));
+                core.getStatisticsManager().saveAsync(p);
+                e.getPlayer().sendMessage("§aDeleted layout §7(" + indexCache.get(p.getUuid()) + ")");
+            } else if (getUsedPoints(e.getPlayer().getUniqueId()) <= 100) {
+                StringBuilder builder = new StringBuilder(layout.get(0).name());
+                for (int i = 1; i < layout.size(); i++) {
+                    builder.append(";").append(layout.get(i).name());
                 }
 
                 IPlayer p = core.getPlayerManager().getPlayer(e.getPlayer().getUniqueId());
-                p.getLayouts().put(cache.get(p.getUuid()), jsonArray);
+                p.getLayouts().put(indexCache.get(p.getUuid()), builder.toString());
                 core.getStatisticsManager().saveAsync(p);
-                e.getPlayer().sendMessage("§aSaved layout §7(" + cache.get(p.getUuid()) + ")");
+                e.getPlayer().sendMessage("§aSaved layout §7(" + indexCache.get(p.getUuid()) + ")");
             } else {
-                e.getPlayer().sendMessage("§cKit was not saved as it was more than 100 points.");
+                e.getPlayer().sendMessage("§cKit could not be saved.");
             }
         }
     }
@@ -127,75 +138,73 @@ public class LayoutGui implements Listener {
 
 
 
-    private int getUsedPoints(Inventory inv) {
+    private int getUsedPoints(UUID uuid) {
         int points = 0;
-        for (int i = 0; i < inv.getSize(); i++) {
-            if (inv.getItem(i) == null || inv.getItem(i).getItemMeta() == null)
-                continue;
-            if (inv.getItem(i).getItemMeta().getLore() == null || inv.getItem(i).getItemMeta().getLore().isEmpty())
-                continue;
-
-            String firstLine = inv.getItem(i).getItemMeta().getLore().get(0);
-            if (firstLine.contains("points")) {
-                points += Integer.parseInt(firstLine.substring(8, firstLine.length() - 7));
-
-            }
+        Map<Integer, IItem> layout = layoutCache.get(uuid);
+        for (IItem item : layout.values()) {
+            points += item.getPrice();
         }
         return points;
     }
 
-    private List<IItem> getCategory(int slot) {
+    private IItem.Type getCategory(int slot) {
         switch (slot) {
             case 10: {
-                return core.getItemHandler().getHelmets();
+                return IItem.Type.HELMET;
             }
             case 19: {
-                return core.getItemHandler().getChestplates();
+                return IItem.Type.CHESTPLATE;
             }
             case 28: {
-                return core.getItemHandler().getLeggings();
+                return IItem.Type.LEGGINGS;
             }
             case 37: {
-                return core.getItemHandler().getBoots();
+                return IItem.Type.BOOTS;
             }
             case 12: {
-                return core.getItemHandler().getWeapons();
+                return IItem.Type.WEAPON;
             }
             case 13: {
-                return core.getItemHandler().getProjectiles();
+                return IItem.Type.PROJECTILE;
             }
             case 14: {
-                return core.getItemHandler().getBows();
+                return IItem.Type.BOW;
             }
             case 22: {
-                return core.getItemHandler().getArrows();
+                return IItem.Type.ARROW;
             }
             case 43:
             case 34:
             case 25:
             case 16: {
-                return core.getItemHandler().getPotions();
+                return IItem.Type.CONSUMABLE;
             }
             case 41:
             case 39: {
-                return core.getItemHandler().getMobs();
+                return IItem.Type.MOB;
             }
         }
         return null;
     }
 
     private void handleClick(InventoryClickEvent e) {
-        ItemStack clickedItem = e.getCurrentItem();
         if (e.getRawSlot() < e.getInventory().getSize()) {
-            List<IItem> items = getCategory(e.getSlot());
+            if (layoutCache.get(e.getWhoClicked().getUniqueId()).containsKey(e.getSlot())) {
+                IItem.Type type = getCategory(e.getSlot());
+                if (type == null) {
+                    return;
+                }
+                IItem cycle = layoutCache.get(e.getWhoClicked().getUniqueId()).get(e.getSlot());
 
-            if (items != null) {
                 if (e.getClick() == ClickType.LEFT || e.getClick() == ClickType.SHIFT_LEFT) {
-                    e.getInventory().setItem(e.getSlot(), core.getItemHandler().previous(items, clickedItem).item);
+                    cycle = cycle.previous(type);
+                } else if (e.getClick() == ClickType.RIGHT || e.getClick() == ClickType.SHIFT_RIGHT) {
+                    cycle = cycle.next(type);
+                } else {
+                    return;
                 }
-                if (e.getClick() == ClickType.RIGHT || e.getClick() == ClickType.SHIFT_RIGHT) {
-                    e.getInventory().setItem(e.getSlot(), core.getItemHandler().next(items, clickedItem).item);
-                }
+                layoutCache.get(e.getWhoClicked().getUniqueId()).put(e.getSlot(), cycle);
+                e.getInventory().setItem(e.getSlot(), cycle.getItem());
             }
         }
     }

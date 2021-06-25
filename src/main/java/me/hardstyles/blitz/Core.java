@@ -7,7 +7,6 @@ import me.hardstyles.blitz.arena.ArenaManager;
 import me.hardstyles.blitz.arena.TestCommand;
 import me.hardstyles.blitz.duels.DuelCommand;
 import me.hardstyles.blitz.duels.DuelManager;
-import me.hardstyles.blitz.kits.IItemManager;
 import me.hardstyles.blitz.kits.gui.LayoutGui;
 import me.hardstyles.blitz.kits.gui.SlotGui;
 import me.hardstyles.blitz.leaderboard.LeaderboardLoaderKills;
@@ -82,7 +81,6 @@ public class Core extends JavaPlugin {
     private QueueGui queueGui;
     private LayoutGui layoutGui;
     private SlotGui slotGui;
-    private IItemManager itemHandler;
 
     private StaffManager staffManager;
     private Location lobbySpawn;
@@ -113,7 +111,6 @@ public class Core extends JavaPlugin {
         rankManager = new RankManager();
         queueManager = new QueueManager(this);
         matchManager = new MatchManager(this);
-        itemHandler = new IItemManager(this);
         queueGui = new QueueGui(this);
         layoutGui = new LayoutGui(this);
         scoreboardManager = new ScoreboardManager(this);

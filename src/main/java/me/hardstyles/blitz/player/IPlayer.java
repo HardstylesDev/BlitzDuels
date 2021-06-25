@@ -1,17 +1,13 @@
 package me.hardstyles.blitz.player;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import lombok.Getter;
 import lombok.Setter;
 import me.hardstyles.blitz.Core;
-
-
 import me.hardstyles.blitz.match.match.Match;
+import me.hardstyles.blitz.nickname.Nick;
 import me.hardstyles.blitz.party.Party;
 import me.hardstyles.blitz.rank.Rank;
-import me.hardstyles.blitz.nickname.Nick;
-
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -19,7 +15,7 @@ import java.util.UUID;
 @Getter
 @Setter
 public class IPlayer {
-    private final HashMap<Integer, JsonArray> layouts = new HashMap<>();
+    private final HashMap<Integer, String> layouts = new HashMap<>();
     private JsonObject jsonObject = new JsonObject();
     private final UUID uuid;
     private UUID following;

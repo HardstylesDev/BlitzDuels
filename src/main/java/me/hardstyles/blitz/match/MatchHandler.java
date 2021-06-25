@@ -1,21 +1,15 @@
 package me.hardstyles.blitz.match;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import me.hardstyles.blitz.Core;
+import me.hardstyles.blitz.kits.IItem;
 import me.hardstyles.blitz.match.match.Match;
 import me.hardstyles.blitz.match.match.TeamMatch;
 import me.hardstyles.blitz.party.Party;
 import me.hardstyles.blitz.player.IPlayer;
-import me.hardstyles.blitz.utils.ItemBuilder;
-import me.hardstyles.blitz.utils.ItemUtils;
-import net.minecraft.server.v1_8_R3.ItemArmor;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Chest;
-import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -32,7 +26,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.UUID;
@@ -265,49 +258,46 @@ public class MatchHandler implements Listener {
 
                 p.getInventory().clear();
 
-                p.getInventory().setHelmet(new ItemBuilder(Material.IRON_HELMET).name("&rPaladin's Iron Helmet (X)").enchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1).amount(1).make());
-                p.getInventory().setBoots(new ItemBuilder(Material.DIAMOND_BOOTS).name("&rWolftamer's Diamond Boots (X)").enchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4).amount(1).make());
-                p.getInventory().setChestplate(new ItemBuilder(Material.IRON_CHESTPLATE).name("&rPaladin's Iron Chestplate (X)").amount(1).make());
-                p.getInventory().setLeggings(new ItemBuilder(Material.CHAINMAIL_LEGGINGS).name("&rChain Leggings").amount(1).make());
+                p.getInventory().setHelmet(IItem.PALADIN_HELMET.getItem());
+                p.getInventory().setBoots(IItem.WOLFTAMER_BOOTS.getItem());
+                p.getInventory().setChestplate(IItem.PALADIN_CHESTPLATE.getItem());
+                p.getInventory().setLeggings(IItem.CHAIN_LEGGINGS.getItem());
 
-                p.getInventory().addItem(new ItemStack(Material.FISHING_ROD, 1));
-                p.getInventory().addItem(new ItemBuilder(Material.STONE_SWORD).enchantment(Enchantment.DAMAGE_ALL, 1).amount(1).make());
+                p.getInventory().addItem(IItem.ROD.getItem());
+                p.getInventory().addItem(IItem.SHARP_STONE_SWORD.getItem());
 
-                p.getInventory().addItem(new ItemStack(Material.COOKED_BEEF, 12));
-                PotionEffect[] effects = new PotionEffect[]{new PotionEffect(PotionEffectType.REGENERATION, 20 * 8, 0), new PotionEffect(PotionEffectType.SPEED, 20 * 8, 0)};
-                ItemStack pot = ItemUtils.buildPotion(effects, (short) 16450);
-                pot.setAmount(3);
-                p.getInventory().addItem(pot);
+                p.getInventory().addItem(IItem.STEAK.getItem());
+                p.getInventory().addItem(IItem.WARRIOR_POT.getItem());
 
-                //    p.getInventory().addItem(new ItemBuilder(Material.MONSTER_EGG).durability(95).name("&rWolf Spawn Egg").amount(5).make());
-                //    p.getInventory().addItem(new ItemBuilder(Material.MONSTER_EGG).durability(999).name("&rSnowman Spawn Egg").amount(4).make());
-                return;
-            }
-
-            if (p.getItemInHand().getItemMeta().getDisplayName().contains("Custom Kit")) {
-
-
-                int kitIndex = Integer.parseInt(p.getItemInHand().getItemMeta().getDisplayName().replaceAll(ChatColor.RESET + "Custom Kit #", ""));
+            } else if (p.getItemInHand().getItemMeta().getDisplayName().contains("Custom Kit")) {
+                int kitIndex = Integer.parseInt(p.getItemInHand().getItemMeta().getDisplayName().replace(ChatColor.RESET + "Custom Kit #", ""));
                 p.playSound(p.getLocation(), Sound.CHICKEN_EGG_POP, 1, 1);
                 p.getInventory().clear();
 
-                JsonArray jsonArray = core.getPlayerManager().getPlayer(p.getUniqueId()).getLayouts().get(kitIndex);
-                for (JsonElement jsonElement : jsonArray) {
-                    ItemStack itemStack = core.getItemSerializer().getItemFromString(jsonElement.getAsString());
-                    if (CraftItemStack.asNMSCopy(itemStack).getItem() instanceof ItemArmor) {
-                        if (itemStack.getType().name().endsWith("_HELMET")) {
-                            p.getInventory().setHelmet(itemStack);
-                        } else if (itemStack.getType().name().endsWith("_CHESTPLATE")) {
-                            p.getInventory().setChestplate(itemStack);
-                        } else if (itemStack.getType().name().endsWith("_LEGGINGS")) {
-                            p.getInventory().setLeggings(itemStack);
-                        } else if (itemStack.getType().name().endsWith("_BOOTS")) {
-                            p.getInventory().setBoots(itemStack);
-                        }
+                String[] layout = core.getPlayerManager().getPlayer(p.getUniqueId()).getLayouts().get(kitIndex).split(";");
+                for (String s : layout) {
+                    IItem item;
+                    try {
+                        item = IItem.valueOf(s);
+                    } catch (IllegalArgumentException ex) {
+                        System.out.println("non-existing ID in " + p.getName() + "'s layout #" + kitIndex);
                         continue;
                     }
-
-                    p.getInventory().addItem(itemStack);
+                    if (item == IItem.BLANK) {
+                        continue;
+                    }
+                    ItemStack itemStack = item.getItem();
+                    if (itemStack.getType().name().endsWith("_HELMET")) {
+                        p.getInventory().setHelmet(itemStack);
+                    } else if (itemStack.getType().name().endsWith("_CHESTPLATE")) {
+                        p.getInventory().setChestplate(itemStack);
+                    } else if (itemStack.getType().name().endsWith("_LEGGINGS")) {
+                        p.getInventory().setLeggings(itemStack);
+                    } else if (itemStack.getType().name().endsWith("_BOOTS")) {
+                        p.getInventory().setBoots(itemStack);
+                    } else {
+                        p.getInventory().addItem(itemStack);
+                    }
                 }
 
             }

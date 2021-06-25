@@ -2,21 +2,20 @@ package me.hardstyles.blitz.player;
 
 import lombok.Getter;
 import me.hardstyles.blitz.Core;
-import me.hardstyles.blitz.utils.ItemUtils;
+import me.hardstyles.blitz.utils.ItemBuilder;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.UUID;
 
 @Getter
 public class IPlayerManager {
 	private final HashMap<UUID, IPlayer> players = new HashMap<>();
- 	private final Core core;
+	private final Core core;
+
 	public IPlayerManager(Core core) {
 		this.core = core;
 	}
@@ -33,7 +32,7 @@ public class IPlayerManager {
 		players.remove(uuid);
 	}
 
-	public void hub(Player p){
+	public void hub(Player p) {
 		p.spigot().setCollidesWithEntities(true);
 		p.setFlying(false);
 		p.setAllowFlight(false);
@@ -52,12 +51,13 @@ public class IPlayerManager {
 		hubIntentory(p);
 		p.teleport(core.getLobbySpawn());
 	}
-	public void hubIntentory(Player p){
-		p.getInventory().setItem(4, ItemUtils.buildItem(new ItemStack(Material.NETHER_STAR), "&ePlay", Arrays.asList("§7Right-Click to play")));
-		p.getInventory().setItem(8, ItemUtils.buildItem(new ItemStack(Material.BOOK, 1), "&eKit Editor", Arrays.asList("§cSoon")));
 
+	public void hubIntentory(Player p) {
+		p.getInventory().setItem(4, new ItemBuilder(Material.NETHER_STAR).name("&ePlay").make());
+		p.getInventory().setItem(8, new ItemBuilder(Material.BOOK).name("&eKit Editor").make());
 	}
-	public void reset(Player p){
+
+	public void reset(Player p) {
 		p.spigot().setCollidesWithEntities(true);
 		p.setLevel(0);
 		p.setExp(0);
@@ -79,11 +79,11 @@ public class IPlayerManager {
 		IPlayer victimUhc = this.getPlayer(victim.getUniqueId());
 		IPlayer killerUhc = this.getPlayer(killer.getUniqueId());
 		double eloChange = 0;
-		if(killerUhc.getElo() > 0)
-			eloChange = Math.sqrt(victimUhc.getElo()/killerUhc.getElo()) + 1;
-		else if(killerUhc.getElo() == 0)
-			eloChange = Math.sqrt(victimUhc.getElo()/1) + 1;
-		
+		if (killerUhc.getElo() > 0)
+			eloChange = Math.sqrt(victimUhc.getElo() / killerUhc.getElo()) + 1;
+		else if (killerUhc.getElo() == 0)
+			eloChange = Math.sqrt(victimUhc.getElo() / 1) + 1;
+
 		victimUhc.removeElo((int) eloChange);
 		//victim.sendMessage("§c-" + (int)eloChange + " §7ELO §c(\u25bc" + victimUhc.getElo() + ")");
 		killerUhc.addElo((int) eloChange);
@@ -119,7 +119,7 @@ public class IPlayerManager {
 		uhcPlayer.addElo((int) eloToAdd);
 		g.getWinner().sendMessage("§a+" + (int)eloToAdd + " §7ELO §a(\u25b2" + uhcPlayer.getElo() + ")");
 	}*/
-	
+
 	//public void handleWinElo(Game g) {
 	//	//Get Player
 	//	try{
@@ -140,6 +140,6 @@ public class IPlayerManager {
 	//		System.out.println("elo bug");
 	//	}
 	//	//g.getWinner().sendMessage("§a+" + (int)eloChange + " §7ELO §a(\u25b2" + uhcPlayer.getElo() + ")");
-	}
+}
 	
 
