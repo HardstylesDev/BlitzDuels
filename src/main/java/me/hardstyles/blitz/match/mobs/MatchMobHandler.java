@@ -213,15 +213,15 @@ public class MatchMobHandler implements Listener {
                 entity.setCustomNameVisible(false);
                 ((Snowman) entity).addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 99999, 1, false, false));
                 match.addEntity(iPlayer.getUuid(), entity);
-                for (Entity entityList : entity.getNearbyEntities(15, 15, 15))
+                for (Entity entityList : entity.getNearbyEntities(15, 15, 15)) {
                     if (entityList instanceof Player) {
                         Player potentialTarget = (Player) entityList;
                         if (!match.getDead().contains(potentialTarget) && potentialTarget != e.getPlayer()) {
                             ((Golem) entity).setTarget(potentialTarget);
                             ((Golem) entity).launchProjectile(Snowball.class);
                         }
-
                     }
+                }
             }
         }
 
