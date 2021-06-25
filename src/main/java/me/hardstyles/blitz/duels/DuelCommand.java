@@ -109,7 +109,7 @@ public class DuelCommand implements CommandExecutor {
                 p.sendMessage(ChatColor.RED + "Player hasn't challenged you to a duel");
                 return true;
             }
-            target.sendMessage(ChatColor.DARK_GREEN + "Duel > " + player.getRank(true).getPrefix() + p.getName() + ChatColor.YELLOW + " has declined your duel request");
+            target.sendMessage(ChatColor.DARK_GREEN + "Duel > " + player.getRank().getPrefix() + p.getName() + ChatColor.YELLOW + " has declined your duel request");
             p.sendMessage(ChatColor.DARK_GREEN + "Duel > " + ChatColor.YELLOW + "Duel declined.");
             return true;
         }
@@ -131,12 +131,12 @@ public class DuelCommand implements CommandExecutor {
 
 
         core.getDuelManager().getRequests().add(new DuelRequest(p.getUniqueId(), arg.getUniqueId()));
-        p.sendMessage(ChatColor.YELLOW + "You've sent a duel request to " + target.getRank(true).getPrefix() + arg.getName() + ChatColor.YELLOW + "!");
-        String json = "[\"\",{\"text\":\"[ACCEPT]\",\"bold\":true,\"color\":\"green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/duel accept %inviter%\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":\" " + ChatColor.YELLOW + "Click here to accept " + player.getRank(true).getPrefix() + p.getName() + ChatColor.YELLOW + "'s duel request\"}},{\"text\":\" \",\"bold\":true},{\"text\":\"[DECLINE]\",\"bold\":true,\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/duel decline %inviter%\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":\" " + ChatColor.YELLOW + "Click here to decline " + player.getRank(true).getPrefix() + p.getName() + ChatColor.YELLOW + "'s duel request\"}}]";
+        p.sendMessage(ChatColor.YELLOW + "You've sent a duel request to " + target.getRank().getPrefix() + arg.getName() + ChatColor.YELLOW + "!");
+        String json = "[\"\",{\"text\":\"[ACCEPT]\",\"bold\":true,\"color\":\"green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/duel accept %inviter%\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":\" " + ChatColor.YELLOW + "Click here to accept " + player.getRank().getPrefix() + p.getName() + ChatColor.YELLOW + "'s duel request\"}},{\"text\":\" \",\"bold\":true},{\"text\":\"[DECLINE]\",\"bold\":true,\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/duel decline %inviter%\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":\" " + ChatColor.YELLOW + "Click here to decline " + player.getRank().getPrefix() + p.getName() + ChatColor.YELLOW + "'s duel request\"}}]";
 
         IChatBaseComponent comp = IChatBaseComponent.ChatSerializer.a(json.replaceAll("%inviter%", p.getName()));
         PacketPlayOutChat packet = new PacketPlayOutChat(comp);
-        arg.sendMessage(ChatColor.DARK_GREEN + "Duel > " + player.getRank(true).getPrefix() + p.getName() + ChatColor.YELLOW + " has challenged you to a duel!");
+        arg.sendMessage(ChatColor.DARK_GREEN + "Duel > " + player.getRank().getPrefix() + p.getName() + ChatColor.YELLOW + " has challenged you to a duel!");
 
         ((CraftPlayer) arg).getHandle().playerConnection.sendPacket(packet);
 

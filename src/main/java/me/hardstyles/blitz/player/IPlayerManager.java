@@ -1,52 +1,36 @@
 package me.hardstyles.blitz.player;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.UUID;
-
+import lombok.Getter;
 import me.hardstyles.blitz.Core;
+import me.hardstyles.blitz.utils.ItemUtils;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import me.hardstyles.blitz.utils.ItemUtils;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.UUID;
 
+@Getter
 public class IPlayerManager {
-
-
-	private HashMap<UUID, IPlayer> bsgPlayers;
-final private Core core;
+	private final HashMap<UUID, IPlayer> players = new HashMap<>();
+ 	private final Core core;
 	public IPlayerManager(Core core) {
 		this.core = core;
-		bsgPlayers = new HashMap<UUID, IPlayer>();
-	}
-
-	public HashMap<UUID, IPlayer> getPlayers() {
-		return bsgPlayers;
 	}
 
 	public IPlayer getPlayer(UUID uuid) {
-		return bsgPlayers.get(uuid);
+		return players.get(uuid);
 	}
 
 	public void addPlayer(UUID uuid, IPlayer uhcPlayer) {
-		bsgPlayers.put(uuid, uhcPlayer);
+		players.put(uuid, uhcPlayer);
 	}
 
 	public void removeBsgPlayer(UUID uuid) {
-		bsgPlayers.remove(uuid);
-	}
-
-	
-	public void setLobbyInventoryAndNameTag(Player p) {
-		p.getInventory().clear();
-		p.getInventory().setItem(3, ItemUtils.buildItem(new ItemStack(Material.EMERALD), "&aShop &7(Right-Click)", Arrays.asList("§7Right-Click to open the shop")));
-		p.getInventory().setItem(5, ItemUtils.buildItem(new ItemStack(Material.PAINTING), "&e&lYour Stats &7(Right-Click)", Arrays.asList("§7Right-Click to view your stats")));
-		p.getInventory().setItem(7, ItemUtils.buildItem(new ItemStack(Material.SKULL_ITEM), "&c???", Arrays.asList("§7Coming soon...")));
-
-
+		players.remove(uuid);
 	}
 
 	public void hub(Player p){
@@ -105,7 +89,7 @@ final private Core core;
 		killerUhc.addElo((int) eloChange);
 		//killer.sendMessage("§a+" + (int)eloChange + " §7ELO §a(\u25b2" + killerUhc.getElo() + ")");
 	}
-	
+
 	//public void handleDeathElo(Player victim) {
 	//	BlitzSGPlayer victimUhc = this.getBsgPlayer(victim.getUniqueId());
 	//	Game g = victimUhc.getGame();

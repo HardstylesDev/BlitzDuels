@@ -1,43 +1,37 @@
 package me.hardstyles.blitz.statistics;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import me.hardstyles.blitz.Core;
-import me.hardstyles.blitz.player.IPlayer;
 import me.hardstyles.blitz.nickname.Nick;
+import me.hardstyles.blitz.player.IPlayer;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.UUID;
 
 public class StatisticsManager {
+    private final Core core;
 
-   final private Core core;
     public StatisticsManager(Core core) {
         this.core = core;
     }
 
-    public void save() {
+    public void saveAll() {
         for (IPlayer bsgPlayer : Core.i().getPlayerManager().getPlayers().values()) {
             save(bsgPlayer);
         }
     }
 
     public void saveAsync(IPlayer e) {
-        Bukkit.getScheduler().runTaskAsynchronously(core, () -> {
-            this.save(e);
-
-        });
+        Bukkit.getScheduler().runTaskAsynchronously(core, () -> this.save(e));
     }
-    public void saveAsync(Player e) {
-        Bukkit.getScheduler().runTaskAsynchronously(core, () -> {
-            this.save(core.getPlayerManager().getPlayer(e.getUniqueId()));
 
-        });
-    }
     public void save(IPlayer iPlayer) {
         JsonObject jsonObject = iPlayer.getJsonObject();
         jsonObject.addProperty("uuid", iPlayer.getUuid().toString());
@@ -66,11 +60,9 @@ public class StatisticsManager {
         }
 
         if(!iPlayer.getLayouts().isEmpty()){
-            JsonObject layout =new JsonObject();
+            JsonObject layout = new JsonObject();
 
-            iPlayer.getLayouts().forEach((integer, jsonElements) -> {
-                layout.add("" + integer, jsonElements);
-            });
+            iPlayer.getLayouts().forEach((integer, jsonElements) -> layout.add(String.valueOf(integer), jsonElements));
             jsonObject.add("layouts", layout);
         }
 
@@ -97,7 +89,7 @@ public class StatisticsManager {
     private void insert(String uuid, JsonObject jsonObject) {
         try {
             Connection connection = core.getData().getConnection();
-            String command = String.format("REPLACE INTO `data`(`uuid`, `data`) VALUES (?,?)");
+            String command = "REPLACE INTO `data`(`uuid`, `data`) VALUES (?,?)";
             PreparedStatement preparedStatement = connection.prepareStatement(command);
             preparedStatement.setString(1, uuid);
             preparedStatement.setString(2, gson.toJson(jsonObject));
@@ -123,10 +115,7 @@ public class StatisticsManager {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 IPlayer iPlayer = new IPlayer(UUID.fromString(rs.getString("uuid")));
-                if (iPlayer == null)
-                    continue;
                 JsonObject jsonObject = new JsonParser().parse(rs.getString("data")).getAsJsonObject();
-
 
                 if (jsonObject.has("name")) iPlayer.setName(jsonObject.get("name").getAsString());
                 if (jsonObject.has("rank"))

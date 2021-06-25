@@ -205,6 +205,8 @@ public class Core extends JavaPlugin {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
+
+        statisticsManager.saveAll();
     }
 
     public static void broadcast(String message, World world) {

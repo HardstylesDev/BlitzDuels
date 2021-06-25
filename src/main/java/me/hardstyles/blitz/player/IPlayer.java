@@ -19,7 +19,6 @@ import java.util.UUID;
 @Getter
 @Setter
 public class IPlayer {
-
     private final HashMap<Integer, JsonArray> layouts = new HashMap<>();
     private JsonObject jsonObject = new JsonObject();
     private final UUID uuid;
@@ -28,7 +27,6 @@ public class IPlayer {
     private String customTag, ip, name;
     private Nick nick;
     private Rank rank;
-    private JsonArray editingLayout;
     private boolean hideOthers;
     private Match match;
     private Party party;
@@ -39,15 +37,7 @@ public class IPlayer {
         Core.i().getPlayerManager().addPlayer(this.uuid, this);
     }
 
-
-
-    //Player Stats
-
-
-
-
-
-    public Rank getRank(boolean checkNick) {
+    public Rank getRank() {
         if (nick != null && nick.isNicked())
             return Core.i().getRankManager().getRankByName("Default");
         if (nick == null)
@@ -58,7 +48,7 @@ public class IPlayer {
 
 
     public boolean isNicked() {
-        return (nick.isNicked());
+        return nick != null && nick.isNicked();
     }
 
     public void setJsonObject(JsonObject jsonObject){

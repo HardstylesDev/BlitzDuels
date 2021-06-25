@@ -1,5 +1,6 @@
 package me.hardstyles.blitz.kits;
 
+import lombok.Getter;
 import me.hardstyles.blitz.Core;
 import me.hardstyles.blitz.utils.ItemBuilder;
 import me.hardstyles.blitz.utils.ItemUtils;
@@ -11,35 +12,24 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 
+@Getter
 public class IItemManager {
     private final Core core;
-    HashMap<Integer, ItemStack> items;
-    public ArrayList<IItem> potions;
-    public ArrayList<IItem> helmets;
-    public ArrayList<IItem> chestplates;
-    public ArrayList<IItem> leggings;
-    public ArrayList<IItem> boots;
-    public ArrayList<IItem> weapons;
-    public ArrayList<IItem> projectiles;
-    public ArrayList<IItem> arrows;
-    public ArrayList<IItem> bows;
-    public ArrayList<IItem> mobs;
+    private final List<IItem> potions = new ArrayList<>();
+    private final List<IItem> helmets = new ArrayList<>();
+    private final List<IItem> chestplates = new ArrayList<>();
+    private final List<IItem> leggings = new ArrayList<>();
+    private final List<IItem> boots = new ArrayList<>();
+    private final List<IItem> weapons = new ArrayList<>();
+    private final List<IItem> projectiles = new ArrayList<>();
+    private final List<IItem> arrows = new ArrayList<>();
+    private final List<IItem> bows = new ArrayList<>();
+    private final List<IItem> mobs = new ArrayList<>();
 
     public IItemManager(Core core) {
         this.core = core;
-        this.items = new HashMap<>();
-        this.helmets = new ArrayList<>();
-        this.potions = new ArrayList<>();
-        this.chestplates = new ArrayList<>();
-        this.leggings = new ArrayList<>();
-        this.boots = new ArrayList<>();
-        this.weapons = new ArrayList<>();
-        this.projectiles = new ArrayList<>();
-        this.arrows = new ArrayList<>();
-        this.bows = new ArrayList<>();
-        this.mobs = new ArrayList<>();
 
         //  this.items.put(35, new ItemBuilder(Material.DIAMOND_BOOTS).name("&rWolftamer's Diamond Boots (X)").enchantment(Enchantment.PROTECTION_ENVIRONMENTAL,4).amount(1).make());
         //  this.items.put(25, new ItemBuilder(Material.DIAMOND_BOOTS).name("&rHorsetamer's Diamond Boots (X)").enchantment(Enchantment.PROTECTION_ENVIRONMENTAL,2).amount(1).make());
@@ -163,10 +153,10 @@ public class IItemManager {
 
     }
 
-    public IItem next(ArrayList<IItem> items, ItemStack itemStack) {
+    public IItem next(List<IItem> items, ItemStack itemStack) {
         int index = 0;
-        for (IItem potion : items) {
-            if (itemStack.isSimilar(potion.item)) {
+        for (IItem item : items) {
+            if (itemStack.isSimilar(item.item)) {
                 return (index == (items.size() - 1) ? items.get(0) : items.get(index + 1));
             }
             index++;
@@ -174,10 +164,10 @@ public class IItemManager {
         return null;
     }
 
-    public IItem previous(ArrayList<IItem> items, ItemStack itemStack) {
+    public IItem previous(List<IItem> items, ItemStack itemStack) {
         int index = 0;
-        for (IItem potion : items) {
-            if (itemStack.isSimilar(potion.item)) {
+        for (IItem item : items) {
+            if (itemStack.isSimilar(item.item)) {
                 return (index == 0 ? items.get(items.size() - 1) : items.get(index - 1));
             }
             index++;

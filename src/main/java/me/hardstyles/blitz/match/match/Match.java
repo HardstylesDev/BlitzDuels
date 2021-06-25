@@ -236,12 +236,12 @@ public class Match {
         core.getStatisticsManager().saveAsync(player);
 
         if (attacks.get(p.getUniqueId()) == null) {
-            send(player.getRank(true).getChatColor() + p.getName() + ChatColor.YELLOW + " was killed!");
+            send(player.getRank().getChatColor() + p.getName() + ChatColor.YELLOW + " was killed!");
         } else {
             IPlayer killer = core.getPlayerManager().getPlayer(attacks.get(p.getUniqueId()));
             if (killer != null) {
                 killer.addKill();
-                send(player.getRank(true).getChatColor() + p.getName() + ChatColor.YELLOW + " was killed by " + killer.getRank().getChatColor() + playerReference.get(attacks.get(p.getUniqueId())).getName() + ChatColor.YELLOW + "!");
+                send(player.getRank().getChatColor() + p.getName() + ChatColor.YELLOW + " was killed by " + killer.getRank().getChatColor() + playerReference.get(attacks.get(p.getUniqueId())).getName() + ChatColor.YELLOW + "!");
                 playerReference.get(killer.getUuid()).addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20 * 12, 1));
                 core.getStatisticsManager().saveAsync(killer);
             }
@@ -299,7 +299,7 @@ public class Match {
                 player.getInventory().clear();
 
 
-                player.sendMessage(ChatColor.YELLOW + "" + ChatColor.BOLD + "Winner: " + winner.getRank(true).getChatColor() + playerReference.get(winner.getUuid()).getName());
+                player.sendMessage(ChatColor.YELLOW + "" + ChatColor.BOLD + "Winner: " + winner.getRank().getChatColor() + playerReference.get(winner.getUuid()).getName());
 
                 for (Entity nearbyEntity : player.getWorld().getNearbyEntities(player.getLocation(), 250, 100, 250)) {
                     if (!(nearbyEntity instanceof Player)) {

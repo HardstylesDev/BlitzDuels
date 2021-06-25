@@ -34,12 +34,6 @@ public class RenameCommand implements CommandExecutor {
             return true;
         }
 
-        if (args[0].equalsIgnoreCase("layout")) {
-            JsonArray jsonArray = core.getPlayerManager().getPlayer(p.getUniqueId()).getEditingLayout();
-            for (JsonElement jsonElement : jsonArray) {
-                p.getInventory().addItem(core.getItemSerializer().getItemFromString(jsonElement.getAsString()));
-            }
-        }
         ItemStack itemStack = p.getItemInHand();
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', joined(args)));

@@ -31,7 +31,7 @@ public class PartyChatCommand implements CommandExecutor {
             p.sendMessage(ChatColor.RED + "You're not part of a party.");
             return true;
         }
-        String format = ChatColor.BLUE + "Party > " + sgPlayer.getRank(true).getPrefix() + p.getName() + (sgPlayer.getRank(true).getPrefix().equalsIgnoreCase(ChatColor.GRAY + "") ? ChatColor.GRAY + ": " : ChatColor.WHITE + ": ") + joined(args).replaceAll("%", "%%");
+        String format = ChatColor.BLUE + "Party > " + sgPlayer.getRank().getPrefix() + p.getName() + (sgPlayer.getRank().getPrefix().equalsIgnoreCase(ChatColor.GRAY + "") ? ChatColor.GRAY + ": " : ChatColor.WHITE + ": ") + joined(args).replaceAll("%", "%%");
         OfflinePlayer memberPlayer;
         for (UUID member : sgPlayer.getParty().getMembers()) {
             memberPlayer = Bukkit.getOfflinePlayer(member);

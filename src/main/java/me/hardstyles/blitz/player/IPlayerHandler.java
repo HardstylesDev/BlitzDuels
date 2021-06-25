@@ -43,35 +43,30 @@ public class IPlayerHandler implements Listener {
         core.getStatisticsManager().load(e.getUniqueId());
         core.getPlayerManager().addPlayer(e.getUniqueId(), core.getPlayerManager().getPlayer(e.getUniqueId()));
 
-
-        //});
-
         System.out.println("Loaded players: " + core.getPlayerManager().getPlayers().size());
     }
 
     @EventHandler
-    public void onPlayerUse(PlayerInteractEvent event) {
-        Location location = event.getPlayer().getLocation();
-        location.setWorld(Bukkit.getWorld("worldName"));
-        Player p = event.getPlayer();
-
-        if (p.getItemInHand().getType() == Material.NETHER_STAR) {
-            if (p.getItemInHand().getItemMeta().getDisplayName().contains("Play")) {
-                core.getServer().getScheduler().runTaskLater(core, () -> core.getQueueGui().open(p), 2);
-            }
-            return;
+    public void onPlayerUse(PlayerInteractEvent e) {
+        Player p = e.getPlayer();
+        if (p.getWorld().getName().equalsIgnoreCase("world") && p.getGameMode() != GameMode.CREATIVE) {
+            if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK)
+                e.setCancelled(true);
         }
-        if (p.getItemInHand().getType() == Material.BOOK) {
-            if (p.getItemInHand().getItemMeta().getDisplayName().contains("Kit Editor")) {
-                core.getServer().getScheduler().runTaskLater(core, () -> core.getLayoutGui().open(p), 2);
-            }
 
+        ItemStack item = e.getItem();
+        if (item == null || !item.hasItemMeta() || !item.getItemMeta().hasDisplayName()) return;
+
+        if (item.getItemMeta().getDisplayName().equals("§ePlay")) {
+            core.getQueueGui().open(p);
+        } else if (item.getItemMeta().getDisplayName().equals("§eKit Editor")) {
+            core.getSlotGui().open(p);
         }
     }
 
     @EventHandler
     public void onDisconnect(PlayerQuitEvent e) {
-        e.setQuitMessage("");
+        e.setQuitMessage(null);
         Bukkit.getScheduler().runTaskLater(core, () -> core.getPlayerManager().removeBsgPlayer(e.getPlayer().getUniqueId()), 4);
 
     }
@@ -79,85 +74,67 @@ public class IPlayerHandler implements Listener {
     @EventHandler
 
     public void onJoin(PlayerJoinEvent e) {
-        e.setJoinMessage("");
+        e.setJoinMessage(null);
         core.getServer().getScheduler().runTaskLater(core, () -> {
 
             Player p = e.getPlayer();
 
             core.getPlayerManager().hub(p);
-            e.setJoinMessage("");
             p.getInventory().setHelmet(new ItemStack(Material.AIR, 1));
             p.getInventory().setChestplate(new ItemStack(Material.AIR, 1));
             p.getInventory().setLeggings(new ItemStack(Material.AIR, 1));
             p.getInventory().setBoots(new ItemStack(Material.AIR, 1));
             p.setFoodLevel(20);
-            IPlayer uhcPlayer;
-            if (core.getPlayerManager().getPlayer(p.getUniqueId()) == null)
-                uhcPlayer = new IPlayer(e.getPlayer().getUniqueId());
-            uhcPlayer = core.getPlayerManager().getPlayer(p.getUniqueId());
-            uhcPlayer.setName(p.getDisplayName());
-            uhcPlayer.setIp(p.getAddress().toString().split(":")[0].replaceAll("/", ""));
+            IPlayer iPlayer = new IPlayer(e.getPlayer().getUniqueId());
+            iPlayer.setName(p.getDisplayName());
+            iPlayer.setIp(p.getAddress().getAddress().getHostAddress());
             p.setGameMode(GameMode.SURVIVAL);
-            //p.teleport(new Location(Bukkit.getWorld("world"), 0.5, 100.5, 0.5, 90, 0)); //todo change back
-            //if (!(uhcPlayer.getRank() instanceof Default)) {
-            //    p.setAllowFlight(true);
-            //    p.setFlying(true);
-            //}
-            if (uhcPlayer.getNick() != null && uhcPlayer.getNick().isNicked()) {
-                //e.setJoinMessage((ChatColor.YELLOW + uhcPlayer.getNick().getNickName() + " joined the game").replaceAll("  ", " "));
+            if (iPlayer.getNick() != null && iPlayer.getNick().isNicked()) {
                 Nickname nickname = new Nickname();
-                if (uhcPlayer.getNick().getSkinSignature() == null) {
-                    //e.setJoinMessage((ChatColor.YELLOW + uhcPlayer.getNick().getNickName() + " joined the game").replaceAll("  ", " "));
-                    uhcPlayer.getNick().setNicked(true);
+                if (iPlayer.getNick().getSkinSignature() == null) {
+                    iPlayer.getNick().setNicked(true);
                     p.kickPlayer(ChatColor.GREEN + "Re-applied nick, please rejoin");
-                    String[] skin = nickname.prepareSkinTextures(p, uhcPlayer.getNick().getNickName());
-                    uhcPlayer.getNick().setNicked(true);
-                    uhcPlayer.getNick().setSkinValue(skin[0]);
-                    uhcPlayer.getNick().setSkinSignature(skin[1]);
+                    String[] skin = nickname.prepareSkinTextures(p, iPlayer.getNick().getNickName());
+                    iPlayer.getNick().setNicked(true);
+                    iPlayer.getNick().setSkinValue(skin[0]);
+                    iPlayer.getNick().setSkinSignature(skin[1]);
                 } else {
-                    nickname.setNick(p, uhcPlayer.getNick().getNickName(), true);
+                    nickname.setNick(p, iPlayer.getNick().getNickName(), true);
                 }
             } else {
-                if (uhcPlayer.getRank() == null) {
-                    uhcPlayer.setRank(core.getRankManager().getRankByName("Default"));
+                if (iPlayer.getRank() == null) {
+                    iPlayer.setRank(core.getRankManager().getRankByName("Default"));
                 }
             }
 
-            p.setPlayerListName(uhcPlayer.getRank(true).getPrefix() + p.getName());
+            p.setPlayerListName(iPlayer.getRank().getPrefix() + p.getName());
             for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-                IPlayer iPlayer = core.getPlayerManager().getPlayer(onlinePlayer.getUniqueId());
-                if (iPlayer.getParty() != null) {
-                    if(iPlayer.getParty().getOwner().equals(p.getUniqueId())){
-                        uhcPlayer.setParty(iPlayer.getParty());
-                        uhcPlayer.getParty().setOwner(p.getUniqueId());
+                IPlayer all = core.getPlayerManager().getPlayer(onlinePlayer.getUniqueId());
+                if (all.getParty() != null) {
+                    if(all.getParty().getOwner().equals(p.getUniqueId())){
+                        all.setParty(all.getParty());
+                        all.getParty().setOwner(p.getUniqueId());
                     }
-                    if (iPlayer.getParty().getMembers().contains(p.getUniqueId())) {
-                        uhcPlayer.setParty(iPlayer.getParty());
+                    if (all.getParty().getMembers().contains(p.getUniqueId())) {
+                        all.setParty(all.getParty());
                     }
                 }
             }
-            NametagAPI.setNametag(p.getName(), uhcPlayer.getRank().getPrefix(), "", uhcPlayer.getRank().getPosition());
-
-
-
-
-        }, 1l);
-
-
-
+            NametagAPI.setNametag(p.getName(), iPlayer.getRank().getPrefix(), "", iPlayer.getRank().getPosition());
+        }, 1L);
     }
 
 
     @EventHandler
     public void onAsyncChat(PlayerChatEvent e) {
         IPlayer uhcPlayer = core.getPlayerManager().getPlayer(e.getPlayer().getUniqueId());
-        e.setFormat(uhcPlayer.getRank(true).getPrefix() + e.getPlayer().getName() + (uhcPlayer.getRank(true).getPrefix().equalsIgnoreCase(ChatColor.GRAY + "") ? ChatColor.GRAY + ": " : ChatColor.WHITE + ": ") + e.getMessage().replaceAll("%", "%%"));
+        e.setFormat(uhcPlayer.getRank().getPrefix() + e.getPlayer().getName() + (uhcPlayer.getRank().getPrefix().equalsIgnoreCase(ChatColor.GRAY + "") ? ChatColor.GRAY + ": " : ChatColor.WHITE + ": ") + e.getMessage().replaceAll("%", "%%"));
     }
 
 
     @EventHandler
     public void onPickUp(PlayerPickupItemEvent e) {
-        if (!(e.getItem().getItemStack().getType() == Material.POTION)) {
+        if (e.getItem().getItemStack().getType() != Material.POTION) {
             return;
         }
         if (e.getPlayer().getInventory().firstEmpty() == -1) {
@@ -166,7 +143,7 @@ public class IPlayerHandler implements Listener {
         e.setCancelled(true);
         e.getPlayer().getInventory().addItem(e.getItem().getItemStack());
         e.getItem().remove();
-        e.getPlayer().playSound(e.getItem().getLocation(), Sound.ITEM_PICKUP, (float) 0.1, (float) 1.5);
+        e.getPlayer().playSound(e.getItem().getLocation(), Sound.ITEM_PICKUP, 0.1f, 1.5f);
     }
 
     @EventHandler
@@ -203,14 +180,6 @@ public class IPlayerHandler implements Listener {
     public void dropEvent(PlayerDropItemEvent e) {
         if (e.getPlayer().getWorld().getName().equalsIgnoreCase("world")) {
             e.setCancelled(true);
-        }
-    }
-
-    @EventHandler
-    public void interact(PlayerInteractEvent e) {
-        if (e.getPlayer().getWorld().getName().equalsIgnoreCase("world") && e.getPlayer().getGameMode() != GameMode.CREATIVE) {
-            if (e.getAction() != Action.RIGHT_CLICK_AIR && e.getAction() != Action.RIGHT_CLICK_BLOCK)
-                e.setCancelled(true);
         }
     }
 

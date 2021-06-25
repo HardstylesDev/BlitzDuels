@@ -25,12 +25,7 @@ public class SlotGui implements Listener {
     final private Core core;
     final private String name = ChatColor.GRAY + "Confirm Equipment";
 
-    private int slot1 = 10;
-    private int slot2 = 11;
-    private int slot3 = 12;
-    private int slot4 = 14;
-    private int slot5 = 15;
-    private int slot6 = 16;
+    private final int[] slots = {10, 11, 12, 14, 15, 16};
 
     public SlotGui(Core core) {
         this.core = core;
@@ -45,17 +40,8 @@ public class SlotGui implements Listener {
         }
 
         int index = 1;
-        for(int i : Arrays.asList(slot1,slot2,slot3,slot4,slot5,slot6)){
-            inv.setItem(i, new ItemBuilder(Material.INK_SACK).durability(8).amount(index).make());
-            index++;
-        }
-        index = 1;
-        IPlayer iPlayer = core.getPlayerManager().getPlayer(p.getUniqueId());
-
-        for(int i : Arrays.asList(slot1,slot2,slot3,slot4,slot5,slot6)){
-            if(iPlayer.getLayouts().containsKey(index)){
-                inv.setItem(i, new ItemBuilder(Material.BOOK).amount(index).name(ChatColor.GOLD + "Kit #" + index).make());
-            }
+        for(int i : slots){
+            inv.setItem(i, new ItemBuilder(Material.BOOK).amount(index).name(ChatColor.GOLD + "Kit #" + index).lore("§aClick to edit.").make());
             index++;
         }
 
@@ -69,27 +55,21 @@ public class SlotGui implements Listener {
             return;
         }
         e.setCancelled(true);
-        if (e.getCurrentItem() == null || e.getCurrentItem().getType() == Material.AIR) return;
+        ItemStack item = e.getCurrentItem();
+        if (item == null) return;
 
-        final ItemStack clickedItem = e.getCurrentItem();
-        final int slot = e.getSlot();
-        if(clickedItem.getType() != Material.INK_SACK && clickedItem.getType() != Material.BOOK){
-            return;
-        }
-        IPlayer iPlayer = core.getPlayerManager().getPlayer(e.getWhoClicked().getUniqueId());
+        int slot = e.getSlot();
 
-        int index = 1;
-        for(int i : Arrays.asList(slot1,slot2,slot3,slot4,slot5,slot6)){
-            if(slot == i){
-                iPlayer.getLayouts().put(index, iPlayer.getEditingLayout());
-                e.getWhoClicked().sendMessage(ChatColor.GREEN + "Saved layout! " + ChatColor.GRAY + "(" + index + ChatColor.GRAY + ")");
-                e.getWhoClicked().closeInventory();
-                core.getStatisticsManager().saveAsync(iPlayer);
-                return;
+        if(item.getType() == Material.BOOK) {
+            int index = 1;
+            for(int i : slots){
+                if(slot == i){
+                    core.getLayoutGui().open((Player) e.getWhoClicked(), index);
+                    return;
+                }
+                index++;
             }
-            index++;
         }
-
     }
 
     @EventHandler
@@ -98,11 +78,5 @@ public class SlotGui implements Listener {
             e.setCancelled(true);
         }
 
-    }
-    @EventHandler
-    public void onClose(final InventoryCloseEvent e){
-        if(e.getInventory().getTitle().equalsIgnoreCase(name)){
-            core.getPlayerManager().getPlayer(e.getPlayer().getUniqueId()).setEditingLayout(null);
-        }
     }
 }
