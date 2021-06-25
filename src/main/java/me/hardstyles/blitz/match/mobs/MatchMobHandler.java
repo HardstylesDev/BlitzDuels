@@ -264,10 +264,10 @@ public class MatchMobHandler implements Listener {
 
     }
 
+
     private void targetNearby(Match match, Player owner, Creature e) {
         IPlayer iOwner = core.getPlayerManager().getPlayer(owner.getUniqueId());
         if (iOwner == null) return;
-
         for (Entity entity : e.getLocation().getWorld().getNearbyEntities(e.getLocation(), 15, 15, 15)) {
             if (entity instanceof Player) {
                 Player potentialTarget = (Player) entity;
