@@ -136,13 +136,10 @@ public class MatchHandler implements Listener {
             }
         }
         if (e.getDamager() instanceof Player) {
-
             Player attacker = (Player) e.getDamager();
             match.getAttacks().put(victim.getUniqueId(), attacker.getUniqueId());
             double dmg = match.getDamageDone().getOrDefault(attacker.getUniqueId(), 0D);
             match.getDamageDone().put(attacker.getUniqueId(), dmg + Math.round(e.getFinalDamage()));
-
-
         }
 
     }

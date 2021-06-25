@@ -1,8 +1,9 @@
 package me.hardstyles.blitz.match.mobs;
 
 import me.hardstyles.blitz.Core;
-import me.hardstyles.blitz.match.match.Match;
 import me.hardstyles.blitz.match.MatchStage;
+import me.hardstyles.blitz.match.match.Match;
+import me.hardstyles.blitz.match.match.TeamMatch;
 import me.hardstyles.blitz.player.IPlayer;
 import org.bukkit.DyeColor;
 import org.bukkit.Location;
@@ -212,15 +213,15 @@ public class MatchMobHandler implements Listener {
                 entity.setCustomNameVisible(false);
                 ((Snowman) entity).addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 99999, 1, false, false));
                 match.addEntity(iPlayer.getUuid(), entity);
-                for (Entity entityList : entity.getNearbyEntities(15, 15, 15))
+                for (Entity entityList : entity.getNearbyEntities(15, 15, 15)) {
                     if (entityList instanceof Player) {
                         Player potentialTarget = (Player) entityList;
                         if (!match.getDead().contains(potentialTarget) && potentialTarget != e.getPlayer()) {
                             ((Golem) entity).setTarget(potentialTarget);
                             ((Golem) entity).launchProjectile(Snowball.class);
                         }
-
                     }
+                }
             }
         }
 
@@ -263,11 +264,19 @@ public class MatchMobHandler implements Listener {
 
     }
 
+
     private void targetNearby(Match match, Player owner, Creature e) {
+        IPlayer iOwner = core.getPlayerManager().getPlayer(owner.getUniqueId());
+        if (iOwner == null) return;
         for (Entity entity : e.getLocation().getWorld().getNearbyEntities(e.getLocation(), 15, 15, 15)) {
             if (entity instanceof Player) {
                 Player potentialTarget = (Player) entity;
                 if (match.getAlivePlayers().contains(potentialTarget.getUniqueId()) && potentialTarget != owner) {
+                    if (match instanceof TeamMatch) {
+                        if (iOwner.getParty() != null && iOwner.getParty().getMembers().contains(potentialTarget.getUniqueId())) {
+                            continue;
+                        }
+                    }
                     e.setTarget(potentialTarget);
                     break;
                 }
