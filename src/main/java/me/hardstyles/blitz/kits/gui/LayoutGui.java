@@ -115,6 +115,7 @@ public class LayoutGui implements Listener {
             if (layout.values().stream().allMatch(item -> item == IItem.BLANK)) {
                 IPlayer p = core.getPlayerManager().getPlayer(e.getPlayer().getUniqueId());
                 p.getLayouts().remove(indexCache.get(p.getUuid()));
+                core.getStatisticsManager().saveAsync(p);
                 e.getPlayer().sendMessage("§cDeleted layout §7(#" + indexCache.get(p.getUuid()) + ")");
             } else if (getUsedPoints(e.getPlayer().getUniqueId()) <= 100) {
                 int index = 0;
@@ -125,6 +126,7 @@ public class LayoutGui implements Listener {
 
                 IPlayer p = core.getPlayerManager().getPlayer(e.getPlayer().getUniqueId());
                 p.getLayouts().put(indexCache.get(p.getUuid()), builder.toString());
+                core.getStatisticsManager().saveAsync(p);
                 e.getPlayer().sendMessage("§aSaved layout §7(#" + indexCache.get(p.getUuid()) + ")");
             } else {
                 e.getPlayer().sendMessage("§cKit could not be saved.");
