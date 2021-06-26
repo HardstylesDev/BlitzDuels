@@ -63,10 +63,10 @@ public class LayoutGui implements Listener {
             }
         }
 
-
-        inv.setItem(49, new ItemBuilder(Material.DOUBLE_PLANT).name("&6Points: &a100").make());
+        int points = getUsedPoints(p.getUniqueId());
+        inv.setItem(49, new ItemBuilder(Material.DOUBLE_PLANT).name("&6Points: " + (points > 100 ? ChatColor.RED : ChatColor.GREEN) + (100 - points)).make());
         inv.setItem(53, new ItemBuilder(Material.WOOL).durability(5).name("&aClick to save this layout").make());
-        inv.setItem(45, new ItemBuilder(Material.WOOL).durability(14).name("&cClick to exit").make());
+        inv.setItem(45, new ItemBuilder(Material.WOOL).durability(14).name("&cClick to delete").make());
 
         p.openInventory(inv);
     }
@@ -84,6 +84,10 @@ public class LayoutGui implements Listener {
         final int slot = e.getRawSlot();
 
         if (slot == 45) {
+            Map<Integer, IItem> layout = layoutCache.get(e.getWhoClicked().getUniqueId());
+            for (int i : slots) {
+                layout.put(i, IItem.BLANK);
+            }
             e.getWhoClicked().closeInventory();
         } else if (slot == 53) {
             if (clickedItem.getDurability() != 5) {
@@ -108,21 +112,20 @@ public class LayoutGui implements Listener {
     public void onClose(InventoryCloseEvent e) {
         if (e.getView().getTitle().equals(name)) {
             Map<Integer, IItem> layout = layoutCache.get(e.getPlayer().getUniqueId());
-            if (layout.isEmpty()) {
+            if (layout.values().stream().allMatch(item -> item == IItem.BLANK)) {
                 IPlayer p = core.getPlayerManager().getPlayer(e.getPlayer().getUniqueId());
                 p.getLayouts().remove(indexCache.get(p.getUuid()));
-                core.getStatisticsManager().saveAsync(p);
-                e.getPlayer().sendMessage("§aDeleted layout §7(" + indexCache.get(p.getUuid()) + ")");
+                e.getPlayer().sendMessage("§cDeleted layout §7(#" + indexCache.get(p.getUuid()) + ")");
             } else if (getUsedPoints(e.getPlayer().getUniqueId()) <= 100) {
-                StringBuilder builder = new StringBuilder(layout.get(0).name());
+                int index = 0;
+                StringBuilder builder = new StringBuilder(layout.get(slots[index++]).name());
                 for (int i = 1; i < layout.size(); i++) {
-                    builder.append(";").append(layout.get(i).name());
+                    builder.append(";").append(layout.get(slots[index++]).name());
                 }
 
                 IPlayer p = core.getPlayerManager().getPlayer(e.getPlayer().getUniqueId());
                 p.getLayouts().put(indexCache.get(p.getUuid()), builder.toString());
-                core.getStatisticsManager().saveAsync(p);
-                e.getPlayer().sendMessage("§aSaved layout §7(" + indexCache.get(p.getUuid()) + ")");
+                e.getPlayer().sendMessage("§aSaved layout §7(#" + indexCache.get(p.getUuid()) + ")");
             } else {
                 e.getPlayer().sendMessage("§cKit could not be saved.");
             }

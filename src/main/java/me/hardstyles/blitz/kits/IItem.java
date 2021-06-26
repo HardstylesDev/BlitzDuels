@@ -1,5 +1,6 @@
 package me.hardstyles.blitz.kits;
 
+import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import me.hardstyles.blitz.utils.ItemBuilder;
@@ -13,22 +14,24 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @Getter
 public enum IItem {
+    //0
     BLANK(new ItemBuilder(Material.BARRIER).make(), 0),
 
+    //1-8
     LEATHER_HELMET(new ItemBuilder(Material.LEATHER_HELMET).name("&rLeather Helmet").make(), 6),
     GOLD_HELMET(new ItemBuilder(Material.GOLD_HELMET).name("&rGold Helmet").make(), 10),
-    CHAIN_HELMET(new ItemBuilder(Material.GOLD_HELMET).name("&rGold Helmet").make(), 10),
+    CHAIN_HELMET(new ItemBuilder(Material.CHAINMAIL_HELMET).name("&rChain Helmet").make(), 10),
     PALADIN_HELMET(new ItemBuilder(Material.IRON_HELMET).name("&rPaladin's Iron Helmet (X)").enchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1).make(), 14),
     PIGMAN_HELMET(new ItemBuilder(Material.GOLD_HELMET).name("&rPigman's Gold Helmet (X)").enchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 2).make(), 20),
     VIKING_HELMET(new ItemBuilder(Material.IRON_HELMET).name("&rViking's Iron Helmet (X)").enchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 3).make(), 24),
     ARCHER_HELMET(new ItemBuilder(Material.DIAMOND_HELMET).name("&rArcher's Diamond Helmet (X)").enchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 2).make(), 27),
     MEATMASTER_HELMET(new ItemBuilder(Material.DIAMOND_HELMET).name("&rMeatmaster's Diamond Helmet (X)").enchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4).make(), 32),
 
+    //9-14
     LEATHER_CHESTPLATE(new ItemBuilder(Material.LEATHER_CHESTPLATE).name("&rLeather Chestplate").make(), 10),
     GOLDEN_CHESTPLATE(new ItemBuilder(Material.GOLD_CHESTPLATE).name("&rGolden Chestplate").make(), 14),
     CHAIN_CHESTPLATE(new ItemBuilder(Material.CHAINMAIL_CHESTPLATE).name("&rChain Chestplate").make(), 14),
@@ -36,6 +39,7 @@ public enum IItem {
     PALADIN_CHESTPLATE(new ItemBuilder(Material.IRON_CHESTPLATE).name("&rPaladin's Iron Chestplate (X)").enchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 1).make(), 25),
     CREEPERTAMER_CHESTPLATE(new ItemBuilder(Material.DIAMOND_CHESTPLATE).name("&rCreepertamer's Diamond Chestplate (X)").enchantment(Enchantment.PROTECTION_EXPLOSIONS, 10).make(), 31),
 
+    //15-20
     BIG_BOY_PANTS(new ItemBuilder(Material.LEATHER_LEGGINGS).name("&rLeather Leggings").color(Color.AQUA).enchantment(Enchantment.WATER_WORKER, 10).make(), 7),
     GOLD_LEGGINGS(new ItemBuilder(Material.GOLD_LEGGINGS).name("&rGold Leggings").make(), 11),
     CHAIN_LEGGINGS(new ItemBuilder(Material.CHAINMAIL_LEGGINGS).name("&rChain Leggings").make(), 14),
@@ -43,6 +47,7 @@ public enum IItem {
     FARMER_LEGGINGS(new ItemBuilder(Material.IRON_LEGGINGS).name("&rFarmer's Iron Leggings (X)").make(), 25),
     TIM_LEGGINGS(new ItemBuilder(Material.DIAMOND_LEGGINGS).name("&rTim's Diamond Leggings (X)").make(), 29),
 
+    //21-27
     GOLD_BOOTS(new ItemBuilder(Material.GOLD_BOOTS).name("&rGold Boots").make(), 7),
     CHAIN_BOOTS(new ItemBuilder(Material.CHAINMAIL_BOOTS).name("&rChain Boots").make(), 7),
     IRON_BOOTS(new ItemBuilder(Material.IRON_BOOTS).name("&rIron Boots").make(), 12),
@@ -51,6 +56,7 @@ public enum IItem {
     HORSETAMER_BOOTS(new ItemBuilder(Material.DIAMOND_BOOTS).name("&rHorsetamer's Diamond Boots (X)").enchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 2).make(), 26),
     WOLFTAMER_BOOTS(new ItemBuilder(Material.DIAMOND_BOOTS).name("&rWolftamer's Diamond Boots (X)").enchantment(Enchantment.PROTECTION_ENVIRONMENTAL, 4).make(), 30),
 
+    //28-39
     STONE_AXE(new ItemBuilder(Material.STONE_AXE).name("&rStone Axe").make(), 5),
     WOOD_SWORD(new ItemBuilder(Material.WOOD_SWORD).name("&rWooden Sword").make(), 5),
     IRON_AXE(new ItemBuilder(Material.IRON_AXE).name("&rIron Axe").make(), 9),
@@ -64,20 +70,24 @@ public enum IItem {
     DIAMOND_SWORD(new ItemBuilder(Material.DIAMOND_SWORD).name("&rDiamond Sword").make(), 30),
     SHARP_DIAMOND_SWORD(new ItemBuilder(Material.DIAMOND_SWORD).name("&rDiamond Sword").enchantment(Enchantment.DAMAGE_ALL, 1).make(), 50),
 
+    //40-43
     ROD(new ItemBuilder(Material.FISHING_ROD).make(), 6),
     EGG(new ItemBuilder(Material.EGG).amount(32).make(), 8),
     SNOWBALL(new ItemBuilder(Material.SNOW_BALL).amount(32).make(), 8),
     FLINT_AND_STEEL(new ItemBuilder(Material.FLINT_AND_STEEL).durability(60).make(), 15),
 
+    //44-47
     BOW(new ItemStack(Material.BOW), 10),
     ARCHER_BOW_V(new ItemBuilder(Material.BOW).name("&rArcher's Bow (V)").enchantment(Enchantment.ARROW_DAMAGE, 1).make(), 10),
     ARCHER_BOW_X(new ItemBuilder(Material.BOW).name("&rArcher's Bow (X)").enchantment(Enchantment.ARROW_DAMAGE, 2).make(), 15),
     RANGER_BOW(new ItemBuilder(Material.BOW).name("&rRanger's Bow (X)").enchantment(Enchantment.ARROW_DAMAGE, 1).enchantment(Enchantment.ARROW_KNOCKBACK).make(), 20),
 
+    //48-50
     ARROW_8(new ItemStack(Material.ARROW, 8), 5),
     ARROW_16(new ItemStack(Material.ARROW, 16), 10),
     ARROW_24(new ItemStack(Material.ARROW, 24), 15),
 
+    //51-63
     SPIDER_EGG(new ItemBuilder(Material.MONSTER_EGG).durability(52).name("&rSpider Spawn Egg").amount(5).make(), 17),
     BLAZE_EGG(new ItemBuilder(Material.MONSTER_EGG).durability(61).name("&rBlaze Spawn Egg").amount(3).make(), 23),
     CREEPER_EGG(new ItemBuilder(Material.MONSTER_EGG).durability(50).name("&rCreeper Spawn Egg").amount(4).make(), 13),
@@ -92,6 +102,7 @@ public enum IItem {
     WOLF_EGG(new ItemBuilder(Material.MONSTER_EGG).durability(95).name("&rWolf Spawn Egg").amount(5).make(), 17),
     WITCH_EGG(new ItemBuilder(Material.MONSTER_EGG).durability(66).name("&rWitch Spawn Egg").make(), 16),
 
+    //64-76
     APPLE(new ItemStack(Material.APPLE, 8), 2),
     STEAK(new ItemStack(Material.COOKED_BEEF, 5), 4),
     CARROT(new ItemStack(Material.GOLDEN_CARROT, 4), 6),
@@ -112,7 +123,7 @@ public enum IItem {
     IItem(ItemStack itemStack, int price) {
         this.price = price;
         ItemMeta meta = itemStack.getItemMeta();
-        meta.setLore(Collections.singletonList(ChatColor.GRAY + "Points: " + ChatColor.GREEN + price));
+        meta.setLore(Lists.newArrayList(" ", ChatColor.GRAY + "Points: " + ChatColor.GREEN + price));
         itemStack.setItemMeta(meta);
         this.item = itemStack;
     }
@@ -121,8 +132,8 @@ public enum IItem {
         IItem[] items = new IItem[type.getSize() + 1];
         items[0] = BLANK;
 
-        int index = 0;
-        for (int i = type.getIndexStart(); i <= type.getIndexEnd(); i++) {
+        int index = 1;
+        for (int i = type.getIndexStart(); i < type.getIndexEnd(); i++) {
             items[index++] = IItem.values()[i];
         }
         return items;
@@ -131,28 +142,28 @@ public enum IItem {
     public IItem previous(Type type) {
         List<IItem> items = Arrays.asList(type == null ? new IItem[]{} : IItem.getItems(type));
         int index = Math.max(0, items.indexOf(this));
-        return (index == (items.size() - 1) ? items.get(items.size() - 1) : items.get(index - 1));
+        return (index <= 0 ? items.get(items.size() - 1) : items.get(index - 1));
     }
 
     public IItem next(Type type) {
         List<IItem> items = Arrays.asList(type == null ? new IItem[]{} : IItem.getItems(type));
         int index = Math.max(0, items.indexOf(this));
-        return (index == (items.size() - 1) ? items.get(0) : items.get(index + 1));
+        return (index >= items.size() - 1 ? items.get(0) : items.get(index + 1));
     }
 
     @AllArgsConstructor
     @Getter
     public enum Type {
         HELMET(1, 9),
-        CHESTPLATE(10, 15),
-        LEGGINGS(16, 22),
-        BOOTS(23, 30),
-        WEAPON(31, 43),
-        PROJECTILE(44, 48),
-        BOW(49, 52),
-        ARROW(53, 56),
-        MOB(57, 70),
-        CONSUMABLE(71, 84);
+        CHESTPLATE(9, 15),
+        LEGGINGS(15, 21),
+        BOOTS(21, 28),
+        WEAPON(28, 40),
+        PROJECTILE(40, 44),
+        BOW(44, 48),
+        ARROW(48, 51),
+        MOB(51, 64),
+        CONSUMABLE(64, 77);
 
         private final int indexStart, indexEnd;
 

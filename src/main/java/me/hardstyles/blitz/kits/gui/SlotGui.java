@@ -1,9 +1,6 @@
 package me.hardstyles.blitz.kits.gui;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonPrimitive;
 import me.hardstyles.blitz.Core;
-import me.hardstyles.blitz.player.IPlayer;
 import me.hardstyles.blitz.utils.ItemBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -11,19 +8,14 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 public class SlotGui implements Listener {
     final private Core core;
-    final private String name = ChatColor.GRAY + "Confirm Equipment";
+    final private String name = ChatColor.GRAY + "Edit Layouts";
 
     private final int[] slots = {10, 11, 12, 14, 15, 16};
 
@@ -41,7 +33,7 @@ public class SlotGui implements Listener {
 
         int index = 1;
         for(int i : slots){
-            inv.setItem(i, new ItemBuilder(Material.BOOK).amount(index).name(ChatColor.GOLD + "Kit #" + index).lore("§aClick to edit.").make());
+            inv.setItem(i, new ItemBuilder(Material.BOOK).amount(index).name(ChatColor.GOLD + "Kit #" + index).lore(" ").lore("§aClick to edit.").make());
             index++;
         }
 
