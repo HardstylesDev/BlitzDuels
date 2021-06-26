@@ -1,5 +1,10 @@
 package me.hardstyles.blitz;
 
+import com.google.common.collect.ImmutableList;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import lombok.Getter;
 import lombok.Setter;
 import me.elijuh.nametagapi.NametagAPI;
@@ -19,6 +24,7 @@ import me.hardstyles.blitz.match.mobs.MatchMobHandler;
 import me.hardstyles.blitz.nickname.NicknameCommand;
 import me.hardstyles.blitz.party.PartyChatCommand;
 import me.hardstyles.blitz.party.PartyCommand;
+import me.hardstyles.blitz.player.IPlayer;
 import me.hardstyles.blitz.player.IPlayerHandler;
 import me.hardstyles.blitz.player.IPlayerManager;
 import me.hardstyles.blitz.punishments.ACBan;
@@ -44,11 +50,19 @@ import me.hardstyles.blitz.utils.world.WorldCommand;
 import net.minecraft.server.v1_8_R3.EnumChatFormat;
 import org.bukkit.*;
 import org.bukkit.command.CommandMap;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import redis.clients.jedis.JedisPool;
 
 import java.io.File;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Getter
 public class Core extends JavaPlugin {
@@ -147,6 +161,9 @@ public class Core extends JavaPlugin {
         this.getCommand("rename").setExecutor(new RenameCommand(this));
         this.getCommand("spectate").setExecutor(new SpectatorCommand(this));
         this.getCommand("duel").setExecutor(new DuelCommand(this));
+
+        //temporary
+        new MassResetLayoutsCommand();
 
         new QueueCommand();
         new StaffChatCommand();
