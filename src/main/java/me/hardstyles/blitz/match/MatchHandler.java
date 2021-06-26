@@ -26,8 +26,10 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.List;
 import java.util.UUID;
 
 public class MatchHandler implements Listener {
@@ -283,7 +285,14 @@ public class MatchHandler implements Listener {
                     if (item == IItem.BLANK) {
                         continue;
                     }
+                    //removes the price info
                     ItemStack itemStack = item.getItem();
+                    ItemMeta meta = itemStack.getItemMeta();
+                    List<String> lore = meta.getLore();
+                    lore.remove(lore.size() - 1);
+                    lore.remove(lore.size() - 1);
+                    meta.setLore(lore);
+                    itemStack.setItemMeta(meta);
                     if (itemStack.getType().name().endsWith("_HELMET")) {
                         p.getInventory().setHelmet(itemStack);
                     } else if (itemStack.getType().name().endsWith("_CHESTPLATE")) {
