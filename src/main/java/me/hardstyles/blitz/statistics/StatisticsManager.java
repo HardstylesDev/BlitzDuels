@@ -1,9 +1,6 @@
 package me.hardstyles.blitz.statistics;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 import me.hardstyles.blitz.Core;
 import me.hardstyles.blitz.nickname.Nick;
 import me.hardstyles.blitz.player.IPlayer;
@@ -59,12 +56,10 @@ public class StatisticsManager {
 
         }
 
-        if(!iPlayer.getLayouts().isEmpty()){
-            JsonObject layout = new JsonObject();
+        JsonObject layout = new JsonObject();
 
-            iPlayer.getLayouts().forEach((integer, string) -> layout.addProperty(String.valueOf(integer), string));
-            jsonObject.add("layouts", layout);
-        }
+        iPlayer.getLayouts().forEach((integer, string) -> layout.addProperty(String.valueOf(integer), string));
+        jsonObject.add("layouts", layout);
 
 
         iPlayer.setJsonObject(jsonObject);
@@ -132,11 +127,14 @@ public class StatisticsManager {
                     iPlayer.setNick(new Nick(jsonObject.get("nick").getAsJsonObject().get("name").getAsString(), jsonObject.get("nick").getAsJsonObject().get("value").getAsString(), jsonObject.get("nick").getAsJsonObject().get("signature").getAsString(), jsonObject.get("nick").getAsJsonObject().get("nicked").getAsBoolean()));
                 }
 
-                if(jsonObject.has("layouts")){
-                JsonObject layout = jsonObject.get("layouts").getAsJsonObject();
+                if(jsonObject.has("layouts")) {
+                    JsonObject layout = jsonObject.get("layouts").getAsJsonObject();
                     for (int i = 1; i < 7; i++) {
-                        if(layout.has(String.valueOf(i))){
-                            iPlayer.getLayouts().put(i, layout.get(String.valueOf(i)).getAsString());
+                        if (layout.has(String.valueOf(i))) {
+                            JsonElement element = layout.get(String.valueOf(i));
+                            if (element.isJsonPrimitive() && element.getAsJsonPrimitive().isString()) {
+                                iPlayer.getLayouts().put(i, element.getAsString());
+                            }
                         }
                     }
                 }

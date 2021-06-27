@@ -85,7 +85,7 @@ public class IPlayerHandler implements Listener {
             p.getInventory().setLeggings(new ItemStack(Material.AIR, 1));
             p.getInventory().setBoots(new ItemStack(Material.AIR, 1));
             p.setFoodLevel(20);
-            IPlayer iPlayer = new IPlayer(e.getPlayer().getUniqueId());
+            IPlayer iPlayer = core.getPlayerManager().getPlayer(e.getPlayer().getUniqueId());
             iPlayer.setName(p.getDisplayName());
             iPlayer.setIp(p.getAddress().getAddress().getHostAddress());
             p.setGameMode(GameMode.SURVIVAL);
