@@ -3,6 +3,7 @@ package me.hardstyles.blitz.party;
 import me.hardstyles.blitz.Core;
 import me.hardstyles.blitz.arena.Arena;
 import me.hardstyles.blitz.match.match.Match;
+import me.hardstyles.blitz.match.match.TeamMatch;
 import me.hardstyles.blitz.player.IPlayer;
 import net.minecraft.server.v1_8_R3.IChatBaseComponent;
 import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
@@ -44,11 +45,15 @@ public class PartyCommand implements CommandExecutor {
                 p.sendMessage(ChatColor.BLUE + "Party > " + ChatColor.RED + "You're not part of a party.");
                 return true;
             }
+
             if (sgPlayer.getParty().getOwner() != p.getUniqueId()) {
                 p.sendMessage(ChatColor.BLUE + "Party > " + ChatColor.RED + "You're not the owner of the party.");
                 return true;
             }
-
+            if(sgPlayer.hasMatch() && sgPlayer.getMatch() instanceof TeamMatch){
+                p.sendMessage("§cCan't leave the party while in a Team Match.");
+                return true;
+            }
             OfflinePlayer memberPlayer;
             for (UUID member : sgPlayer.getParty().getMembers()) {
 
@@ -66,6 +71,10 @@ public class PartyCommand implements CommandExecutor {
         if (args[0].equalsIgnoreCase("kick") || args[0].equalsIgnoreCase("remove")) {
             if (sgPlayer.getParty() == null) {
                 p.sendMessage(ChatColor.BLUE + "Party > " + ChatColor.RED + "You're not part of a party.");
+                return true;
+            }
+            if(sgPlayer.hasMatch() && sgPlayer.getMatch() instanceof TeamMatch){
+                p.sendMessage("§cCan't leave the party while in a Team Match.");
                 return true;
             }
             if (sgPlayer.getParty().getOwner() != p.getUniqueId()) {
@@ -118,6 +127,10 @@ public class PartyCommand implements CommandExecutor {
         if (args[0].equalsIgnoreCase("leave")) {
             if (sgPlayer.getParty() == null) {
                 p.sendMessage(ChatColor.BLUE + "Party > " + ChatColor.RED + "You're not in a party");
+                return true;
+            }
+            if(sgPlayer.hasMatch() && sgPlayer.getMatch() instanceof TeamMatch){
+                p.sendMessage("§cCan't leave the party while in a Team Match.");
                 return true;
             }
             if (sgPlayer.getParty().getOwner() == p.getUniqueId()) {
