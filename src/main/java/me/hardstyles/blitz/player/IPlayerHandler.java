@@ -27,19 +27,18 @@ public class IPlayerHandler implements Listener {
 
 
 
-    @EventHandler
-    public void onConnect(PlayerLoginEvent e) {
-        core.getServer().getScheduler().runTaskAsynchronously(core, () -> {
-            BannedPlayer bannedPlayer = new BannedPlayer(core, e.getPlayer().getUniqueId());
-            if (bannedPlayer.isBanned) {
-                e.getPlayer().kickPlayer(bannedPlayer.reason);
-            }
-        });
-    }
+
 
 
     @EventHandler
     public void onJoin(AsyncPlayerPreLoginEvent e) {
+        BannedPlayer bannedPlayer = new BannedPlayer(core, e.getUniqueId());
+        if (bannedPlayer.isBanned) {
+            e.setKickMessage(bannedPlayer.reason);
+            e.setLoginResult(AsyncPlayerPreLoginEvent.Result.KICK_BANNED);
+            return;
+        }
+
         core.getStatisticsManager().load(e.getUniqueId());
     }
 

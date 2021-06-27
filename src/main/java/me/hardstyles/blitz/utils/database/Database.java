@@ -27,7 +27,7 @@ public class Database {
 
     String jbdcUrl = String.format("jdbc:mysql://%s:3306/%s?useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=CET", host, database);
     //Call the get connection method.
-    private static DataSource dataSource;
+    private static HikariDataSource dataSource;
 
     public Connection getConnection() throws SQLException {
         return getDataSource().getConnection();
@@ -35,7 +35,7 @@ public class Database {
 
     //Get the DataSource. If not available create the new one
     //It is not threadsafe. I didn't wanted to complicate things.
-    public DataSource getDataSource() {
+    public HikariDataSource getDataSource() {
         if (null == dataSource) {
             System.out.println("No DataSource is available. We will create a new one.");
             createDataSource();
@@ -48,9 +48,10 @@ public class Database {
         HikariConfig hikariConfig = getHikariConfig();
         System.out.println("Configuration is ready.");
         System.out.println("Creating the HiakriDataSource and assigning it as the global");
-        HikariDataSource hikariDataSource = new HikariDataSource(hikariConfig);
+       dataSource = new HikariDataSource(hikariConfig);
 
-        dataSource = hikariDataSource;
+
+
     }
 
     public HikariConfig getHikariConfig() {

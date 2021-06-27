@@ -221,7 +221,12 @@ public class Core extends JavaPlugin {
             e.printStackTrace();
         }
 
+
+
+
         statisticsManager.saveAll();
+
+        data.getDataSource().close();
     }
 
     public static void broadcast(String message, World world) {
