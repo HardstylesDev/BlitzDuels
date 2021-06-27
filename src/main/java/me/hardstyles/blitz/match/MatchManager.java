@@ -6,14 +6,17 @@ public class MatchManager {
 
     final private Core core;
     private int matchCount;
+
     public MatchManager(Core core) {
         this.core = core;
         this.matchCount = 0;
     }
-    public void add(){
+
+    public void add() {
         this.matchCount++;
     }
-    public void remove(){
+
+    public void remove() {
         this.matchCount--;
     }
 

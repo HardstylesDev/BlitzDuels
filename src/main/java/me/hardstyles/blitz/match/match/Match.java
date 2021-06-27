@@ -101,13 +101,16 @@ public class Match {
             }
 
 
-            for (IPlayer ip : Core.i().getPlayerManager().getPlayers().values()) {
-                if (ip.getFollowing() != null && ip.getFollowing().equals(p.getUniqueId())) {
-                    Player follower = Bukkit.getPlayer(ip.getUuid());
-                    follower.sendMessage("§eFollowing " + iPlayer.getRank().getPrefix() + p.getName() + " §einto their match..");
-                    follower.performCommand("spectate " + p.getName() + " -s");
+            core.getServer().getScheduler().runTask(core, () -> {
+                for (IPlayer ip : Core.i().getPlayerManager().getPlayers().values()) {
+                    if (ip.getFollowing() != null && ip.getFollowing().equals(p.getUniqueId())) {
+                        Player follower = Bukkit.getPlayer(ip.getUuid());
+                        follower.sendMessage("§eFollowing " + iPlayer.getRank().getPrefix() + p.getName() + " §einto their match..");
+                        follower.performCommand("spectate " + p.getName() + " -s");
+                    }
                 }
-            }
+            });
+
         }
 
         startCooldown();
@@ -281,6 +284,7 @@ public class Match {
 
         UUID winnerUuid = getWinner();
         if (winnerUuid != null) {
+            this.winners.add(winnerUuid);
             IPlayer winner = core.getPlayerManager().getPlayer(winnerUuid);
             for (Player player : playerReference.values()) {
 

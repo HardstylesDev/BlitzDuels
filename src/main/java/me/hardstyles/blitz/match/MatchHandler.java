@@ -6,10 +6,12 @@ import me.hardstyles.blitz.match.match.Match;
 import me.hardstyles.blitz.match.match.TeamMatch;
 import me.hardstyles.blitz.party.Party;
 import me.hardstyles.blitz.player.IPlayer;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import net.minecraft.server.v1_8_R3.EnumParticle;
+import net.minecraft.server.v1_8_R3.Item;
+import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
+import org.bukkit.*;
 import org.bukkit.block.Chest;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -21,15 +23,10 @@ import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.*;
-import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerPickupItemEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.ArrayList;
 import java.util.UUID;
 
 public class MatchHandler implements Listener {
@@ -181,8 +178,12 @@ public class MatchHandler implements Listener {
     }
 
     @EventHandler
-    public void onIgniteEevent(BlockIgniteEvent event) {
-        event.setCancelled(true);
+    public void onIgniteEevent(BlockIgniteEvent e) {
+        IPlayer iPlayer = core.getPlayerManager().getPlayer(e.getPlayer().getUniqueId());
+        if (iPlayer.hasMatch()) {
+            iPlayer.getMatch().getBlocksPlaced().add(e.getBlock().getLocation());
+
+        }
     }
 
     @EventHandler
@@ -193,6 +194,16 @@ public class MatchHandler implements Listener {
                 return;
             }
             e.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void useItem(PlayerItemDamageEvent e) {
+        if (e.getItem().getType() == Material.FLINT_AND_STEEL) {
+            e.setDamage(16);
+            if (e.getItem().getDurability() >= 48) {
+                e.setDamage(15);
+            }
         }
     }
 
@@ -211,6 +222,7 @@ public class MatchHandler implements Listener {
                 iPlayer.getMatch().getBlocksPlaced().add(e.getBlock().getLocation());
                 return;
             }
+            Bukkit.broadcastMessage("boooo");
             e.setCancelled(true);
         }
     }

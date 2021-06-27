@@ -65,7 +65,7 @@ public enum IItem {
     IRON_SWORD(new ItemBuilder(Material.IRON_SWORD).name("&rIron Sword").enchantment(Enchantment.DURABILITY, 1).make(), 15),
     SPELEOLOGIST_PICKAXE(new ItemBuilder(Material.DIAMOND_PICKAXE).name("&rDiamond Pickaxe").enchantment(Enchantment.DAMAGE_ALL, 1).make(), 15),
     SHARP_STONE_SWORD(new ItemBuilder(Material.STONE_SWORD).name("&rStone Sword").enchantment(Enchantment.DAMAGE_ALL, 1).make(), 15),
-    PIGMAN_SWORD(new ItemBuilder(Material.GOLD_SWORD).name("&rPigman's Golden Sword (X)").enchantment(Enchantment.DAMAGE_ALL, 2).make(), 17),
+    PIGMAN_SWORD(new ItemBuilder(Material.GOLD_SWORD).name("&rPigman's Golden Sword (X)").enchantment(Enchantment.DAMAGE_ALL, 2).enchantment(Enchantment.DURABILITY, 10).make(), 17),
     DIAMOND_SWORD(new ItemBuilder(Material.DIAMOND_SWORD).name("&rDiamond Sword").make(), 30),
     SHARP_DIAMOND_SWORD(new ItemBuilder(Material.DIAMOND_SWORD).name("&rDiamond Sword").enchantment(Enchantment.DAMAGE_ALL, 1).make(), 50),
 
@@ -121,10 +121,6 @@ public enum IItem {
 
     IItem(ItemStack itemStack, int price) {
         this.price = price;
-        ItemMeta meta = itemStack.getItemMeta();
-        meta.spigot().setUnbreakable(true);
-        meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
-        itemStack.setItemMeta(meta);
         this.item = itemStack;
     }
 
