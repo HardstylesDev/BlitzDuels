@@ -210,19 +210,9 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder addItemFlags(final ItemFlag[] itemFlags) {
-        make().getItemMeta().getItemFlags().clear();
-        make().getItemMeta().addItemFlags(itemFlags);
-        return this;
-    }
-
-    public ItemBuilder addItemFlag(final ItemFlag itemFlag) {
-        ItemMeta meta = make().getItemMeta();
-
-        meta.getItemFlags().clear();
-        meta.getItemFlags().add(itemFlag);
-        make().setItemMeta(meta);
-
+    public ItemBuilder addItemFlags(final ItemFlag... itemFlags) {
+        itemM.addItemFlags(itemFlags);
+        item.setItemMeta(itemM);
         return this;
     }
 
@@ -351,6 +341,7 @@ public class ItemBuilder {
 
     public ItemBuilder addPotionEffect(PotionEffect effect) {
         ((PotionMeta) itemM).addCustomEffect(effect, false);
+        item.setItemMeta(itemM);
         return this;
     }
 
@@ -369,6 +360,7 @@ public class ItemBuilder {
      * @return the ItemStack of the ItemBuilder instance.
      */
     public ItemStack make() {
+        item.setItemMeta(itemM);
         return item;
     }
 

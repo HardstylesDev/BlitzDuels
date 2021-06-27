@@ -106,15 +106,15 @@ public enum IItem {
     STEAK(new ItemStack(Material.COOKED_BEEF, 5), 4),
     CARROT(new ItemStack(Material.GOLDEN_CARROT, 4), 6),
     GAPPLE(new ItemStack(Material.GOLDEN_APPLE), 10),
-    SLOW_POTS(new ItemBuilder(Material.POTION).addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20 * 8, 2)).durability(16426).amount(4).make(), 10),
-    HARM_POTS(new ItemBuilder(Material.POTION).addPotionEffect(new PotionEffect(PotionEffectType.HARM, 1, 1)).durability(16460).amount(2).make(), 12),
+    SLOW_POTS(new ItemBuilder(Material.POTION).addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20 * 8, 1)).durability(16426).amount(4).make(), 10),
+    HARM_POTS(new ItemBuilder(Material.POTION).addPotionEffect(new PotionEffect(PotionEffectType.HARM, 1, 0)).durability(16460).amount(2).make(), 12),
     WARRIOR_POT(new ItemBuilder(Material.POTION).name("&fWarrior Potion").addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 20 * 8, 0)).addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20 * 8, 0)).durability(16386).amount(3).make(), 15),
-    REAPER_POT(new ItemBuilder(Material.POTION).name("&fReaper Potion").addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 20 * 6, 2)).addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20 * 6, 0)).durability(16460).amount(3).make(), 15),
+    REAPER_POT(new ItemBuilder(Material.POTION).name("&fReaper Potion").addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 20 * 6, 2)).addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20 * 6, 0)).durability(16424).amount(3).make(), 15),
     BAKER_POT(new ItemBuilder(Material.POTION).name("&fBaker Potion").addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 20 * 8, 0)).addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 20 * 8, 0)).durability(16449).amount(3).make(), 15),
-    SPEED_POTS(new ItemBuilder(Material.POTION).addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20 * 16, 2)).amount(4).make(), 15),
-    BLIND_POTS(new ItemBuilder(Material.POTION).addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20 * 7, 3)).durability(16460).amount(3).make(), 15),
-    POISON_POTS(new ItemBuilder(Material.POTION).addPotionEffect(new PotionEffect(PotionEffectType.POISON, 20 * 6, 2)).durability(16420).amount(5).make(), 17),
-    REGEN_POTS(new ItemBuilder(Material.POTION).addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 20 * 8, 2)).durability(8193).amount(3).make(), 18);
+    SPEED_POTS(new ItemBuilder(Material.POTION).addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20 * 16, 1)).durability(8226).amount(4).make(), 15),
+    BLIND_POTS(new ItemBuilder(Material.POTION).addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20 * 7, 2)).durability(16460).amount(3).make(), 15),
+    POISON_POTS(new ItemBuilder(Material.POTION).addPotionEffect(new PotionEffect(PotionEffectType.POISON, 20 * 6, 1)).durability(16420).amount(5).make(), 17),
+    REGEN_POTS(new ItemBuilder(Material.POTION).addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 20 * 8, 1)).durability(8193).amount(3).make(), 18);
 
     private final ItemStack item;
     private final int price;
