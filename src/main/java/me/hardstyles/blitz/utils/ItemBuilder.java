@@ -360,7 +360,6 @@ public class ItemBuilder {
      * @return the ItemStack of the ItemBuilder instance.
      */
     public ItemStack make() {
-        item.setItemMeta(itemM);
         return item;
     }
 

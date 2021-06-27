@@ -73,7 +73,7 @@ public enum IItem {
     ROD(new ItemBuilder(Material.FISHING_ROD).make(), 6),
     EGG(new ItemBuilder(Material.EGG).amount(32).make(), 8),
     SNOWBALL(new ItemBuilder(Material.SNOW_BALL).amount(32).make(), 8),
-    FLINT_AND_STEEL(new ItemBuilder(Material.FLINT_AND_STEEL).durability(60).make(), 15),
+    FLINT_AND_STEEL(new ItemBuilder(Material.FLINT_AND_STEEL).make(), 15),
 
     //44-47
     BOW(new ItemStack(Material.BOW), 10),
