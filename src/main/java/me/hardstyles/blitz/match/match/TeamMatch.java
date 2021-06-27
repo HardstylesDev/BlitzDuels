@@ -56,6 +56,7 @@ public class TeamMatch extends Match {
     @Override
     public void finishCheck(){
         if (getAliveParties().size() <= 1) {
+            getAliveParties().stream().findFirst().get().getMembers().forEach(member -> super.getWinners().add(member));
             setMatchStage(MatchStage.ENDED);
             finish();
         }

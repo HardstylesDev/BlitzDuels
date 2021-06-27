@@ -284,6 +284,7 @@ public class Match {
 
         UUID winnerUuid = getWinner();
         if (winnerUuid != null) {
+            this.winners.add(winnerUuid);
             IPlayer winner = core.getPlayerManager().getPlayer(winnerUuid);
             for (Player player : playerReference.values()) {
 

@@ -38,7 +38,6 @@ public class IPlayerHandler implements Listener {
             e.setLoginResult(AsyncPlayerPreLoginEvent.Result.KICK_BANNED);
             return;
         }
-
         core.getStatisticsManager().load(e.getUniqueId());
     }
 
