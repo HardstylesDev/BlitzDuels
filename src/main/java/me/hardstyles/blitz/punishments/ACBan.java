@@ -57,46 +57,8 @@ public class ACBan implements CommandExecutor {
                 }
             }
         });
-
         player.kickPlayer("Unfair Advantage");
         return true;
-
-
     }
 }
-//  }
-//  BlitzSGPlayer p = BlitzSG.getInstance().getBlitzSGPlayerManager().getBsgPlayer(((Player) sender).getUniqueId());
-//  if (args.length == 0 || args.length == 1) {
 
-//      return true;
-//  }
-
-//  String format = args[1].substring(args[1].length() - 1, args[1].length());
-
-//  int duration = Integer.valueOf(args[1].substring(0, args[1].length() - 1));
-//  long time = 0;
-//  switch (format) {
-//      case "s":
-//          time = duration * 1000;
-//          break;
-//      case "m":
-//          time = duration * 1000 & 60;
-//          break;
-//      case "h":
-//          time = duration * 1000 & 60 * 60;
-//          break;
-//      case "d":
-//          time = duration * 1000 & 60 * 60 * 24;
-//          break;
-//      case "w":
-//          time = duration * 1000 & 60 * 60 * 24 * 7;
-//          break;
-//      default:
-//          sender.sendMessage(ChatColor.RED + "Please give a valid duration.");
-//  }
-//  sender.sendMessage("Time is " + time);
-
-
-//  return true;
-//}
-//}

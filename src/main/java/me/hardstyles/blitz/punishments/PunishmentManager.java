@@ -23,7 +23,7 @@ public class PunishmentManager {
 
     public void handlePreLogin(AsyncPlayerPreLoginEvent e) {
         e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_BANNED, "");
-        System.out.println("yup");
+
 
         Bukkit.getScheduler().runTaskAsynchronously(core, new Runnable() {
             @Override
