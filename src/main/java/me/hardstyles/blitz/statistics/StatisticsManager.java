@@ -90,7 +90,6 @@ public class StatisticsManager {
             preparedStatement.setString(2, gson.toJson(jsonObject));
             preparedStatement.execute();
             preparedStatement.close();
-            connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
 
@@ -142,7 +141,6 @@ public class StatisticsManager {
             }
             rs.close();
             ps.close();
-            conn.close();
         } catch (
                 SQLException e) {
             e.printStackTrace();

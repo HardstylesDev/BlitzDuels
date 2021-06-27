@@ -83,7 +83,6 @@ public class LeaderboardUpdater {
             }
             rs.close();
             ps.close();
-            conn.close();
         } catch (
                 SQLException e) {
             e.printStackTrace();
@@ -105,7 +104,6 @@ public class LeaderboardUpdater {
             }
             rs.close();
             ps.close();
-            conn.close();
         } catch (
                 SQLException e) {
             e.printStackTrace();
@@ -127,7 +125,6 @@ public class LeaderboardUpdater {
             }
             rs.close();
             ps.close();
-            conn.close();
         } catch (
                 SQLException e) {
             e.printStackTrace();

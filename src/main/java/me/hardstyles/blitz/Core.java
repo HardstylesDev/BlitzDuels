@@ -1,10 +1,5 @@
 package me.hardstyles.blitz;
 
-import com.google.common.collect.ImmutableList;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import lombok.Getter;
 import lombok.Setter;
 import me.elijuh.nametagapi.NametagAPI;
@@ -24,12 +19,13 @@ import me.hardstyles.blitz.match.mobs.MatchMobHandler;
 import me.hardstyles.blitz.nickname.NicknameCommand;
 import me.hardstyles.blitz.party.PartyChatCommand;
 import me.hardstyles.blitz.party.PartyCommand;
-import me.hardstyles.blitz.player.IPlayer;
 import me.hardstyles.blitz.player.IPlayerHandler;
 import me.hardstyles.blitz.player.IPlayerManager;
-import me.hardstyles.blitz.punishments.ACBan;
+import me.hardstyles.blitz.punishments.PunishmentHandler;
 import me.hardstyles.blitz.punishments.PunishmentManager;
-import me.hardstyles.blitz.punishments.commands.Unban;
+import me.hardstyles.blitz.punishments.commands.*;
+import me.hardstyles.blitz.punishments.redis.RedisListener;
+import me.hardstyles.blitz.punishments.redis.RedisManager;
 import me.hardstyles.blitz.queue.QueueCommand;
 import me.hardstyles.blitz.queue.QueueGui;
 import me.hardstyles.blitz.queue.QueueManager;
@@ -43,33 +39,21 @@ import me.hardstyles.blitz.staff.report.ReportCommand;
 import me.hardstyles.blitz.statistics.StatisticsManager;
 import me.hardstyles.blitz.utils.*;
 import me.hardstyles.blitz.utils.database.Database;
-import me.hardstyles.blitz.utils.database.ItemSerializer;
 import me.hardstyles.blitz.utils.entity.player.TabUtil;
 import me.hardstyles.blitz.utils.world.VoidGenerator;
 import me.hardstyles.blitz.utils.world.WorldCommand;
 import net.minecraft.server.v1_8_R3.EnumChatFormat;
 import org.bukkit.*;
 import org.bukkit.command.CommandMap;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-import redis.clients.jedis.JedisPool;
 
 import java.io.File;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Getter
 public class Core extends JavaPlugin {
 
     public static String CORE_NAME = EnumChatFormat.GRAY + "[" + EnumChatFormat.RED + "B-SG" + EnumChatFormat.GRAY + "]: " + EnumChatFormat.WHITE;
-
-    private JedisPool pool;
 
     private static Core instance;
     @Setter
@@ -87,7 +71,9 @@ public class Core extends JavaPlugin {
     private ScoreboardManager scoreboardManager;
     private RankManager rankManager;
     private TabUtil tabUtil;
-    private ItemSerializer itemSerializer;
+
+    private Database data;
+    private RedisManager redisManager;
 
     private PunishmentManager punishmentManager;
     private StatisticsManager statisticsManager;
@@ -100,26 +86,20 @@ public class Core extends JavaPlugin {
     private Location lobbySpawn;
     private ArenaManager arenaManager;
 
-    private Database data;
-
     public Core() {
         instance = this;
     }
 
     public void onEnable() {
+
         instance = this;
         new NametagAPI(this);
         new WorldCreator("arena").generator(new VoidGenerator()).createWorld();
 
-        try {
-            new VanillaCommands().remove();
-        } catch (Exception exception) {
-            exception.printStackTrace();
-        }
-
         karhuAnticheat = new KarhuAnticheat(this);
         chestFiller = new ChestFiller(this);
         data = new Database();
+        redisManager = new RedisManager();
 
         playerManager = new IPlayerManager(this);
         statisticsManager = new StatisticsManager(this);
@@ -140,9 +120,10 @@ public class Core extends JavaPlugin {
         duelManager = new DuelManager(this);
 
         tabUtil = new TabUtil(this);
-        itemSerializer = new ItemSerializer(this);
         slotGui = new SlotGui(this);
         staffManager = new StaffManager();
+
+        redisManager.getPubSubSubscriber().addListener(new RedisListener());
 
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
@@ -152,8 +133,6 @@ public class Core extends JavaPlugin {
         this.getCommand("fw").setExecutor(new FireworkCommand());
         this.getCommand("l").setExecutor(new HubCommand(this));
         this.getCommand("test").setExecutor(new TestCommand());
-        this.getCommand("acban").setExecutor(new ACBan(this));
-        this.getCommand("unban").setExecutor(new Unban());
         this.getCommand("partychat").setExecutor(new PartyChatCommand(this));
         this.getCommand("party").setExecutor(new PartyCommand(this));
         this.getCommand("rank").setExecutor(new RankCommand(this));
@@ -171,11 +150,25 @@ public class Core extends JavaPlugin {
         new ReportCommand();
         new FollowCommand();
 
+        //punishments
+        new AltsCommand();
+        new BanCommand();
+        new HistoryCommand();
+        new IPBanCommand();
+        new IPUnBanCommand();
+        new KickCommand();
+        new MuteCommand();
+        new TempBanCommand();
+        new TempMuteCommand();
+        new UnBanCommand();
+        new UnMuteCommand();
+
         //Register Handlers:
         getServer().getPluginManager().registerEvents(new MatchHandler(this), this);
         getServer().getPluginManager().registerEvents(new MatchMobHandler(this), this);
         getServer().getPluginManager().registerEvents(new IPlayerHandler(this), this);
         getServer().getPluginManager().registerEvents(new EnchantListener(this), this);
+        getServer().getPluginManager().registerEvents(new PunishmentHandler(this), this);
 
         getServer().getPluginManager().registerEvents(queueGui, this);
         getServer().getPluginManager().registerEvents(layoutGui, this);
@@ -204,13 +197,7 @@ public class Core extends JavaPlugin {
             });
         }
 
-
         scoreboardManager.runTaskTimer(this, 20, 20);
-
-
-        //  nametagManager.update();
-
-
     }
 
     public void onDisable() {
@@ -222,6 +209,8 @@ public class Core extends JavaPlugin {
         }
 
         statisticsManager.saveAll();
+        data.getDataSource().close();
+        redisManager.shutdown();
     }
 
     public static void broadcast(String message, World world) {

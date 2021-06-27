@@ -3,7 +3,6 @@ package me.hardstyles.blitz.player;
 import me.elijuh.nametagapi.NametagAPI;
 import me.hardstyles.blitz.Core;
 import me.hardstyles.blitz.nickname.Nickname;
-import me.hardstyles.blitz.punishments.BannedPlayer;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,18 +22,6 @@ public class IPlayerHandler implements Listener {
 
     public IPlayerHandler(Core core) {
         this.core = core;
-    }
-
-
-
-    @EventHandler
-    public void onConnect(PlayerLoginEvent e) {
-        core.getServer().getScheduler().runTaskAsynchronously(core, () -> {
-            BannedPlayer bannedPlayer = new BannedPlayer(core, e.getPlayer().getUniqueId());
-            if (bannedPlayer.isBanned) {
-                e.getPlayer().kickPlayer(bannedPlayer.reason);
-            }
-        });
     }
 
 
@@ -118,6 +105,7 @@ public class IPlayerHandler implements Listener {
                 }
             }
             NametagAPI.setNametag(p.getName(), iPlayer.getRank().getPrefix(), "", iPlayer.getRank().getPosition());
+            core.getPunishmentManager().updateData(p.getName(), iPlayer.getIp(), p.getUniqueId(), iPlayer.getRank().getChatColor() + p.getName());
         }, 1L);
     }
 
