@@ -1,5 +1,6 @@
 package me.hardstyles.blitz.kits.gui;
 
+import com.google.common.collect.Lists;
 import me.hardstyles.blitz.Core;
 import me.hardstyles.blitz.kits.IItem;
 import me.hardstyles.blitz.player.IPlayer;
@@ -16,6 +17,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -53,12 +55,20 @@ public class LayoutGui implements Listener {
                     layoutCache.get(p.getUniqueId()).put(slots[i], IItem.BLANK);
                     continue;
                 }
-                inv.setItem(slots[i], item.getItem());
+                ItemStack itemStack = item.getItem().clone();
+                ItemMeta meta = itemStack.getItemMeta();
+                meta.setLore(Lists.newArrayList(" ", ChatColor.GRAY + "Points: " + ChatColor.GREEN + item.getPrice()));
+                itemStack.setItemMeta(meta);
+                inv.setItem(slots[i], itemStack);
                 layoutCache.get(p.getUniqueId()).put(slots[i], item);
             }
         } else {
+            ItemStack itemStack = IItem.BLANK.getItem().clone();
+            ItemMeta meta = itemStack.getItemMeta();
+            meta.setLore(Lists.newArrayList(" ", ChatColor.GRAY + "Points: " + ChatColor.GREEN + IItem.BLANK.getPrice()));
+            itemStack.setItemMeta(meta);
             for (int i : slots) {
-                inv.setItem(i, IItem.BLANK.getItem());
+                inv.setItem(i, itemStack);
                 layoutCache.get(p.getUniqueId()).put(i, IItem.BLANK);
             }
         }
@@ -209,7 +219,12 @@ public class LayoutGui implements Listener {
                     return;
                 }
                 layoutCache.get(e.getWhoClicked().getUniqueId()).put(e.getSlot(), cycle);
-                e.getInventory().setItem(e.getSlot(), cycle.getItem());
+
+                ItemStack item = cycle.getItem().clone();
+                ItemMeta meta = item.getItemMeta();
+                meta.setLore(Lists.newArrayList(" ", ChatColor.GRAY + "Points: " + ChatColor.GREEN + cycle.getPrice()));
+                item.setItemMeta(meta);
+                e.getInventory().setItem(e.getSlot(), item);
             }
         }
     }

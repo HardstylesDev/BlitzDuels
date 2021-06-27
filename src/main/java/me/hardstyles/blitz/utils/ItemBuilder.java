@@ -350,10 +350,7 @@ public class ItemBuilder {
     }
 
     public ItemBuilder addPotionEffect(PotionEffect effect) {
-        if (item.getType() == Material.POTION) {
-            PotionMeta meta = (PotionMeta) itemM;
-            meta.addCustomEffect(effect, false);
-        }
+        ((PotionMeta) itemM).addCustomEffect(effect, false);
         return this;
     }
 

@@ -39,11 +39,8 @@ public class IPlayerHandler implements Listener {
 
 
     @EventHandler
-    public void onJoin(PlayerPreLoginEvent e) {
+    public void onJoin(AsyncPlayerPreLoginEvent e) {
         core.getStatisticsManager().load(e.getUniqueId());
-        core.getPlayerManager().addPlayer(e.getUniqueId(), core.getPlayerManager().getPlayer(e.getUniqueId()));
-
-        System.out.println("Loaded players: " + core.getPlayerManager().getPlayers().size());
     }
 
     @EventHandler

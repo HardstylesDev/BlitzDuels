@@ -1,13 +1,12 @@
 package me.hardstyles.blitz.kits;
 
-import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import me.hardstyles.blitz.utils.ItemBuilder;
-import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
@@ -112,7 +111,7 @@ public enum IItem {
     WARRIOR_POT(new ItemBuilder(Material.POTION).name("&fWarrior Potion").addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 20 * 8, 0)).addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20 * 8, 0)).durability(16386).amount(3).make(), 15),
     REAPER_POT(new ItemBuilder(Material.POTION).name("&fReaper Potion").addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 20 * 6, 2)).addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20 * 6, 0)).durability(16460).amount(3).make(), 15),
     BAKER_POT(new ItemBuilder(Material.POTION).name("&fBaker Potion").addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 20 * 8, 0)).addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 20 * 8, 0)).durability(16449).amount(3).make(), 15),
-    SPEED_POTS(new ItemBuilder(Material.POTION).addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20 * 16, 2)).durability(8164).amount(4).make(), 15),
+    SPEED_POTS(new ItemBuilder(Material.POTION).addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20 * 16, 2)).amount(4).make(), 15),
     BLIND_POTS(new ItemBuilder(Material.POTION).addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20 * 7, 3)).durability(16460).amount(3).make(), 15),
     POISON_POTS(new ItemBuilder(Material.POTION).addPotionEffect(new PotionEffect(PotionEffectType.POISON, 20 * 6, 2)).durability(16420).amount(5).make(), 17),
     REGEN_POTS(new ItemBuilder(Material.POTION).addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 20 * 8, 2)).durability(8193).amount(3).make(), 18);
@@ -123,7 +122,8 @@ public enum IItem {
     IItem(ItemStack itemStack, int price) {
         this.price = price;
         ItemMeta meta = itemStack.getItemMeta();
-        meta.setLore(Lists.newArrayList(" ", ChatColor.GRAY + "Points: " + ChatColor.GREEN + price));
+        meta.spigot().setUnbreakable(true);
+        meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
         itemStack.setItemMeta(meta);
         this.item = itemStack;
     }
