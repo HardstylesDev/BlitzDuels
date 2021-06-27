@@ -123,7 +123,7 @@ public class IPlayerHandler implements Listener {
 
 
     @EventHandler
-    public void onAsyncChat(PlayerChatEvent e) {
+    public void onAsyncChat(AsyncPlayerChatEvent e) {
         IPlayer uhcPlayer = core.getPlayerManager().getPlayer(e.getPlayer().getUniqueId());
         e.setFormat(uhcPlayer.getRank().getPrefix() + e.getPlayer().getName() + (uhcPlayer.getRank().getPrefix().equalsIgnoreCase(ChatColor.GRAY + "") ? ChatColor.GRAY + ": " : ChatColor.WHITE + ": ") + e.getMessage().replaceAll("%", "%%"));
     }
@@ -131,6 +131,7 @@ public class IPlayerHandler implements Listener {
 
     @EventHandler
     public void onPickUp(PlayerPickupItemEvent e) {
+
         if (e.getItem().getItemStack().getType() != Material.POTION) {
             return;
         }

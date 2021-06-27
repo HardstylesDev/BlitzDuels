@@ -8,6 +8,7 @@ import me.hardstyles.blitz.utils.ItemBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -127,6 +128,8 @@ public class LayoutGui implements Listener {
                 p.getLayouts().remove(indexCache.get(p.getUuid()));
                 core.getStatisticsManager().saveAsync(p);
                 e.getPlayer().sendMessage("§cDeleted layout §7(#" + indexCache.get(p.getUuid()) + ")");
+                ((Player)e.getPlayer()).playSound(e.getPlayer().getLocation(), Sound.WOOD_CLICK, 1, 1);
+
             } else if (getUsedPoints(e.getPlayer().getUniqueId()) <= 100) {
                 int index = 0;
                 StringBuilder builder = new StringBuilder(layout.get(slots[index++]).name());
@@ -138,6 +141,7 @@ public class LayoutGui implements Listener {
                 p.getLayouts().put(indexCache.get(p.getUuid()), builder.toString());
                 core.getStatisticsManager().saveAsync(p);
                 e.getPlayer().sendMessage("§aSaved layout §7(#" + indexCache.get(p.getUuid()) + ")");
+                ((Player)e.getPlayer()).playSound(e.getPlayer().getLocation(), Sound.WOOD_CLICK, 1, 1);
             } else {
                 e.getPlayer().sendMessage("§cKit could not be saved.");
             }

@@ -120,6 +120,7 @@ public class Core extends JavaPlugin {
         karhuAnticheat = new KarhuAnticheat(this);
         chestFiller = new ChestFiller(this);
         data = new Database();
+
         playerManager = new IPlayerManager(this);
         statisticsManager = new StatisticsManager(this);
         rankManager = new RankManager();

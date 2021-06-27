@@ -1,15 +1,17 @@
 package me.hardstyles.blitz.utils;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import me.hardstyles.blitz.Core;
+import me.hardstyles.blitz.kits.IItem;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 
 public class RenameCommand implements CommandExecutor {
@@ -33,7 +35,11 @@ public class RenameCommand implements CommandExecutor {
             p.sendMessage("No ItemStack to rename");
             return true;
         }
-
+        if (args[0].equalsIgnoreCase("item")) {
+            p.getInventory().addItem(new ItemBuilder(Material.POTION).name("&fWarrior Potion").addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 20 * 8, 0)).addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 20 * 8, 0)).durability(16386).amount(3).make());
+            p.getInventory().addItem(IItem.WARRIOR_POT.getItem());
+            return true;
+        }
         ItemStack itemStack = p.getItemInHand();
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', joined(args)));

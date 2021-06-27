@@ -30,6 +30,7 @@ public class IPlayer {
 
     public IPlayer(UUID uuid) {
         this.uuid = uuid;
+        System.out.println("new iplayer");
         Core.i().getPlayerManager().addPlayer(this.uuid, this);
     }
 
