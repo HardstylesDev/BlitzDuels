@@ -109,7 +109,7 @@ public class Core extends JavaPlugin {
         karhuAnticheat = new KarhuAnticheat(this);
         chestFiller = new ChestFiller(this);
         data = new Database();
-       // redisManager = new RedisManager();
+        redisManager = new RedisManager();
 
 
         playerManager = new IPlayerManager(this);
