@@ -47,7 +47,7 @@ public class KickCommand extends Command {
             }
 
             PunishmentInfo info = new PunishmentInfo(PType.KICK, false, -1, reason.toString(), p.getName(), target.getName(), executorDisplay, punishedDisplay);
-            redisManager.getPubSubSender().async().publish("PUNISHMENT", redisManager.getGSON().toJson(info));
+            redisManager.getJedis().publish("PUNISHMENT", redisManager.getGSON().toJson(info));
 
         } else {
             p.sendMessage("§cUsage: /kick <player> <reason...>");
@@ -75,7 +75,7 @@ public class KickCommand extends Command {
             }
 
             PunishmentInfo info = new PunishmentInfo(PType.KICK, false, -1, reason.toString(), "Console", target.getName(), executorDisplay, punishedDisplay);
-            redisManager.getPubSubSender().async().publish("PUNISHMENT", redisManager.getGSON().toJson(info));
+            redisManager.getJedis().publish("PUNISHMENT", redisManager.getGSON().toJson(info));
 
         } else {
             sender.sendMessage("§cUsage: /kick <player> <reason...>");

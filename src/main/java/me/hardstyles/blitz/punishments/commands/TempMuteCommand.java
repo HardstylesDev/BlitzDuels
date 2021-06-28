@@ -1,7 +1,6 @@
 package me.hardstyles.blitz.punishments.commands;
 
 import com.google.common.collect.Lists;
-import io.netty.util.internal.MathUtil;
 import me.hardstyles.blitz.Core;
 import me.hardstyles.blitz.player.IPlayer;
 import me.hardstyles.blitz.punishments.PType;

@@ -1,45 +1,25 @@
 package me.hardstyles.blitz.punishments.redis;
 
 import com.google.gson.Gson;
-import io.lettuce.core.RedisClient;
-import io.lettuce.core.RedisURI;
-import io.lettuce.core.codec.CompressionCodec;
-import io.lettuce.core.codec.StringCodec;
-import io.lettuce.core.pubsub.StatefulRedisPubSubConnection;
 import lombok.Getter;
 import me.hardstyles.blitz.Core;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPubSub;
 
 @Getter
 public class RedisManager {
-    private final Core plugin;
-    private final Gson GSON;
-    RedisClient redisClient;
-    StatefulRedisPubSubConnection<String, String> pubSubSender;
-    StatefulRedisPubSubConnection<String, String> pubSubSubscriber;
+    private final Core plugin = Core.i();
+    private final Gson GSON = new Gson();
+    Jedis jedis = new Jedis("127.0.0.1");
+    JedisPubSub pubSub;
 
     public RedisManager() {
-        plugin = Core.i();
-        GSON = new Gson();
-        String host = plugin.getConfig().getString("redis.host");
-        int port = plugin.getConfig().getInt("redis.port");
-        String password = plugin.getConfig().getString("redis.password");
-
-        RedisURI uri = RedisURI.builder()
-                .withHost(host)
-                .withPort(port)
-                .withPassword(password.toCharArray())
-                .build();
-
-        redisClient = RedisClient.create(uri);
-
-        pubSubSender = redisClient.connectPubSub(CompressionCodec.valueCompressor(StringCodec.UTF8, CompressionCodec.CompressionType.DEFLATE));
-        pubSubSubscriber = redisClient.connectPubSub(CompressionCodec.valueCompressor(StringCodec.UTF8, CompressionCodec.CompressionType.DEFLATE));
-
-        pubSubSubscriber.sync().subscribe("PUNISHMENT");
+        pubSub = new RedisListener(this);
+        jedis.subscribe(pubSub, "PUNISHMENT");
     }
 
     public void shutdown() {
-        redisClient.shutdown();
+        jedis.shutdown();
     }
 }
 

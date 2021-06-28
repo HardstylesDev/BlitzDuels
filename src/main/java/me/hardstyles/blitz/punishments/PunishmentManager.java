@@ -80,7 +80,7 @@ public class PunishmentManager {
     }
 
     public void punish(PunishmentInfo info) {
-        redisManager.getPubSubSender().async().publish("PUNISHMENT", redisManager.getGSON().toJson(info));
+        redisManager.getJedis().publish("PUNISHMENT", redisManager.getGSON().toJson(info));
 
         try (PreparedStatement statement = connection.prepareStatement("INSERT INTO sc_punishments(`UUID`, `IP`, `type`, `time`, " +
                 "`length`, `reason`, `executor`, `server`) VALUES(?, ?, ?, ?, ?, ?, ?, ?)")) {
@@ -107,7 +107,7 @@ public class PunishmentManager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        redisManager.getPubSubSender().async().publish("PUNISHMENT", redisManager.getGSON().toJson(info));
+        redisManager.getJedis().publish("PUNISHMENT", redisManager.getGSON().toJson(info));
     }
 
     public String getIP(String uuid) {

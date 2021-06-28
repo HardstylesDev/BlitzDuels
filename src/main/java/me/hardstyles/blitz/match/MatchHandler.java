@@ -6,12 +6,10 @@ import me.hardstyles.blitz.match.match.Match;
 import me.hardstyles.blitz.match.match.TeamMatch;
 import me.hardstyles.blitz.party.Party;
 import me.hardstyles.blitz.player.IPlayer;
-import net.minecraft.server.v1_8_R3.EnumParticle;
-import net.minecraft.server.v1_8_R3.Item;
-import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Chest;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -281,36 +279,37 @@ public class MatchHandler implements Listener {
                 p.getInventory().addItem(IItem.WARRIOR_POT.getItem());
 
             } else if (p.getItemInHand().getItemMeta().getDisplayName().contains("Custom Kit")) {
-                int kitIndex = Integer.parseInt(p.getItemInHand().getItemMeta().getDisplayName().replace(ChatColor.RESET + "Custom Kit #", ""));
+                int kitIndex = Integer.parseInt(p.getItemInHand().getItemMeta().getDisplayName().substring(14));
                 p.playSound(p.getLocation(), Sound.CHICKEN_EGG_POP, 1, 1);
                 p.getInventory().clear();
 
-                String[] layout = core.getPlayerManager().getPlayer(p.getUniqueId()).getLayouts().get(kitIndex).split(";");
-                for (String s : layout) {
-                    IItem item;
-                    try {
-                        item = IItem.valueOf(s);
-                    } catch (IllegalArgumentException ex) {
-                        System.out.println("non-existing ID in " + p.getName() + "'s layout #" + kitIndex);
-                        continue;
+                Bukkit.getScheduler().runTask(core, ()-> {
+                    String[] layout = core.getPlayerManager().getPlayer(p.getUniqueId()).getLayouts().get(kitIndex).split(";");
+                    for (String s : layout) {
+                        IItem item;
+                        try {
+                            item = IItem.valueOf(s);
+                        } catch (IllegalArgumentException ex) {
+                            Bukkit.getLogger().info("non-existing ID in " + p.getName() + "'s layout #" + kitIndex);
+                            continue;
+                        }
+                        if (item == IItem.BLANK) {
+                            continue;
+                        }
+                        ItemStack itemStack = item.getItem();
+                        if (itemStack.getType().name().endsWith("_HELMET")) {
+                            p.getInventory().setHelmet(itemStack);
+                        } else if (itemStack.getType().name().endsWith("_CHESTPLATE")) {
+                            p.getInventory().setChestplate(itemStack);
+                        } else if (itemStack.getType().name().endsWith("_LEGGINGS")) {
+                            p.getInventory().setLeggings(itemStack);
+                        } else if (itemStack.getType().name().endsWith("_BOOTS")) {
+                            p.getInventory().setBoots(itemStack);
+                        } else {
+                            p.getInventory().addItem(itemStack);
+                        }
                     }
-                    if (item == IItem.BLANK) {
-                        continue;
-                    }
-                    ItemStack itemStack = item.getItem();
-                    if (itemStack.getType().name().endsWith("_HELMET")) {
-                        p.getInventory().setHelmet(itemStack);
-                    } else if (itemStack.getType().name().endsWith("_CHESTPLATE")) {
-                        p.getInventory().setChestplate(itemStack);
-                    } else if (itemStack.getType().name().endsWith("_LEGGINGS")) {
-                        p.getInventory().setLeggings(itemStack);
-                    } else if (itemStack.getType().name().endsWith("_BOOTS")) {
-                        p.getInventory().setBoots(itemStack);
-                    } else {
-                        p.getInventory().addItem(itemStack);
-                    }
-                }
-
+                });
             }
             if (e.getClickedBlock() != null) {
                 if (e.getClickedBlock().getType() == Material.CHEST || e.getClickedBlock().getType() == Material.TRAPPED_CHEST) {

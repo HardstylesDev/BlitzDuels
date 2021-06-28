@@ -105,7 +105,7 @@ public class IPlayerHandler implements Listener {
                 }
             }
             NametagAPI.setNametag(p.getName(), iPlayer.getRank().getPrefix(), "", iPlayer.getRank().getPosition());
-            core.getPunishmentManager().updateData(p.getName(), iPlayer.getIp(), p.getUniqueId(), iPlayer.getRank().getChatColor() + p.getName());
+            core.getPunishmentManager().updateData(iPlayer);
         }, 1L);
     }
 

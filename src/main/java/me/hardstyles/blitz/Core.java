@@ -123,8 +123,6 @@ public class Core extends JavaPlugin {
         slotGui = new SlotGui(this);
         staffManager = new StaffManager();
 
-        redisManager.getPubSubSubscriber().addListener(new RedisListener());
-
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
 

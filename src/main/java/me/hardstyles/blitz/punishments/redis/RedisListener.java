@@ -1,23 +1,23 @@
 package me.hardstyles.blitz.punishments.redis;
 
-import io.lettuce.core.pubsub.RedisPubSubAdapter;
 import me.hardstyles.blitz.Core;
 import me.hardstyles.blitz.player.IPlayer;
 import me.hardstyles.blitz.punishments.PunishmentManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import redis.clients.jedis.JedisPubSub;
 
-public class RedisListener extends RedisPubSubAdapter<String, String> {
+public class RedisListener extends JedisPubSub {
     private final RedisManager manager;
     private final PunishmentManager punishmentManager;
 
-    public RedisListener() {
-        this.manager = Core.i().getRedisManager();
+    public RedisListener(RedisManager manager) {
+        this.manager = manager;
         punishmentManager = Core.i().getPunishmentManager();
     }
 
     @Override
-    public void message(String channel, String json) {
+    public void onMessage(String channel, String json) {
         if (channel.equals("PUNISHMENT")) {
             handlePunishment(manager.getGSON().fromJson(json, PunishmentInfo.class));
         }
