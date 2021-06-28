@@ -35,8 +35,7 @@ public class PunishmentHandler implements Listener {
         if (punishmentManager.isIPBanned(e.getAddress().getHostAddress())) {
             e.setLoginResult(AsyncPlayerPreLoginEvent.Result.KICK_BANNED);
             e.setKickMessage(
-                    "\n " +
-                    "\n§cYou are currently IP-Banned." +
+                    "§cYou are currently IP-Banned." +
                     "\n " +
                     "\n§bReason: §7" + punishment.getReason()
             );
@@ -44,8 +43,7 @@ public class PunishmentHandler implements Listener {
             boolean perm = punishment.getLength() == -1;
             e.setLoginResult(AsyncPlayerPreLoginEvent.Result.KICK_BANNED);
             e.setKickMessage(
-                    "\n " +
-                    "\n§cYou are currently Banned." +
+                    "§cYou are currently Banned." +
                     "\n " +
                     "\n§bReason: §7" + punishment.getReason() +
                     "\n§bDuration: §7" + (perm ? "Permanent" : punishmentManager.formatMillis(punishment.getTime() + punishment.getLength() - System.currentTimeMillis()))

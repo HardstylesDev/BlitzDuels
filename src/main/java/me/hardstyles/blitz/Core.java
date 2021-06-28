@@ -24,7 +24,6 @@ import me.hardstyles.blitz.player.IPlayerManager;
 import me.hardstyles.blitz.punishments.PunishmentHandler;
 import me.hardstyles.blitz.punishments.PunishmentManager;
 import me.hardstyles.blitz.punishments.commands.*;
-import me.hardstyles.blitz.punishments.redis.RedisListener;
 import me.hardstyles.blitz.punishments.redis.RedisManager;
 import me.hardstyles.blitz.queue.QueueCommand;
 import me.hardstyles.blitz.queue.QueueGui;
@@ -43,17 +42,23 @@ import me.hardstyles.blitz.utils.entity.player.TabUtil;
 import me.hardstyles.blitz.utils.world.VoidGenerator;
 import me.hardstyles.blitz.utils.world.WorldCommand;
 import net.minecraft.server.v1_8_R3.EnumChatFormat;
+
+import org.apache.logging.log4j.LogManager;
 import org.bukkit.*;
 import org.bukkit.command.CommandMap;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.util.logging.Filter;
+import java.util.logging.Logger;
+
 
 @Getter
 public class Core extends JavaPlugin {
 
     public static String CORE_NAME = EnumChatFormat.GRAY + "[" + EnumChatFormat.RED + "B-SG" + EnumChatFormat.GRAY + "]: " + EnumChatFormat.WHITE;
+
 
     private static Core instance;
     @Setter
@@ -93,13 +98,19 @@ public class Core extends JavaPlugin {
     public void onEnable() {
 
         instance = this;
+
+
+
+
+
         new NametagAPI(this);
         new WorldCreator("arena").generator(new VoidGenerator()).createWorld();
 
         karhuAnticheat = new KarhuAnticheat(this);
         chestFiller = new ChestFiller(this);
         data = new Database();
-        redisManager = new RedisManager();
+       // redisManager = new RedisManager();
+
 
         playerManager = new IPlayerManager(this);
         statisticsManager = new StatisticsManager(this);
@@ -229,4 +240,7 @@ public class Core extends JavaPlugin {
     public static Core i() {
         return instance;
     }
+
+
+
 }

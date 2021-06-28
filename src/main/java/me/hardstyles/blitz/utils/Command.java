@@ -56,6 +56,7 @@ public abstract class Command extends org.bukkit.command.Command {
         Player p = ((Player) sender);
         IPlayer iPlayer = Core.i().getPlayerManager().getPlayer(p.getUniqueId());
 
+
         if (iPlayer == null || iPlayer.getRank().getPosition() < position) {
             p.sendMessage(ChatColor.RED + "No permission.");
             return true;

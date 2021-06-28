@@ -18,8 +18,6 @@ public class TeamMatch extends Match {
 
     public TeamMatch(Core core, Arena arena) {
         super(core, arena);
-
-
     }
 
     @Override

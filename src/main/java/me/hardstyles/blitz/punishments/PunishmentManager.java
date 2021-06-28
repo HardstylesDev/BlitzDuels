@@ -362,18 +362,18 @@ public class PunishmentManager {
         for (int i = 0; i < Math.min(punishments.size(), 36); i++) {
             Punishment punishment = punishments.get(i);
             boolean inactive = (punishment.getLength() != -1 && System.currentTimeMillis() > punishment.getTime() + punishment.getLength()) || punishment.getRemoved() != null;
-            ItemStack item = new ItemBuilder(Material.EMPTY_MAP).name("&6Punishment: &c#" + punishment.getId())
-                    .lore("&7&m---------------------------------")
-                    .lore("&8» &bStatus: " + (inactive ? "&cInactive" : "&aActive"))
-                    .lore("&8» &bPunished By: &7" + punishment.getExecutor())
-                    .lore("&8» &bRemoved By: " + (punishment.getRemoved() == null ? "&cN/A" : "&7" + punishment.getRemoved()))
-                    .lore("&8» &bDate Of: &7" + dateFormat.format(new Date(punishment.getTime())) + " (EST)")
-                    .lore("&8» &bLength: &7" + (punishment.getLength() == -1 ? "Permanent" : formatMillis(punishment.getLength())))
-                    .lore("&8» &bReason: &7" + punishment.getReason())
-                    .lore("&8» &bServer: &7" + punishment.getServer())
+            ItemStack item = new ItemBuilder(Material.EMPTY_MAP).name("§6Punishment: §c#" + punishment.getId())
+                    .lore("§7&m---------------------------------")
+                    .lore("§8» §bStatus: " + (inactive ? "§cInactive" : "§aActive"))
+                    .lore("§8» §bPunished By: §7" + punishment.getExecutor())
+                    .lore("§8» §bRemoved By: " + (punishment.getRemoved() == null ? "§cN/A" : "§7" + punishment.getRemoved()))
+                    .lore("§8» §bDate Of: §7" + dateFormat.format(new Date(punishment.getTime())) + " (EST)")
+                    .lore("§8» §bLength: §7" + (punishment.getLength() == -1 ? "Permanent" : formatMillis(punishment.getLength())))
+                    .lore("§8» §bReason: §7" + punishment.getReason())
+                    .lore("§8» §bServer: §7" + punishment.getServer())
                     .lore(" ")
-                    .lore("&a&lClick to remove this history")
-                    .lore("&7&m---------------------------------").make();
+                    .lore("§a§lClick to remove this history")
+                    .lore("§7§m---------------------------------").make();
             inv.setItem(i + 9, item);
         }
         inv.setItem(49, new ItemBuilder(Material.NETHER_STAR).name("&7» &a&lExit &7«").make());
