@@ -80,7 +80,7 @@ public class PunishmentManager {
     }
 
     public void punish(PunishmentInfo info) {
-        redisManager.getJedis().publish("PUNISHMENT", redisManager.getGSON().toJson(info));
+        redisManager.getPubJedis().publish("PUNISHMENT", redisManager.getGSON().toJson(info));
 
         try (PreparedStatement statement = connection.prepareStatement("INSERT INTO sc_punishments(`UUID`, `IP`, `type`, `time`, " +
                 "`length`, `reason`, `executor`, `server`) VALUES(?, ?, ?, ?, ?, ?, ?, ?)")) {
@@ -107,7 +107,7 @@ public class PunishmentManager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        redisManager.getJedis().publish("PUNISHMENT", redisManager.getGSON().toJson(info));
+        redisManager.getPubJedis().publish("PUNISHMENT", redisManager.getGSON().toJson(info));
     }
 
     public String getIP(String uuid) {
@@ -353,7 +353,7 @@ public class PunishmentManager {
     }
 
     public Inventory getHistoryGui(String target, String type) {
-        Inventory inv = Bukkit.createInventory(null, 54, "&e" + type + ": &6" + target);
+        Inventory inv = Bukkit.createInventory(null, 54, "§e" + type + ": §6" + target);
         for (int i = 0; i < 9; i++) {
             inv.setItem(i, filler);
             inv.setItem(i + 45, filler);
@@ -363,7 +363,7 @@ public class PunishmentManager {
             Punishment punishment = punishments.get(i);
             boolean inactive = (punishment.getLength() != -1 && System.currentTimeMillis() > punishment.getTime() + punishment.getLength()) || punishment.getRemoved() != null;
             ItemStack item = new ItemBuilder(Material.EMPTY_MAP).name("§6Punishment: §c#" + punishment.getId())
-                    .lore("§7&m---------------------------------")
+                    .lore("§7§m---------------------------------")
                     .lore("§8» §bStatus: " + (inactive ? "§cInactive" : "§aActive"))
                     .lore("§8» §bPunished By: §7" + punishment.getExecutor())
                     .lore("§8» §bRemoved By: " + (punishment.getRemoved() == null ? "§cN/A" : "§7" + punishment.getRemoved()))
@@ -376,7 +376,7 @@ public class PunishmentManager {
                     .lore("§7§m---------------------------------").make();
             inv.setItem(i + 9, item);
         }
-        inv.setItem(49, new ItemBuilder(Material.NETHER_STAR).name("&7» &a&lExit &7«").make());
+        inv.setItem(49, new ItemBuilder(Material.NETHER_STAR).name("§7» §a§lExit §7«").make());
         return inv;
     }
 
