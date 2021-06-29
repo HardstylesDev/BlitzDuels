@@ -216,7 +216,7 @@ public class MatchHandler implements Listener {
                 iPlayer.getMatch().getBlocksPlaced().add(e.getBlock().getLocation());
                 return;
             }
-            Bukkit.broadcastMessage("boooo");
+
             e.setCancelled(true);
         }
     }

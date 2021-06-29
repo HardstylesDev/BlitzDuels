@@ -52,6 +52,8 @@ public class MatchMobHandler implements Listener {
         if (e.getCause() == EntityDamageEvent.DamageCause.VOID)
             if (e.getEntity() instanceof Horse)
                 e.getEntity().remove();
+        if (e.getEntity() instanceof Pig)
+            e.setCancelled(true);
     }
 
     @EventHandler
@@ -153,7 +155,12 @@ public class MatchMobHandler implements Listener {
 
 
                 Entity entity = e.getClickedBlock().getWorld().spawn(e.getClickedBlock().getLocation().add(0, 1, 0), entityType.getEntityClass());
-                if (entity instanceof Wolf) {
+                if (entity instanceof Pig) {
+
+                    ((Pig) entity).setSaddle(true);
+
+
+                } else if (entity instanceof Wolf) {
                     ((Wolf) entity).setAngry(false);
                     ((Wolf) entity).setAdult();
                     entity.setCustomNameVisible(false);
@@ -173,7 +180,9 @@ public class MatchMobHandler implements Listener {
                 } else if (entity instanceof Horse) {
                     ((Horse) entity).setVariant(Horse.Variant.HORSE);
                     ((Horse) entity).setColor(Horse.Color.BLACK);
+                    ((Horse) entity).getInventory().setArmor(new ItemStack(Material.DIAMOND_BARDING));
                     ((Horse) entity).setStyle(Horse.Style.NONE);
+
 
                     ((Horse) entity).setTamed(true);
                     ((Horse) entity).setAdult();
