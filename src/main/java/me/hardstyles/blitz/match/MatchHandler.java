@@ -94,11 +94,7 @@ public class MatchHandler implements Listener {
             e.setCancelled(true);
             return;
         }
-        if (match.getDead().contains(e.getDamager().getUniqueId())) {
-            e.setCancelled(true);
-            return;
-        }
-
+        if (!match.getAlivePlayers().contains(e.getDamager().getUniqueId()) && e.getDamager() instanceof Player)
         if (e.getDamager() == e.getEntity()) {
             e.setCancelled(true);
             return;
@@ -231,9 +227,8 @@ public class MatchHandler implements Listener {
         if (iPlayer.hasMatch()) {
             if (iPlayer.getMatch().getMatchStage() != MatchStage.STARTED) {
                 e.setFoodLevel(20);
-            } else if (iPlayer.getMatch().getDead().contains(e.getEntity().getUniqueId())) {
+            } else if (!iPlayer.getMatch().getAlivePlayers().contains(e.getEntity().getUniqueId())) {
                 e.setFoodLevel(20);
-
             }
         }
     }
@@ -252,10 +247,25 @@ public class MatchHandler implements Listener {
     @EventHandler
     public void interactSpectator(PlayerInteractEvent e) {
         IPlayer iPlayer = core.getPlayerManager().getPlayer(e.getPlayer().getUniqueId());
+        if (iPlayer == null) {
+            e.setCancelled(true);
+            return;
+        }
         if (iPlayer.hasMatch()) {
-            if (iPlayer.getMatch().getDead().contains(iPlayer.getUuid()) || iPlayer.getMatch().getMatchStage() == MatchStage.ENDED) {
+            if (!iPlayer.getMatch().getAlivePlayers().contains(iPlayer.getUuid()) || iPlayer.getMatch().getMatchStage() == MatchStage.ENDED) {
                 e.setCancelled(true);
                 return;
+            }
+            if (e.getClickedBlock() != null) {
+                if (e.getClickedBlock().getType() == Material.CHEST || e.getClickedBlock().getType() == Material.TRAPPED_CHEST) {
+                    if (!iPlayer.getMatch().getChests().contains(e.getClickedBlock().getLocation())) {
+                        Chest chest = (Chest) e.getClickedBlock().getState();
+                        chest.getInventory().clear();
+                        core.getChestFiller().generateChestLoot(chest.getInventory(), 3);
+                        chest.update();
+                        iPlayer.getMatch().getChests().add(e.getClickedBlock().getLocation());
+                    }
+                }
             }
             Player p = e.getPlayer();
             if (p.getItemInHand() == null || p.getItemInHand().getItemMeta() == null || p.getItemInHand().getItemMeta().getDisplayName() == null) {
@@ -311,18 +321,6 @@ public class MatchHandler implements Listener {
                     }
                 });
             }
-            if (e.getClickedBlock() != null) {
-                if (e.getClickedBlock().getType() == Material.CHEST || e.getClickedBlock().getType() == Material.TRAPPED_CHEST) {
-                    if (!iPlayer.getMatch().getChests().contains(e.getClickedBlock().getLocation())) {
-                        Chest chest = (Chest) e.getClickedBlock().getState();
-                        chest.getInventory().clear();
-                        core.getChestFiller().generateChestLoot(chest.getInventory(), 3);
-                        chest.update();
-                        iPlayer.getMatch().getChests().add(e.getClickedBlock().getLocation());
-                    }
-                }
-
-            }
         }
 
     }
@@ -331,7 +329,7 @@ public class MatchHandler implements Listener {
     public void pickupSpectator(PlayerPickupItemEvent e) {
         IPlayer iPlayer = core.getPlayerManager().getPlayer(e.getPlayer().getUniqueId());
         if (iPlayer.hasMatch()) {
-            if (iPlayer.getMatch().getDead().contains(iPlayer.getUuid())) {
+            if (!iPlayer.getMatch().getAlivePlayers().contains(iPlayer.getUuid())) {
                 e.setCancelled(true);
             }
         }
@@ -341,7 +339,7 @@ public class MatchHandler implements Listener {
     public void drop(PlayerDropItemEvent e) {
         IPlayer iPlayer = core.getPlayerManager().getPlayer(e.getPlayer().getUniqueId());
         if (iPlayer.hasMatch()) {
-            if (iPlayer.getMatch().getDead().contains(iPlayer.getUuid()) || iPlayer.getMatch().getMatchStage() == MatchStage.ENDED || iPlayer.getMatch().getMatchStage() == MatchStage.GRACE) {
+            if (!iPlayer.getMatch().getAlivePlayers().contains(iPlayer.getUuid()) || iPlayer.getMatch().getMatchStage() == MatchStage.ENDED || iPlayer.getMatch().getMatchStage() == MatchStage.GRACE) {
                 e.setCancelled(true);
             }
         }

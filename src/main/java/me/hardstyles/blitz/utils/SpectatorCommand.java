@@ -9,8 +9,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import java.util.UUID;
 
@@ -63,7 +61,6 @@ public class SpectatorCommand implements CommandExecutor {
         if(!isSilent){
             match.send(player.getRank().getPrefix()+p.getName() + ChatColor.YELLOW + " is now spectating!");
         }
-        match.getDead().add(p.getUniqueId());
         match.getPlayers().add(p.getUniqueId());
         match.getPlayerReference().put(p.getUniqueId(), p);
         for (UUID alivePlayer : match.getAlivePlayers()) {

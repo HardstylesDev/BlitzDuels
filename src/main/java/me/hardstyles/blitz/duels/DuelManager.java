@@ -5,11 +5,12 @@ import me.hardstyles.blitz.Core;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.UUID;
 
 public class DuelManager {
     @Getter
-    private HashSet<DuelRequest> requests = new HashSet<>();
+    private final Map<UUID, UUID> requests = new HashMap<>();
     private final Core core;
 
     public DuelManager(Core core){

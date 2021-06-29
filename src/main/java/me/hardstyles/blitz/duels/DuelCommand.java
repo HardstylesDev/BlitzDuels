@@ -14,12 +14,16 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 
 public class DuelCommand implements CommandExecutor {
 
     final private Core core;
+
+    private final Map<UUID, Long> cooldowns = new HashMap<>();
 
     public DuelCommand(Core core) {
         this.core = core;
@@ -56,16 +60,7 @@ public class DuelCommand implements CommandExecutor {
                 p.sendMessage(ChatColor.RED + "Player is not online");
                 return true;
             }
-            UUID requester = null;
-            DuelRequest duelRequest = null;
-            for (DuelRequest request : core.getDuelManager().getRequests()) {
-                if (request.getSender() == target.getUniqueId()) {
-                    requester = request.getTarget();
-                    duelRequest = request;
-                    break;
-                }
-            }
-            core.getDuelManager().getRequests().remove(duelRequest);
+            UUID requester = core.getDuelManager().getRequests().remove(p.getUniqueId());
 
             if (requester == null) {
                 p.sendMessage(ChatColor.RED + "Player hasn't challenged you to a duel");
@@ -82,8 +77,7 @@ public class DuelCommand implements CommandExecutor {
             match.add(target.getUniqueId());
             match.start();
             return true;
-        }
-        if (args[0].equalsIgnoreCase("decline")) {
+        } else if (args[0].equalsIgnoreCase("decline")) {
             if (args.length == 1) {
                 p.sendMessage(ChatColor.RED + "Usage: /duel decline <player>");
                 return true;
@@ -97,49 +91,44 @@ public class DuelCommand implements CommandExecutor {
                 p.sendMessage(ChatColor.RED + "Player is not online");
                 return true;
             }
-            UUID requester = null;
-            for (DuelRequest request : core.getDuelManager().getRequests()) {
-                if (request.getSender() == target.getUniqueId()) {
-                    requester = request.getTarget();
-                    core.getDuelManager().getRequests().remove(request);
-                    break;
-                }
-            }
-            if (requester == null) {
+            if (core.getDuelManager().getRequests().remove(p.getUniqueId()) == null) {
                 p.sendMessage(ChatColor.RED + "Player hasn't challenged you to a duel");
                 return true;
             }
             target.sendMessage(ChatColor.DARK_GREEN + "Duel > " + player.getRank().getPrefix() + p.getName() + ChatColor.YELLOW + " has declined your duel request");
             p.sendMessage(ChatColor.DARK_GREEN + "Duel > " + ChatColor.YELLOW + "Duel declined.");
-            return true;
+        } else {
+            Player arg = Bukkit.getPlayer(args[0]);
+            IPlayer target = arg == null ? null : core.getPlayerManager().getPlayer(arg.getUniqueId());
+            if (target == null) {
+                p.sendMessage(ChatColor.RED + "Can't find that player!");
+                return true;
+            }
+            if (target.getUuid().equals(p.getUniqueId())) {
+                p.sendMessage(ChatColor.RED + "You cannot duel yourself!");
+                return true;
+            }
+            if (target.getMatch() != null) {
+                p.sendMessage(ChatColor.RED + "Player is already in a match!");
+                return true;
+            }
+
+            long remainingTime = 30000 - (System.currentTimeMillis() - cooldowns.getOrDefault(p.getUniqueId(), 0L));
+            if (remainingTime > 0) {
+                p.sendMessage(ChatColor.RED + "You are on cooldown for " + (remainingTime / 1000) + " more seconds.");
+                return true;
+            }
+            cooldowns.put(p.getUniqueId(), System.currentTimeMillis());
+            core.getDuelManager().getRequests().put(target.getUuid(), p.getUniqueId());
+            p.sendMessage(ChatColor.YELLOW + "You've sent a duel request to " + target.getRank().getPrefix() + arg.getName() + ChatColor.YELLOW + "!");
+            String json = "[\"\",{\"text\":\"[ACCEPT]\",\"bold\":true,\"color\":\"green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/duel accept %inviter%\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":\" " + ChatColor.YELLOW + "Click here to accept " + player.getRank().getPrefix() + p.getName() + ChatColor.YELLOW + "'s duel request\"}},{\"text\":\" \",\"bold\":true},{\"text\":\"[DECLINE]\",\"bold\":true,\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/duel decline %inviter%\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":\" " + ChatColor.YELLOW + "Click here to decline " + player.getRank().getPrefix() + p.getName() + ChatColor.YELLOW + "'s duel request\"}}]";
+
+            IChatBaseComponent comp = IChatBaseComponent.ChatSerializer.a(json.replaceAll("%inviter%", p.getName()));
+            PacketPlayOutChat packet = new PacketPlayOutChat(comp);
+            arg.sendMessage(ChatColor.DARK_GREEN + "Duel > " + player.getRank().getPrefix() + p.getName() + ChatColor.YELLOW + " has challenged you to a duel!");
+
+            ((CraftPlayer) arg).getHandle().playerConnection.sendPacket(packet);
         }
-        Player arg = Bukkit.getPlayer(args[0]);
-        if (arg == null || !arg.isOnline()) {
-            p.sendMessage(ChatColor.RED + "Can't find that player!");
-            return true;
-        }
-
-        IPlayer target = core.getPlayerManager().getPlayer(arg.getUniqueId());
-        if (target == null) {
-            p.sendMessage(ChatColor.RED + "Can't find that player!");
-            return true;
-        }
-        if (target.getMatch() != null) {
-            p.sendMessage(ChatColor.RED + "Player is already in a match!");
-            return true;
-        }
-
-
-        core.getDuelManager().getRequests().add(new DuelRequest(p.getUniqueId(), arg.getUniqueId()));
-        p.sendMessage(ChatColor.YELLOW + "You've sent a duel request to " + target.getRank().getPrefix() + arg.getName() + ChatColor.YELLOW + "!");
-        String json = "[\"\",{\"text\":\"[ACCEPT]\",\"bold\":true,\"color\":\"green\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/duel accept %inviter%\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":\" " + ChatColor.YELLOW + "Click here to accept " + player.getRank().getPrefix() + p.getName() + ChatColor.YELLOW + "'s duel request\"}},{\"text\":\" \",\"bold\":true},{\"text\":\"[DECLINE]\",\"bold\":true,\"color\":\"red\",\"clickEvent\":{\"action\":\"run_command\",\"value\":\"/duel decline %inviter%\"},\"hoverEvent\":{\"action\":\"show_text\",\"value\":\" " + ChatColor.YELLOW + "Click here to decline " + player.getRank().getPrefix() + p.getName() + ChatColor.YELLOW + "'s duel request\"}}]";
-
-        IChatBaseComponent comp = IChatBaseComponent.ChatSerializer.a(json.replaceAll("%inviter%", p.getName()));
-        PacketPlayOutChat packet = new PacketPlayOutChat(comp);
-        arg.sendMessage(ChatColor.DARK_GREEN + "Duel > " + player.getRank().getPrefix() + p.getName() + ChatColor.YELLOW + " has challenged you to a duel!");
-
-        ((CraftPlayer) arg).getHandle().playerConnection.sendPacket(packet);
-
         return true;
     }
 

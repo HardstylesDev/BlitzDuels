@@ -33,8 +33,10 @@ import me.hardstyles.blitz.rank.RankManager;
 import me.hardstyles.blitz.scoreboard.ScoreboardManager;
 import me.hardstyles.blitz.staff.FollowCommand;
 import me.hardstyles.blitz.staff.StaffChatCommand;
+import me.hardstyles.blitz.staff.StaffHandler;
 import me.hardstyles.blitz.staff.StaffManager;
 import me.hardstyles.blitz.staff.report.ReportCommand;
+import me.hardstyles.blitz.staff.report.ReportsCommand;
 import me.hardstyles.blitz.statistics.StatisticsManager;
 import me.hardstyles.blitz.utils.*;
 import me.hardstyles.blitz.utils.database.Database;
@@ -43,15 +45,12 @@ import me.hardstyles.blitz.utils.world.VoidGenerator;
 import me.hardstyles.blitz.utils.world.WorldCommand;
 import net.minecraft.server.v1_8_R3.EnumChatFormat;
 
-import org.apache.logging.log4j.LogManager;
 import org.bukkit.*;
 import org.bukkit.command.CommandMap;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.util.logging.Filter;
-import java.util.logging.Logger;
 
 
 @Getter
@@ -63,7 +62,6 @@ public class Core extends JavaPlugin {
     private static Core instance;
     @Setter
     private boolean disableQueues;
-    private KarhuAnticheat karhuAnticheat;
     private ChestFiller chestFiller;
     private MatchManager matchManager;
     private LeaderboardLoaderWins leaderboardLoaderWins;
@@ -106,8 +104,7 @@ public class Core extends JavaPlugin {
         new NametagAPI(this);
         new WorldCreator("arena").generator(new VoidGenerator()).createWorld();
 
-        karhuAnticheat = new KarhuAnticheat(this);
-        chestFiller = new ChestFiller(this);
+        chestFiller = new ChestFiller();
         data = new Database();
         redisManager = new RedisManager();
 
@@ -157,6 +154,7 @@ public class Core extends JavaPlugin {
         new QueueCommand();
         new StaffChatCommand();
         new ReportCommand();
+        new ReportsCommand();
         new FollowCommand();
 
         //punishments
@@ -178,6 +176,7 @@ public class Core extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new IPlayerHandler(this), this);
         getServer().getPluginManager().registerEvents(new EnchantListener(this), this);
         getServer().getPluginManager().registerEvents(new PunishmentHandler(this), this);
+        getServer().getPluginManager().registerEvents(new StaffHandler(this), this);
 
         getServer().getPluginManager().registerEvents(queueGui, this);
         getServer().getPluginManager().registerEvents(layoutGui, this);
@@ -219,7 +218,6 @@ public class Core extends JavaPlugin {
 
         statisticsManager.saveAll();
         data.getDataSource().close();
-        redisManager.shutdown();
     }
 
     public static void broadcast(String message, World world) {

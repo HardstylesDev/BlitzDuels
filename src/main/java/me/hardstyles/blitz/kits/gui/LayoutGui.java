@@ -28,7 +28,7 @@ public class LayoutGui implements Listener {
     private final Core core;
     private final Map<UUID, Integer> indexCache = new HashMap<>();
     private final Map<UUID, Map<Integer, IItem>> layoutCache = new HashMap<>();
-    private final String name = ChatColor.GRAY + "Equipment Selector";
+    private final String name = "Equipment Selector";
     private final int[] slots = {10, 19, 28, 37, 12, 13, 14, 22, 16, 25, 34, 43, 39, 41};
 
     public LayoutGui(Core core) {
@@ -38,7 +38,7 @@ public class LayoutGui implements Listener {
     public void open(Player p, int index) {
         indexCache.put(p.getUniqueId(), index);
         layoutCache.put(p.getUniqueId(), new HashMap<>());
-        Inventory inv = Bukkit.createInventory(null, 9 * 6, ChatColor.GRAY + "Equipment Selector");
+        Inventory inv = Bukkit.createInventory(null, 9 * 6, name);
         for (int i = 0; i < (9 * 6); i++) {
             inv.setItem(i, new ItemBuilder(Material.STAINED_GLASS_PANE).durability(9).name(" ").make());
         }
@@ -85,7 +85,7 @@ public class LayoutGui implements Listener {
 
     @EventHandler
     public void onInventoryClick(final InventoryClickEvent e) {
-        if (!e.getInventory().getName().equalsIgnoreCase(name)) {
+        if (!e.getView().getTitle().equals(name)) {
             return;
         }
         e.setCancelled(true);
@@ -150,7 +150,7 @@ public class LayoutGui implements Listener {
 
     @EventHandler
     public void darn(final InventoryDragEvent e) {
-        if (e.getInventory().getTitle().equalsIgnoreCase(name)) {
+        if (e.getView().getTitle().equals(name)) {
             e.setCancelled(true);
         }
     }

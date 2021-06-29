@@ -42,14 +42,8 @@ public class IPlayer {
         return rank;
     }
 
-
-
     public boolean isNicked() {
         return nick != null && nick.isNicked();
-    }
-
-    public void setJsonObject(JsonObject jsonObject){
-        this.jsonObject = jsonObject;
     }
 
     // public String getNickName() {

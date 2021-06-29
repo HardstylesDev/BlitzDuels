@@ -2,15 +2,13 @@ package me.hardstyles.blitz.staff.report;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.UUID;
 @Getter
+@Setter
 @AllArgsConstructor
 public class ReportEntry {
-    private long time;
-    private String reason;
-    private boolean handled;
-    private UUID target;
-    private UUID executor;
-
+    private final long time = System.currentTimeMillis();
+    private final String reason, reported, reporter;
 }

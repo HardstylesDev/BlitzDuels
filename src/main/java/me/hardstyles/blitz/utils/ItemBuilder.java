@@ -12,7 +12,6 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.material.MaterialData;
 import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -119,9 +118,9 @@ public class ItemBuilder {
         if (lores == null) {
             lores = new ArrayList<>();
         }
-        lores.add(lore);
-        meta().setLore(lores);
-        make().setItemMeta(meta());
+        lores.add(ChatColor.translateAlternateColorCodes('&', lore));
+        itemM.setLore(lores);
+        item.setItemMeta(meta());
         return this;
     }
 

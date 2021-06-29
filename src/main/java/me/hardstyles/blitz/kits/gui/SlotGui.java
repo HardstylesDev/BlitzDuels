@@ -15,25 +15,23 @@ import org.bukkit.inventory.ItemStack;
 
 public class SlotGui implements Listener {
     final private Core core;
-    final private String name = ChatColor.GRAY + "Edit Layouts";
+    final private String name = "Edit Layouts";
 
     private final int[] slots = {10, 11, 12, 14, 15, 16};
 
     public SlotGui(Core core) {
         this.core = core;
-
-
     }
 
     public void open(Player p) {
         Inventory inv = Bukkit.createInventory(null, 9 * 3, name);
-        for (int i = 0; i < (9 * 3); i++) {
-            inv.setItem(i, new ItemBuilder(Material.STAINED_GLASS_PANE).durability(8).name("&e").make());
+        for (int i = 0; i < inv.getSize(); i++) {
+            inv.setItem(i, new ItemBuilder(Material.STAINED_GLASS_PANE).durability(15).name(" ").make());
         }
 
         int index = 1;
         for(int i : slots){
-            inv.setItem(i, new ItemBuilder(Material.BOOK).amount(index).name(ChatColor.GOLD + "Kit #" + index).lore(" ").lore("§aClick to edit.").make());
+            inv.setItem(i, new ItemBuilder(Material.BOOK).amount(index).name(ChatColor.GREEN + "Kit #" + index).lore(" ").lore("§8(§7Click to edit§8)").make());
             index++;
         }
 
@@ -43,7 +41,7 @@ public class SlotGui implements Listener {
 
     @EventHandler
     public void onInventoryClick(final InventoryClickEvent e) {
-        if (!e.getInventory().getName().equalsIgnoreCase(name)) {
+        if (!e.getView().getTitle().equals(name)) {
             return;
         }
         e.setCancelled(true);
@@ -66,7 +64,7 @@ public class SlotGui implements Listener {
 
     @EventHandler
     public void onDrag(final InventoryDragEvent e) {
-        if (e.getInventory().getTitle().equalsIgnoreCase(name)) {
+        if (e.getView().getTitle().equals(name)) {
             e.setCancelled(true);
         }
 

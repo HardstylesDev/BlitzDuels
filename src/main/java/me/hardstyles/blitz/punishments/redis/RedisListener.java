@@ -96,6 +96,9 @@ public class RedisListener extends JedisPubSub {
                     for (IPlayer iPlayer : Core.i().getPlayerManager().getPlayers().values()) {
                         if (iPlayer.getRank().getPosition() >= 6) {
                             Player p = Bukkit.getPlayer(iPlayer.getUuid());
+                            if (p == null) {
+                                continue;
+                            }
                             p.sendMessage("§7§m------------------------------------------");
                             p.sendMessage("§8[§3§lStaff Alert§8] " + punishment.getExecutorDisplay() + " §eipunbanned " + punishment.getPunishedDisplay());
                             p.sendMessage("");

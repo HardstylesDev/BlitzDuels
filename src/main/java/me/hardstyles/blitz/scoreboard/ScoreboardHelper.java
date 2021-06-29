@@ -3,6 +3,8 @@ package me.hardstyles.blitz.scoreboard;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -13,56 +15,38 @@ import org.bukkit.scoreboard.Team;
 
 import com.google.common.base.Preconditions;
 
-public class ScoreboardHelper
-{
-    private List<ScoreboardText> list;
-    private Scoreboard scoreBoard;
-    private Objective objective;
-    private Objective healthName;
-    private String tag;
-    private int lastSentCount;
-    
-    public ScoreboardHelper(final Scoreboard scoreBoard) {
-        this.list = new ArrayList<ScoreboardText>();
-        this.tag = "PlaceHolder";
-        this.lastSentCount = -1;
-        this.scoreBoard = scoreBoard;
-        (this.objective = this.getOrCreateObjective(this.tag, "dummy")).setDisplaySlot(DisplaySlot.SIDEBAR);
-    }
-    
-    public Scoreboard getScoreBoard() {
-        return this.scoreBoard;
-    }
+@Getter
+public class ScoreboardHelper {
+    private final List<ScoreboardText> list;
+    private final Scoreboard scoreBoard;
+    private final Objective objective;
+    private final String tag;
+    private int lastSentCount = -1;
     
     public ScoreboardHelper(final Scoreboard scoreBoard, final String title) {
-        this.list = new ArrayList<ScoreboardText>();
-        this.tag = "PlaceHolder";
-        this.lastSentCount = -1;
-        Preconditions.checkState(title.length() <= 32, (Object)"title can not be more than 32");
+        this.list = new ArrayList<>();
+        Preconditions.checkState(title.length() <= 32, "title can not be more than 32");
         this.tag = ChatColor.translateAlternateColorCodes('&', title);
         this.scoreBoard = scoreBoard;
        (this.objective = this.getOrCreateObjective(this.tag, "dummy")).setDisplaySlot(DisplaySlot.SIDEBAR);
-      // (this.healthName = this.getOrCreateObjective("healthName", "health")).setDisplaySlot(DisplaySlot.BELOW_NAME);
-      // this.healthName.setDisplayName("§c\u2764");
-      //  this.getOrCreateObjective("healthTab", "health").setDisplaySlot(DisplaySlot.PLAYER_LIST);
     }
     
     public void add(String paramString) {
         paramString = ChatColor.translateAlternateColorCodes('&', paramString);
-        ScoreboardText localScoreboardInput = null;
+        ScoreboardText localScoreboardInput;
         if (paramString.length() <= 16) {
             localScoreboardInput = new ScoreboardText(paramString, "");
         }
         else {
             String str1 = paramString.substring(0, 16);
-            String str2 = paramString.substring(16, paramString.length());
-            if (str1.endsWith(String.valueOf("§"))) {
+            String str2 = paramString.substring(16);
+            if (str1.endsWith("§")) {
                 str1 = str1.substring(0, str1.length() - 1);
-                str2 = String.valueOf(String.valueOf("§")) + str2;
+                str2 = "§" + str2;
             }
-            final String str3 = ChatColor.getLastColors(str1);
-            str2 = String.valueOf(String.valueOf(str3)) + str2;
-            localScoreboardInput = new ScoreboardText(str1.replace("&", "§"), StringUtils.left(str2, 16).replace("&", "§"));
+            String str3 = ChatColor.getLastColors(str1);
+            str2 = str3 + str2;
+            localScoreboardInput = new ScoreboardText(str1, StringUtils.left(str2, 16));
         }
         this.list.add(localScoreboardInput);
     }
@@ -70,8 +54,8 @@ public class ScoreboardHelper
     public void update(final Player paramPlayer) {
         paramPlayer.setScoreboard(this.scoreBoard);
         for (int i = 0; i < this.list.size(); ++i) {
-            final Team localTeam = this.getOrCreateTeam(String.valueOf(String.valueOf(ChatColor.stripColor(StringUtils.left(this.tag, 14)))) + i, i);
-            final ScoreboardText localScoreboardInput = this.list.get(this.list.size() - i - 1);
+            Team localTeam = this.getOrCreateTeam(String.valueOf(String.valueOf(ChatColor.stripColor(StringUtils.left(this.tag, 14)))) + i, i);
+            ScoreboardText localScoreboardInput = this.list.get(this.list.size() - i - 1);
             localTeam.setPrefix(localScoreboardInput.getLeft());
             localTeam.setSuffix(localScoreboardInput.getRight());
             this.objective.getScore(this.getNameForIndex(i)).setScore(i + 1);
@@ -82,10 +66,6 @@ public class ScoreboardHelper
             }
         }
         this.lastSentCount = this.list.size();
-    }
-    
-    public void clear() {
-        this.list.clear();
     }
     
     public void remove(final int paramInt) {
@@ -116,32 +96,11 @@ public class ScoreboardHelper
     public String getNameForIndex(final int index) {
         return String.valueOf(String.valueOf(ChatColor.values()[index].toString())) + ChatColor.RESET;
     }
-    
-    public static class ScoreboardText
-    {
-        private String left;
-        private String right;
 
-        
-        public ScoreboardText(final String left, final String right) {
-            this.left = left;
-            this.right = right;
-        }
-        
-        public String getLeft() {
-            return this.left;
-        }
-        
-        public void setLeft(final String left) {
-            this.left = left;
-        }
-        
-        public String getRight() {
-            return this.right;
-        }
-        
-        public void setRight(final String right) {
-            this.right = right;
-        }
+    @Getter
+    @AllArgsConstructor
+    public static class ScoreboardText {
+        private final String left;
+        private final String right;
     }
 }

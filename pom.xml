@@ -91,12 +91,6 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.karhu</groupId>
-            <artifactId>karhuapi</artifactId>
-            <version>1.0</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>me.elijuh</groupId>
             <artifactId>NametagAPI</artifactId>
             <version>1.0</version>

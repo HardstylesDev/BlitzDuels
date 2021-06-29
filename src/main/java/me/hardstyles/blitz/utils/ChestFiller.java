@@ -1,98 +1,22 @@
 package me.hardstyles.blitz.utils;
 
-import me.hardstyles.blitz.Core;
 import org.bukkit.Color;
+import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
-import org.bukkit.Material;
-import org.bukkit.inventory.Inventory;
-
 public class ChestFiller {
+    private final Random r = new Random();
+    private final HashMap<ItemStack, Integer> lootTable = new HashMap<>();
+    private final int totalChance;
 
-    private HashMap<ItemStack, Integer> lootTable;
-
-    private int totalChance;
-
-    final private Core core;
-    public ChestFiller(Core core) {
-        this.core = core;
-        loadLootTable();
-    }
-
-
-    //ALGORITHM #3
-    //NO ISSUES
-
-    public void generateChestLoot(Inventory inventory, int minAmount) {
-        Random r = new Random();
-        int amt = new Random().nextInt(2) + minAmount;
-        List<ItemStack> selectedItems = new ArrayList<ItemStack>();
-        for(int a = 0; a <= amt; a++) {
-            int index = r.nextInt(totalChance);
-            int counter = 0;
-            for(ItemStack is : lootTable.keySet())
-                if(lootTable.get(is) + counter > index) {
-                    if(selectedItems.contains(is)) {
-                        a--;
-                        break;
-                    }
-                    selectedItems.add(is);
-                    break;
-                }else
-                    counter += lootTable.get(is);
-        }
-        for(ItemStack is : selectedItems) {
-            int random = r.nextInt(inventory.getSize());
-            while(inventory.getItem(random) != null)
-                random = r.nextInt(inventory.getSize());
-            inventory.setItem(random, is);
-        }
-		/*for(ItemStack is : selectedItems)
-			inventory.setItem(r.nextInt(inventory.getSize()), is);*/
-    }
-
-    //ALGORITHM #2
-    //ISSUES: Chances are not fully correct, item amount in chests vary
-
-	/*public void generateChestLoot(Inventory inventory, int minAmount) {
-		Random r = new Random();
-		int amt = new Random().nextInt(2) + minAmount;
-		List<ItemStack> selectedItems = new ArrayList<ItemStack>();
-		for(ItemStack is : lootTable.keySet())
-			if(r.nextInt(101) < lootTable.get(is))
-				selectedItems.add(is);
-		while(selectedItems.size() > amt)
-			selectedItems.remove(r.nextInt(selectedItems.size()));
-		for(ItemStack is : selectedItems)
-			inventory.setItem(r.nextInt(inventory.getSize()), is);
-	}*/
-
-    //ALGORITHM #1
-    //ISSUES: All Items have the same chance
-
-	/*public void generateChestLoot(Inventory inventory) {
-		int i = 0;
-		while(i < 5) {
-			int random = new Random().nextInt(26);
-			if(inventory.getItem(random) == null) {
-				int item = new Random().nextInt(lootTable.size());
-				Material mat = (Material) lootTable.keySet().toArray()[item];
-				if(inventory.contains(mat))
-					continue;
-				inventory.setItem(random, new ItemStack(mat, lootTable.get(lootTable.keySet().toArray()[item])));
-			}
-			i++;
-		}
-	}*/
-
-    private void loadLootTable() {
-        lootTable = new HashMap<ItemStack, Integer>();
-        //WEAPONRY
+    public ChestFiller() {
         lootTable.put(new ItemStack(Material.WOOD_AXE, 1), 30);
         lootTable.put(new ItemStack(Material.STONE_AXE, 1), 20);
         lootTable.put(new ItemStack(Material.GOLD_SWORD, 1), 18);
@@ -153,8 +77,35 @@ public class ChestFiller {
         lootTable.put(new ItemStack(Material.EXP_BOTTLE, 1), 10);
         lootTable.put(new ItemStack(Material.EXP_BOTTLE, 2), 5);
 
-        //Calculate total chance
-        for(int i : lootTable.values())
-            totalChance += i;
+        int c = 0;
+        for(int i : lootTable.values()) {
+            c += i;
+        }
+        totalChance = c;
+    }
+
+    public void generateChestLoot(Inventory inventory, int minAmount) {
+        int amt = r.nextInt(2) + minAmount;
+        List<ItemStack> selectedItems = new ArrayList<>();
+        for(int a = 0; a <= amt; a++) {
+            int index = r.nextInt(totalChance);
+            int counter = 0;
+            for(ItemStack is : lootTable.keySet())
+                if(lootTable.get(is) + counter > index) {
+                    if(selectedItems.contains(is)) {
+                        a--;
+                        break;
+                    }
+                    selectedItems.add(is);
+                    break;
+                }else
+                    counter += lootTable.get(is);
+        }
+        for(ItemStack is : selectedItems) {
+            int random = r.nextInt(inventory.getSize());
+            while(inventory.getItem(random) != null)
+                random = r.nextInt(inventory.getSize());
+            inventory.setItem(random, is);
+        }
     }
 }

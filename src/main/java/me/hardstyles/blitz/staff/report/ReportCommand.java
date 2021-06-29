@@ -42,7 +42,7 @@ public class ReportCommand extends Command {
 
         long remainingTime = 30000 - (System.currentTimeMillis() - cooldown.getOrDefault(p.getUniqueId(), 0L));
         if (remainingTime > 0) {
-            p.sendMessage(ChatColor.RED + "Please wait before reporting another player! Wait " + (remainingTime / 1000) + " more seconds.");
+            p.sendMessage(ChatColor.RED + "You are on cooldown for " + (remainingTime / 1000) + " more seconds.");
             return;
         }
 
@@ -62,7 +62,7 @@ public class ReportCommand extends Command {
             }
         }
 
-        Core.i().getStaffManager().getReports().add(new ReportEntry(System.currentTimeMillis(), message, false, target.getUniqueId(), p.getUniqueId()));
+        Core.i().getStaffManager().getReports().add(new ReportEntry(message, target.getName(), p.getName()));
         cooldown.put(p.getUniqueId(), System.currentTimeMillis());
     }
 }
