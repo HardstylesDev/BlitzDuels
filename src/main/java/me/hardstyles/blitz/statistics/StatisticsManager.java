@@ -103,8 +103,8 @@ public class StatisticsManager {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, uuid.toString());
             ResultSet rs = ps.executeQuery();
+            IPlayer iPlayer = new IPlayer(uuid);
             while (rs.next()) {
-                IPlayer iPlayer = new IPlayer(UUID.fromString(rs.getString("uuid")));
                 JsonObject jsonObject = new JsonParser().parse(rs.getString("data")).getAsJsonObject();
 
                 if (jsonObject.has("name")) iPlayer.setName(jsonObject.get("name").getAsString());
