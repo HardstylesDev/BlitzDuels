@@ -12,6 +12,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.inventory.ItemStack;
@@ -39,6 +40,24 @@ public class IPlayerHandler implements Listener {
             core.getQueueGui().open(p);
         } else if (item.getItemMeta().getDisplayName().equals("§eKit Editor")) {
             core.getSlotGui().open(p);
+        }
+    }
+
+    @EventHandler
+    public void onClick(InventoryClickEvent e) {
+        Player p = (Player) e.getWhoClicked();
+        IPlayer iPlayer = core.getPlayerManager().getPlayer(p.getUniqueId());
+        if (iPlayer == null) {
+            e.setCancelled(true);
+            return;
+        }
+        if (e.getCurrentItem() != null) {
+            ItemStack item = e.getCurrentItem();
+            if (item.hasItemMeta() && item.getItemMeta().hasDisplayName()) {
+                if (item.getItemMeta().getDisplayName().equals("§ePlay") || item.getItemMeta().getDisplayName().equals("§eKit Editor")) {
+                    e.setCancelled(true);
+                }
+            }
         }
     }
 

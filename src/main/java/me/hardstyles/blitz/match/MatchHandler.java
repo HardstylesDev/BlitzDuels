@@ -21,6 +21,7 @@ import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.*;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffectType;
@@ -35,6 +36,22 @@ public class MatchHandler implements Listener {
         this.core = core;
     }
 
+    @EventHandler
+    public void onClick(InventoryClickEvent e) {
+        Player p = (Player) e.getWhoClicked();
+        IPlayer player = core.getPlayerManager().getPlayer(p.getUniqueId());
+        if (player == null) {
+            e.setCancelled(true);
+            return;
+        }
+        if (player.hasMatch()) {
+            if (e.getCurrentItem() != null) {
+                if (e.getCurrentItem().getType() == Material.BOOK) {
+                    e.setCancelled(true);
+                }
+            }
+        }
+    }
 
     @EventHandler
     public void onDisconnect(PlayerQuitEvent e) {

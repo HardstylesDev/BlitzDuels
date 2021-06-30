@@ -65,8 +65,9 @@ public class ScoreboardManager extends BukkitRunnable {
                 board.add(match.getWinners().size() == 1 ? "Winner" : "Winners");
                 for (UUID winner : match.getWinners()) {
                     Player op = match.getPlayerReference().get(winner);
-                    board.add(ChatColor.GOLD + "♚ " + ChatColor.YELLOW + op.getName());
-
+                    if (op != null) {
+                        board.add(ChatColor.GOLD + "♚ " + ChatColor.YELLOW + op.getName());
+                    }
                 }
 
                 board.add(separator + "&c");

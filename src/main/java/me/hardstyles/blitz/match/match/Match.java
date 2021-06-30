@@ -200,6 +200,10 @@ public class Match {
 
     public void onDeath(UUID uuid) {
         Player p = playerReference.get(uuid);
+        if (matchStage == MatchStage.ENDED) {
+            core.getPlayerManager().hub(p);
+            return;
+        }
         p.setHealth(p.getMaxHealth());
         p.setFoodLevel(40);
         p.spigot().setCollidesWithEntities(false);

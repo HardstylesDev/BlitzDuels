@@ -37,9 +37,10 @@ public class IPlayerManager {
 	public void hub(Player p) {
 		IPlayer iPlayer = core.getPlayerManager().getPlayer(p.getUniqueId());
 		if (iPlayer.getMatch() != null) {
-			iPlayer.getMatch().onDeath(iPlayer.getUuid());
-			iPlayer.getMatch().leave(iPlayer.getUuid());
+			Match match = iPlayer.getMatch();
 			iPlayer.setMatch(null);
+			match.onDeath(iPlayer.getUuid());
+			match.leave(iPlayer.getUuid());
 			for (Player other : Bukkit.getOnlinePlayers()) {
 				other.showPlayer(p);
 			}
