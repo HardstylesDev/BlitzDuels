@@ -45,12 +45,16 @@ public class IPlayerHandler implements Listener {
     @EventHandler
     public void onDisconnect(PlayerQuitEvent e) {
         e.setQuitMessage(null);
-        Bukkit.getScheduler().runTaskLater(core, () -> core.getPlayerManager().removeBsgPlayer(e.getPlayer().getUniqueId()), 4);
+        IPlayer iPlayer = core.getPlayerManager().getPlayer(e.getPlayer().getUniqueId());
+        core.getQueueManager().getSoloQueues().remove(iPlayer.getUuid());
+        if (iPlayer.getParty() != null) {
+            core.getQueueManager().getTeamsQueues().remove(iPlayer.getParty());
+        }
 
+        Bukkit.getScheduler().runTask(core, () -> core.getPlayerManager().removeBsgPlayer(e.getPlayer().getUniqueId()));
     }
 
     @EventHandler
-
     public void onJoin(PlayerJoinEvent e) {
         e.setJoinMessage(null);
         core.getStatisticsManager().load(e.getPlayer().getUniqueId());

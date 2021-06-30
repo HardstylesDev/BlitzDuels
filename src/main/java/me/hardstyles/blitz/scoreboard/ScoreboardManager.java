@@ -43,7 +43,7 @@ public class ScoreboardManager extends BukkitRunnable {
                 Match match = bsgPlayer.getMatch();
                 board.add(lines);
                 board.add(separator + "&a");
-                board.add("Time: " + ChatColor.GREEN + (match.getMatchStage() == MatchStage.GRACE ? "starting..." : ((System.currentTimeMillis() - match.getTimeStarted()) / 1000) + "s"));
+                board.add("Time: " + ChatColor.GREEN + getTime(match));
                 board.add(separator + "&b");
                 for (UUID uuid : match.getAlivePlayers()) {
                     Player op = match.getPlayerReference().get(uuid);
@@ -95,5 +95,20 @@ public class ScoreboardManager extends BukkitRunnable {
             board.update(p);
             core.getTabUtil().setForPlayer(p, "&e&lBLITZ DUELS\n&r", "\n&eIn match: &r" + core.getMatchManager().getMatchCount() + "\n&ePlayers: &r" + Bukkit.getOnlinePlayers().size() + "\n\n&etest.blitzsg.club");
         }
+    }
+
+    private String getTime(Match match) {
+        if (match.getMatchStage() == MatchStage.GRACE) {
+            return "Starting..";
+        }
+
+        long seconds = (System.currentTimeMillis() - match.getTimeStarted()) / 1000;
+        long minutes = 0;
+        while (seconds >= 60) {
+            minutes++;
+            seconds -= 60;
+        }
+
+        return (minutes > 9 ? minutes : "0" + minutes) + ":" + (seconds > 9 ? seconds : "0" + seconds);
     }
 }

@@ -25,11 +25,11 @@ import java.util.UUID;
 @Getter
 @Setter
 public class Match {
-    Arena arena;
+    private final Arena arena;
     private boolean isInProgress;
     private static final String pre = ChatColor.GREEN + "Match " + ChatColor.WHITE + "> ";
     private MatchStage matchStage;
-    final HashSet<UUID> players = new HashSet<>();
+    private final HashSet<UUID> players = new HashSet<>();
     final private Core core;
     final private HashSet<UUID> alivePlayers = new HashSet<>();
     final private HashSet<Location> chests = new HashSet<>();
@@ -141,6 +141,7 @@ public class Match {
                     matchStage = MatchStage.STARTED;
                     timeStarted = System.currentTimeMillis();
                     cancel();
+                    return;
                 }
                 ChatColor cc;
                 switch (timer) {
@@ -199,6 +200,8 @@ public class Match {
 
     public void onDeath(UUID uuid) {
         Player p = playerReference.get(uuid);
+        p.setHealth(p.getMaxHealth());
+        p.setFoodLevel(40);
         p.spigot().setCollidesWithEntities(false);
 
 
@@ -222,7 +225,7 @@ public class Match {
         p.setAllowFlight(true);
         p.setFlying(true);
 
-        p.setVelocity(new Vector(0, 1, 0));
+        p.setVelocity(new Vector(0, 0.5, 0));
         dead.add(p.getUniqueId());
         alivePlayers.remove(p.getUniqueId());
 
@@ -271,12 +274,10 @@ public class Match {
     }
 
     public void leave(UUID uuid) {
-        if (!players.contains(uuid)) {
-            return;
-        }
-
+        playerReference.remove(uuid);
         alivePlayers.remove(uuid);
-        dead.add(uuid);
+        dead.remove(uuid);
+        spectators.remove(uuid);
         players.remove(uuid);
         attacks.remove(uuid);
     }

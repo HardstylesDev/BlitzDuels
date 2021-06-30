@@ -35,6 +35,16 @@ public class IPlayerManager {
 	}
 
 	public void hub(Player p) {
+		IPlayer iPlayer = core.getPlayerManager().getPlayer(p.getUniqueId());
+		if (iPlayer.getMatch() != null) {
+			iPlayer.getMatch().onDeath(iPlayer.getUuid());
+			iPlayer.getMatch().leave(iPlayer.getUuid());
+			iPlayer.setMatch(null);
+			for (Player other : Bukkit.getOnlinePlayers()) {
+				other.showPlayer(p);
+			}
+		}
+
 		p.spigot().setCollidesWithEntities(true);
 		p.setFlying(false);
 		p.setAllowFlight(false);
@@ -51,16 +61,6 @@ public class IPlayerManager {
 		((CraftPlayer) p).getHandle().getDataWatcher().watch(9, (byte) 0);
 
 		hubInventory(p);
-
-		IPlayer iPlayer = core.getPlayerManager().getPlayer(p.getUniqueId());
-		if (iPlayer.getMatch() != null) {
-			iPlayer.getMatch().onDeath(iPlayer.getUuid());
-			iPlayer.getMatch().leave(iPlayer.getUuid());
-			iPlayer.setMatch(null);
-			for (Player other : Bukkit.getOnlinePlayers()) {
-				other.showPlayer(p);
-			}
-		}
 
 		p.teleport(core.getLobbySpawn());
 	}

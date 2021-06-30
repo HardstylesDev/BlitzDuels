@@ -45,12 +45,11 @@ public class MatchHandler implements Listener {
         }
 
         Match match = player.getMatch();
-        if (!match.getAlivePlayers().contains(player.getUuid())) {
-            return;
+        if (match.getAlivePlayers().contains(player.getUuid())) {
+            match.onDeath(p.getUniqueId());
         }
 
-        match.onDeath(p.getUniqueId());
-
+        match.leave(player.getUuid());
     }
 
     @EventHandler
@@ -128,7 +127,7 @@ public class MatchHandler implements Listener {
                 }
             }
         }
-        if (e.getDamager() instanceof Player) {
+        if (e.getDamager() instanceof Player && match.getMatchStage() == MatchStage.STARTED) {
             Player attacker = (Player) e.getDamager();
             match.getAttacks().put(victim.getUniqueId(), attacker.getUniqueId());
             long dmg = match.getDamageDone().getOrDefault(attacker.getUniqueId(), 0L);
@@ -245,7 +244,7 @@ public class MatchHandler implements Listener {
     }
 
     @EventHandler
-    public void interactSpectator(PlayerInteractEvent e) {
+    public void onInteract(PlayerInteractEvent e) {
         IPlayer iPlayer = core.getPlayerManager().getPlayer(e.getPlayer().getUniqueId());
         if (iPlayer == null) {
             e.setCancelled(true);
@@ -270,6 +269,10 @@ public class MatchHandler implements Listener {
             Player p = e.getPlayer();
             if (p.getItemInHand() == null || p.getItemInHand().getItemMeta() == null || p.getItemInHand().getItemMeta().getDisplayName() == null) {
                 return;
+            }
+
+            if (iPlayer.getMatch().getMatchStage() == MatchStage.GRACE && e.getClickedBlock() == null) {
+                e.setCancelled(true);
             }
 
             if (p.getItemInHand().getItemMeta().getDisplayName().contains("Default")) {
@@ -320,6 +323,8 @@ public class MatchHandler implements Listener {
                     }
                 });
             }
+
+            Bukkit.getScheduler().runTask(core, p::updateInventory);
         }
 
     }
