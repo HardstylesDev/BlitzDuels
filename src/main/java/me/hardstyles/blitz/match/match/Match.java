@@ -34,11 +34,12 @@ public class Match {
     final private HashSet<UUID> alivePlayers = new HashSet<>();
     final private HashSet<Location> chests = new HashSet<>();
     final private HashSet<UUID> dead = new HashSet<>();
+    final private HashSet<UUID> spectators = new HashSet<>();
     final private HashMap<UUID, UUID> attacks = new HashMap<>();
     private final HashSet<UUID> winners = new HashSet<>();
     private final HashMap<UUID, HashSet<Entity>> entities = new HashMap<>();
     private final HashMap<UUID, Player> playerReference = new HashMap<>();
-    private final HashMap<UUID, Double> damageDone = new HashMap<>();
+    private final HashMap<UUID, Long> damageDone = new HashMap<>();
     private final HashSet<Location> blocksPlaced = new HashSet<>();
     private long timeStarted, timeEnded;
 
@@ -234,6 +235,11 @@ public class Match {
             dead.showPlayer(p);
             p.showPlayer(dead);
         }
+        for (UUID spectatorPlayer : spectators) {
+            Player spectator = playerReference.get(spectatorPlayer);
+            spectator.showPlayer(p);
+            p.showPlayer(spectator);
+        }
         player.addDeath();
         player.setStreak(0);
         core.getStatisticsManager().saveAsync(player);
@@ -298,7 +304,7 @@ public class Match {
                 player.sendMessage("");
                 player.sendMessage(ChatColor.GOLD + "Game over!");
                 if (damageDone.containsKey(player.getUniqueId())) {
-                    player.sendMessage(ChatColor.GRAY + "Damage dealt: " + ChatColor.WHITE + (damageDone.get(player.getUniqueId()) * 2));
+                    player.sendMessage(ChatColor.GRAY + "Damage dealt: " + ChatColor.WHITE + (damageDone.get(player.getUniqueId())));
                 }
                 player.getInventory().clear();
 
@@ -306,18 +312,18 @@ public class Match {
                 player.sendMessage(ChatColor.YELLOW + "" + ChatColor.BOLD + "Winner: " + winner.getRank().getChatColor() + playerReference.get(winner.getUuid()).getName());
 
                 for (Entity nearbyEntity : player.getWorld().getNearbyEntities(player.getLocation(), 250, 100, 250)) {
-                    if (!(nearbyEntity instanceof Player)) {
+                    if (!(nearbyEntity instanceof Player) && !(nearbyEntity instanceof ArmorStand)) {
                         nearbyEntity.remove();
                     }
                 }
                 for (UUID uuid : dead) {
                     Player dead = playerReference.get(uuid);
-                    for (UUID alivePlayer : alivePlayers) {
-                        Player alive = playerReference.get(alivePlayer);
-                        alive.showPlayer(dead);
-                    }
+                    player.showPlayer(dead);
                 }
-                arena.setOccupied(false);
+                for (UUID uuid : spectators) {
+                    Player spectator = playerReference.get(uuid);
+                    player.showPlayer(spectator);
+                }
             }
             winner.addWin();
             winner.setStreak(winner.getStreak() + 1);
@@ -346,6 +352,7 @@ public class Match {
 
                 core.getPlayerManager().hub(player);
             }
+            arena.setOccupied(false);
         }, 20 * 5);
         core.getMatchManager().remove();
         core.getLeaderboardUpdater().update();

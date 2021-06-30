@@ -131,7 +131,7 @@ public class MatchHandler implements Listener {
         if (e.getDamager() instanceof Player) {
             Player attacker = (Player) e.getDamager();
             match.getAttacks().put(victim.getUniqueId(), attacker.getUniqueId());
-            double dmg = match.getDamageDone().getOrDefault(attacker.getUniqueId(), 0D);
+            long dmg = match.getDamageDone().getOrDefault(attacker.getUniqueId(), 0L);
             match.getDamageDone().put(attacker.getUniqueId(), dmg + Math.round(e.getFinalDamage()));
         }
 
@@ -161,7 +161,7 @@ public class MatchHandler implements Listener {
 
     @EventHandler
     public void onDeath(PlayerDeathEvent event) {
-        event.setDeathMessage("");
+        event.setDeathMessage(null);
         IPlayer ivictim = core.getPlayerManager().getPlayer(event.getEntity().getUniqueId());
         Match match = ivictim.getMatch();
         if (match == null || !match.isInProgress()) {
@@ -278,7 +278,7 @@ public class MatchHandler implements Listener {
                 p.getInventory().clear();
 
                 p.getInventory().setHelmet(IItem.PALADIN_HELMET.getItem());
-                p.getInventory().setBoots(IItem.WOLFTAMER_BOOTS.getItem());
+                p.getInventory().setBoots(IItem.RANGER_BOOTS.getItem());
                 p.getInventory().setChestplate(IItem.PALADIN_CHESTPLATE.getItem());
                 p.getInventory().setLeggings(IItem.CHAIN_LEGGINGS.getItem());
 
@@ -286,7 +286,6 @@ public class MatchHandler implements Listener {
                 p.getInventory().addItem(IItem.SHARP_STONE_SWORD.getItem());
 
                 p.getInventory().addItem(IItem.STEAK.getItem());
-                p.getInventory().addItem(IItem.WARRIOR_POT.getItem());
 
             } else if (p.getItemInHand().getItemMeta().getDisplayName().contains("Custom Kit")) {
                 int kitIndex = Integer.parseInt(p.getItemInHand().getItemMeta().getDisplayName().substring(14));

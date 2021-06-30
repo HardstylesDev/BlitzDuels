@@ -62,6 +62,7 @@ public class SpectatorCommand implements CommandExecutor {
             match.send(player.getRank().getPrefix()+p.getName() + ChatColor.YELLOW + " is now spectating!");
         }
         match.getPlayers().add(p.getUniqueId());
+        match.getSpectators().add(p.getUniqueId());
         match.getPlayerReference().put(p.getUniqueId(), p);
         for (UUID alivePlayer : match.getAlivePlayers()) {
             Player alive = match.getPlayerReference().get(alivePlayer);

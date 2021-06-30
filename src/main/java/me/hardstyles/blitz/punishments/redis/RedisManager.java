@@ -23,5 +23,10 @@ public class RedisManager {
         pubJedis.auth(password);
         Bukkit.getScheduler().runTaskAsynchronously(Core.i(), ()-> subJedis.subscribe(new RedisListener(this), "PUNISHMENT"));
     }
+
+    public void shutdown() {
+        subJedis.getClient().shutdown();
+        pubJedis.getClient().shutdown();
+    }
 }
 

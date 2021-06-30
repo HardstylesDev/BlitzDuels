@@ -20,10 +20,6 @@ commands:
     description: lolt
   test:
     description: lol
-  party:
-    description: lol
-    aliases:
-      - p
   partychat:
     aliases:
       - pc

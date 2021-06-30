@@ -4,6 +4,7 @@ import lombok.Getter;
 import me.hardstyles.blitz.Core;
 import me.hardstyles.blitz.match.match.Match;
 import me.hardstyles.blitz.utils.ItemBuilder;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
@@ -50,6 +51,17 @@ public class IPlayerManager {
 		((CraftPlayer) p).getHandle().getDataWatcher().watch(9, (byte) 0);
 
 		hubInventory(p);
+
+		IPlayer iPlayer = core.getPlayerManager().getPlayer(p.getUniqueId());
+		if (iPlayer.getMatch() != null) {
+			iPlayer.getMatch().onDeath(iPlayer.getUuid());
+			iPlayer.getMatch().leave(iPlayer.getUuid());
+			iPlayer.setMatch(null);
+			for (Player other : Bukkit.getOnlinePlayers()) {
+				other.showPlayer(p);
+			}
+		}
+
 		p.teleport(core.getLobbySpawn());
 	}
 

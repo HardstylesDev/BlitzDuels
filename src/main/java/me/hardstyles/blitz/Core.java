@@ -140,7 +140,6 @@ public class Core extends JavaPlugin {
         this.getCommand("l").setExecutor(new HubCommand(this));
         this.getCommand("test").setExecutor(new TestCommand());
         this.getCommand("partychat").setExecutor(new PartyChatCommand(this));
-        this.getCommand("party").setExecutor(new PartyCommand(this));
         this.getCommand("rank").setExecutor(new RankCommand(this));
         this.getCommand("nick").setExecutor(new NicknameCommand(this));
         this.getCommand("world").setExecutor(new WorldCommand(this));
@@ -156,6 +155,7 @@ public class Core extends JavaPlugin {
         new ReportCommand();
         new ReportsCommand();
         new FollowCommand();
+        new PartyCommand();
 
         //punishments
         new AltsCommand();
@@ -218,6 +218,7 @@ public class Core extends JavaPlugin {
 
         statisticsManager.saveAll();
         data.getDataSource().close();
+        redisManager.shutdown();
     }
 
     public static void broadcast(String message, World world) {

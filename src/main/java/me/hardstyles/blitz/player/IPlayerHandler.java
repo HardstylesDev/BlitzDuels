@@ -24,12 +24,6 @@ public class IPlayerHandler implements Listener {
         this.core = core;
     }
 
-
-    @EventHandler
-    public void onJoin(AsyncPlayerPreLoginEvent e) {
-        core.getStatisticsManager().load(e.getUniqueId());
-    }
-
     @EventHandler
     public void onPlayerUse(PlayerInteractEvent e) {
         Player p = e.getPlayer();
@@ -59,6 +53,7 @@ public class IPlayerHandler implements Listener {
 
     public void onJoin(PlayerJoinEvent e) {
         e.setJoinMessage(null);
+        core.getStatisticsManager().load(e.getPlayer().getUniqueId());
         core.getServer().getScheduler().runTaskLater(core, () -> {
 
             Player p = e.getPlayer();
