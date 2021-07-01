@@ -17,9 +17,6 @@ import org.bukkit.event.player.*;
 import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Map;
-import java.util.UUID;
-
 public class IPlayerHandler implements Listener {
 
     final private Core core;
@@ -135,9 +132,10 @@ public class IPlayerHandler implements Listener {
     public void onAsyncChat(AsyncPlayerChatEvent e) {
         IPlayer uhcPlayer = core.getPlayerManager().getPlayer(e.getPlayer().getUniqueId());
 
-        for (Map.Entry<UUID, IPlayer> uuidiPlayerEntry : core.getPlayerManager().getPlayers().entrySet()) {
-            if(uuidiPlayerEntry.getValue().getIgnoreList().contains(e.getPlayer().getUniqueId().toString())){
-                e.getRecipients().remove(Bukkit.getPlayer(uuidiPlayerEntry.getKey()));
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            IPlayer iPlayer = core.getPlayerManager().getPlayer(p.getUniqueId());
+            if(iPlayer != null && iPlayer.getIgnoreList().contains(e.getPlayer().getUniqueId().toString())){
+                e.getRecipients().remove(p);
             }
         }
         e.setFormat(uhcPlayer.getRank().getPrefix() + e.getPlayer().getName() + (uhcPlayer.getRank().getPrefix().equalsIgnoreCase(ChatColor.GRAY + "") ? ChatColor.GRAY + ": " : ChatColor.WHITE + ": ") + e.getMessage().replaceAll("%", "%%"));
