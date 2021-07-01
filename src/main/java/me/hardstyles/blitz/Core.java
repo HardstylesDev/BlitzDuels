@@ -140,7 +140,7 @@ public class Core extends JavaPlugin {
         this.getCommand("nick").setExecutor(new NicknameCommand(this));
         this.getCommand("world").setExecutor(new WorldCommand(this));
         this.getCommand("rename").setExecutor(new RenameCommand(this));
-        this.getCommand("spectate").setExecutor(new SpectatorCommand(this));
+
         // this.getCommand("duel").setExecutor(new DuelCommand(this));
 
         //temporary
@@ -157,6 +157,7 @@ public class Core extends JavaPlugin {
         new RankCommand();
         new PartyChatCommand();
         new MessageCommand();
+        new SpectatorCommand();
         //punishments
         new AltsCommand();
         new BanCommand();

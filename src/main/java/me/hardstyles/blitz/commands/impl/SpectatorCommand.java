@@ -1,54 +1,57 @@
 package me.hardstyles.blitz.commands.impl;
 
+import com.google.common.collect.ImmutableList;
 import me.hardstyles.blitz.Core;
+
+import me.hardstyles.blitz.commands.Command;
 import me.hardstyles.blitz.match.match.Match;
 import me.hardstyles.blitz.player.IPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.List;
 import java.util.UUID;
 
 
-public class SpectatorCommand implements CommandExecutor {
+public class SpectatorCommand extends Command {
 
-    final private Core core;
-
-    public SpectatorCommand(Core core) {
-        this.core = core;
+    public SpectatorCommand() {
+        super("spectator", ImmutableList.of("spec"), 0);
     }
 
 
-    public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
-        if (!(sender instanceof Player)) return false;
-        Player p = (Player) sender;
+    @Override
+    public List<String> onTabComplete(Player player, String[] args) {
+        return null;
+    }
+
+    @Override
+    public void onExecute(Player p, IPlayer iPlayer, String[] args) {
         IPlayer player = core.getPlayerManager().getPlayer(p.getUniqueId());
 
         if (player.getMatch() != null) {
-           p.sendMessage(ChatColor.RED +"Can't use this command while in a match");
-            return true;
+            p.sendMessage(ChatColor.RED +"Can't use this command while in a match");
+            return;
         }
         if(args.length == 0){
             p.sendMessage(ChatColor.RED +"Usage: /spectate <player>");
-            return true;
+            return;
         }
         Player arg = Bukkit.getPlayer(args[0]);
         if(arg == null || !arg.isOnline()){
             p.sendMessage(ChatColor.RED +"Can't find that player!");
-            return true;
+            return;
         }
         IPlayer target = core.getPlayerManager().getPlayer(arg.getUniqueId());
         if(target.getMatch() == null){
             p.sendMessage(ChatColor.RED +"Player is not in a match!");
-            return true;
+            return;
         }
         Match match = target.getMatch();
         if (!match.getAlivePlayers().contains(arg.getUniqueId())) {
             p.sendMessage(ChatColor.RED +"Player is a spectator of a match!");
-            return true;
+            return;
         }
         p.getInventory().clear();
         p.teleport(arg.getLocation());
@@ -72,8 +75,6 @@ public class SpectatorCommand implements CommandExecutor {
         p.spigot().setCollidesWithEntities(false);
         p.setAllowFlight(true);
         p.setFlying(true);
-        return true;
     }
-
 }
 
