@@ -7,8 +7,8 @@ import me.hardstyles.blitz.arena.ArenaManager;
 import me.hardstyles.blitz.arena.TestCommand;
 import me.hardstyles.blitz.commands.Command;
 import me.hardstyles.blitz.commands.impl.*;
-import me.hardstyles.blitz.duels.DuelManager;
 import me.hardstyles.blitz.duels.DuelCommand;
+import me.hardstyles.blitz.duels.DuelManager;
 import me.hardstyles.blitz.kits.gui.LayoutGui;
 import me.hardstyles.blitz.kits.gui.SlotGui;
 import me.hardstyles.blitz.leaderboard.LeaderboardLoaderKills;
@@ -40,13 +40,13 @@ import me.hardstyles.blitz.staff.StaffManager;
 import me.hardstyles.blitz.staff.report.ReportCommand;
 import me.hardstyles.blitz.staff.report.ReportsCommand;
 import me.hardstyles.blitz.statistics.StatisticsManager;
-import me.hardstyles.blitz.utils.*;
+import me.hardstyles.blitz.utils.ChestFiller;
+import me.hardstyles.blitz.utils.EnchantListener;
+import me.hardstyles.blitz.utils.ReflectionUtil;
 import me.hardstyles.blitz.utils.database.Database;
 import me.hardstyles.blitz.utils.entity.player.TabUtil;
 import me.hardstyles.blitz.utils.world.VoidGenerator;
-import me.hardstyles.blitz.commands.impl.WorldCommand;
 import net.minecraft.server.v1_8_R3.EnumChatFormat;
-
 import org.bukkit.*;
 import org.bukkit.command.CommandMap;
 import org.bukkit.entity.Player;
@@ -100,9 +100,6 @@ public class Core extends JavaPlugin {
         instance = this;
 
 
-
-
-
         new NametagAPI(this);
         new WorldCreator("arena").generator(new VoidGenerator()).createWorld();
 
@@ -139,15 +136,12 @@ public class Core extends JavaPlugin {
         // this.getCommand("world").setExecutor(new WorldCommand());
 
         this.getCommand("fw").setExecutor(new FireworkCommand());
-        this.getCommand("l").setExecutor(new HubCommand(this));
         this.getCommand("test").setExecutor(new TestCommand());
-        this.getCommand("partychat").setExecutor(new PartyChatCommand(this));
-        this.getCommand("rank").setExecutor(new RankCommand(this));
         this.getCommand("nick").setExecutor(new NicknameCommand(this));
         this.getCommand("world").setExecutor(new WorldCommand(this));
         this.getCommand("rename").setExecutor(new RenameCommand(this));
         this.getCommand("spectate").setExecutor(new SpectatorCommand(this));
-       // this.getCommand("duel").setExecutor(new DuelCommand(this));
+        // this.getCommand("duel").setExecutor(new DuelCommand(this));
 
         //temporary
         new MassResetLayoutsCommand();
@@ -159,8 +153,10 @@ public class Core extends JavaPlugin {
         new FollowCommand();
         new PartyCommand();
         new DuelCommand();
+        new HubCommand();
+        new RankCommand();
+        new PartyChatCommand();
         new MessageCommand();
-
         //punishments
         new AltsCommand();
         new BanCommand();
@@ -243,7 +239,6 @@ public class Core extends JavaPlugin {
     public static Core i() {
         return instance;
     }
-
 
 
 }

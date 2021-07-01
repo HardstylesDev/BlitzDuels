@@ -1,46 +1,28 @@
 package me.hardstyles.blitz.party;
 
-import me.hardstyles.blitz.Core;
+import com.google.common.collect.ImmutableList;
+
+import me.hardstyles.blitz.commands.Command;
 import me.hardstyles.blitz.player.IPlayer;
 import net.minecraft.server.v1_8_R3.Packet;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
+
+
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.List;
 import java.util.UUID;
 
-public class PartyChatCommand implements CommandExecutor {
+public class PartyChatCommand extends Command {
 
-    final private Core core;
-    public PartyChatCommand(Core core){
-        this.core = core;
+
+    public PartyChatCommand(){
+        super("pc", ImmutableList.of("partychat"), 0);
     }
 
-    public boolean onCommand(CommandSender sender, Command command, String alias, String[] args) {
-        Player p = (Player) sender;
-        if (args.length == 0) {
-            p.sendMessage(ChatColor.RED + "Invalid message. /pc <message>");
-            return true;
-        }
-        IPlayer sgPlayer = core.getPlayerManager().getPlayer(p.getUniqueId());
-        if (sgPlayer.getParty() == null) {
-            p.sendMessage(ChatColor.RED + "You're not part of a party.");
-            return true;
-        }
-        String format = ChatColor.BLUE + "Party > " + sgPlayer.getRank().getPrefix() + p.getName() + (sgPlayer.getRank().getPrefix().equalsIgnoreCase(ChatColor.GRAY + "") ? ChatColor.GRAY + ": " : ChatColor.WHITE + ": ") + joined(args).replaceAll("%", "%%");
-        OfflinePlayer memberPlayer;
-        for (UUID member : sgPlayer.getParty().getMembers()) {
-            memberPlayer = Bukkit.getOfflinePlayer(member);
-            if (memberPlayer.isOnline()) {
-                memberPlayer.getPlayer().sendMessage(format);
-            }
-        }
-        return true;
-    }
 
 
     private String joined(String[] args) {
@@ -50,5 +32,31 @@ public class PartyChatCommand implements CommandExecutor {
             a.append(part);
         }
         return a.toString();
+    }
+
+    @Override
+    public List<String> onTabComplete(Player player, String[] args) {
+        return null;
+    }
+
+    @Override
+    public void onExecute(Player p, IPlayer iPlayer, String[] args) {
+        if (args.length == 0) {
+            p.sendMessage(ChatColor.RED + "Invalid message. /pc <message>");
+            return;
+        }
+        IPlayer sgPlayer = core.getPlayerManager().getPlayer(p.getUniqueId());
+        if (sgPlayer.getParty() == null) {
+            p.sendMessage(ChatColor.RED + "You're not part of a party.");
+            return;
+        }
+        String format = ChatColor.BLUE + "Party > " + sgPlayer.getRank().getPrefix() + p.getName() + (sgPlayer.getRank().getPrefix().equalsIgnoreCase(ChatColor.GRAY + "") ? ChatColor.GRAY + ": " : ChatColor.WHITE + ": ") + joined(args).replaceAll("%", "%%");
+        OfflinePlayer memberPlayer;
+        for (UUID member : sgPlayer.getParty().getMembers()) {
+            memberPlayer = Bukkit.getOfflinePlayer(member);
+            if (memberPlayer.isOnline()) {
+                memberPlayer.getPlayer().sendMessage(format);
+            }
+        }
     }
 }
