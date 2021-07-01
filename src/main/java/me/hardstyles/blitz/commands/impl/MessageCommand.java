@@ -5,6 +5,7 @@ import me.hardstyles.blitz.Core;
 import me.hardstyles.blitz.commands.Command;
 import me.hardstyles.blitz.player.IPlayer;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -67,6 +68,7 @@ public class MessageCommand extends Command {
                 String message = builder.toString();
                 p.sendMessage("§7(To " + target.getRank().getPrefix() + target.getName() + "§7) " + message);
                 t.sendMessage("§7(From " + iPlayer.getRank().getPrefix() + p.getName() + "§7) " + message);
+                t.playSound(t.getLocation(), Sound.ORB_PICKUP, 1, 1.1f);
                 replying.put(p, t);
                 replying.put(t, p);
             }
