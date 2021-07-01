@@ -7,9 +7,8 @@ import me.hardstyles.blitz.arena.ArenaManager;
 import me.hardstyles.blitz.arena.TestCommand;
 import me.hardstyles.blitz.commands.Command;
 import me.hardstyles.blitz.commands.impl.*;
-import me.hardstyles.blitz.duels.DuelCommand;
 import me.hardstyles.blitz.duels.DuelManager;
-import me.hardstyles.blitz.duels.DuelsCommand;
+import me.hardstyles.blitz.duels.DuelCommand;
 import me.hardstyles.blitz.kits.gui.LayoutGui;
 import me.hardstyles.blitz.kits.gui.SlotGui;
 import me.hardstyles.blitz.leaderboard.LeaderboardLoaderKills;
@@ -159,7 +158,7 @@ public class Core extends JavaPlugin {
         new ReportsCommand();
         new FollowCommand();
         new PartyCommand();
-        new DuelsCommand();
+        new DuelCommand();
 
         //punishments
         new AltsCommand();
