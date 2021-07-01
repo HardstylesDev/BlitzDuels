@@ -57,6 +57,8 @@ public class MessageCommand extends Command {
             IPlayer target = t == null ? null : Core.i().getPlayerManager().getPlayer(t.getUniqueId());
             if (target == null) {
                 p.sendMessage("§cThat player is not online.");
+            } else if (target.getIgnoreList().contains(p.getUniqueId().toString())) {
+                p.sendMessage("§cThat player has you ignored.");
             } else {
                 StringBuilder builder = new StringBuilder(args[1]);
                 for (int i = 2; i < args.length; i++) {

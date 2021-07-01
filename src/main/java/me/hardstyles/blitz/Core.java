@@ -158,6 +158,8 @@ public class Core extends JavaPlugin {
         new PartyChatCommand();
         new MessageCommand();
         new SpectatorCommand();
+        new IgnoreCommand();
+
         //punishments
         new AltsCommand();
         new BanCommand();

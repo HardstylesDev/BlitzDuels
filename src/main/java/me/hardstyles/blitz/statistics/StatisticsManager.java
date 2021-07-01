@@ -30,7 +30,7 @@ public class StatisticsManager {
     }
 
     public void save(IPlayer iPlayer) {
-        JsonObject jsonObject = iPlayer.getJsonObject();
+        JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("uuid", iPlayer.getUuid().toString());
         jsonObject.addProperty("name", iPlayer.getName());
         jsonObject.addProperty("ip_adress", iPlayer.getIp());
@@ -61,8 +61,14 @@ public class StatisticsManager {
         iPlayer.getLayouts().forEach((integer, string) -> layout.addProperty(String.valueOf(integer), string));
         jsonObject.add("layouts", layout);
 
+        StringBuilder builder = new StringBuilder();
+        for (String uuid : iPlayer.getIgnoreList()) {
+            builder.append(uuid).append(";");
+        }
 
-        iPlayer.setJsonObject(jsonObject);
+        jsonObject.addProperty("ignorelist", builder.toString());
+
+
         insert(iPlayer.getUuid().toString(), jsonObject);
 
     }
@@ -136,6 +142,13 @@ public class StatisticsManager {
                                 iPlayer.getLayouts().put(i, element.getAsString());
                             }
                         }
+                    }
+                }
+
+                if (jsonObject.has("ignorelist")) {
+                    String[] ignorelist = jsonObject.get("ignorelist").getAsString().split(";");
+                    for (String ignoredUuid : ignorelist) {
+                        iPlayer.getIgnoreList().add(ignoredUuid);
                     }
                 }
 

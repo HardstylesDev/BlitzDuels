@@ -1,6 +1,5 @@
 package me.hardstyles.blitz.player;
 
-import com.google.gson.JsonObject;
 import lombok.Getter;
 import lombok.Setter;
 import me.hardstyles.blitz.Core;
@@ -10,13 +9,14 @@ import me.hardstyles.blitz.party.Party;
 import me.hardstyles.blitz.rank.Rank;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.UUID;
 
 @Getter
 @Setter
 public class IPlayer {
     private final HashMap<Integer, String> layouts = new HashMap<>();
-    private JsonObject jsonObject = new JsonObject();
+    private final HashSet<String> ignoreList = new HashSet<>();
     private final UUID uuid;
     private UUID following;
     private int gameTaunt, elo, wins, kills, deaths, streak, coins;
