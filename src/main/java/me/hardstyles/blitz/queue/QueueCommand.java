@@ -2,7 +2,7 @@ package me.hardstyles.blitz.queue;
 
 import me.hardstyles.blitz.Core;
 import me.hardstyles.blitz.player.IPlayer;
-import me.hardstyles.blitz.utils.Command;
+import me.hardstyles.blitz.commands.Command;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 

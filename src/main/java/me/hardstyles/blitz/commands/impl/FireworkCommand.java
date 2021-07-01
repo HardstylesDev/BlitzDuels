@@ -1,4 +1,4 @@
-package me.hardstyles.blitz.utils;
+package me.hardstyles.blitz.commands.impl;
 
 import me.hardstyles.blitz.Core;
 import me.hardstyles.blitz.player.IPlayer;

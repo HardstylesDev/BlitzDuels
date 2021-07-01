@@ -1,10 +1,9 @@
 package me.hardstyles.blitz.staff;
 
 import com.google.common.collect.ImmutableList;
-import lombok.RequiredArgsConstructor;
 import me.hardstyles.blitz.Core;
 import me.hardstyles.blitz.player.IPlayer;
-import me.hardstyles.blitz.utils.Command;
+import me.hardstyles.blitz.commands.Command;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;

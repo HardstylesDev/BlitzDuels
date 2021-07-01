@@ -3,6 +3,7 @@ package me.hardstyles.blitz.party;
 import com.google.common.collect.ImmutableList;
 import me.hardstyles.blitz.Core;
 import me.hardstyles.blitz.arena.Arena;
+import me.hardstyles.blitz.commands.Command;
 import me.hardstyles.blitz.match.match.Match;
 import me.hardstyles.blitz.match.match.TeamMatch;
 import me.hardstyles.blitz.player.IPlayer;
@@ -17,7 +18,7 @@ import org.bukkit.entity.Player;
 import java.util.List;
 import java.util.UUID;
 
-public class PartyCommand extends me.hardstyles.blitz.utils.Command {
+public class PartyCommand extends Command {
 
     private final Core core = Core.i();
 

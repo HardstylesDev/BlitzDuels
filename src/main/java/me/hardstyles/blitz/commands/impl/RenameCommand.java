@@ -1,7 +1,8 @@
-package me.hardstyles.blitz.utils;
+package me.hardstyles.blitz.commands.impl;
 
 import me.hardstyles.blitz.Core;
 import me.hardstyles.blitz.kits.IItem;
+import me.hardstyles.blitz.utils.ItemBuilder;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;

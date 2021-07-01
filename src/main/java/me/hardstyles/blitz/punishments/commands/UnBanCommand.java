@@ -6,7 +6,7 @@ import me.hardstyles.blitz.player.IPlayer;
 import me.hardstyles.blitz.punishments.PType;
 import me.hardstyles.blitz.punishments.PunishmentManager;
 import me.hardstyles.blitz.punishments.redis.PunishmentInfo;
-import me.hardstyles.blitz.utils.Command;
+import me.hardstyles.blitz.commands.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

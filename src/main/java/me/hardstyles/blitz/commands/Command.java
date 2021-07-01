@@ -1,10 +1,11 @@
-package me.hardstyles.blitz.utils;
+package me.hardstyles.blitz.commands;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import lombok.Getter;
 import me.hardstyles.blitz.Core;
 import me.hardstyles.blitz.player.IPlayer;
+import me.hardstyles.blitz.utils.ReflectionUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandMap;

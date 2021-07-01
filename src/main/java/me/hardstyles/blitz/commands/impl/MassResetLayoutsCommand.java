@@ -1,4 +1,4 @@
-package me.hardstyles.blitz.utils;
+package me.hardstyles.blitz.commands.impl;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gson.Gson;
@@ -6,6 +6,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import me.hardstyles.blitz.Core;
+import me.hardstyles.blitz.commands.Command;
 import me.hardstyles.blitz.player.IPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;

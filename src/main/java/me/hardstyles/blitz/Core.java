@@ -5,6 +5,8 @@ import lombok.Setter;
 import me.elijuh.nametagapi.NametagAPI;
 import me.hardstyles.blitz.arena.ArenaManager;
 import me.hardstyles.blitz.arena.TestCommand;
+import me.hardstyles.blitz.commands.Command;
+import me.hardstyles.blitz.commands.impl.*;
 import me.hardstyles.blitz.duels.DuelCommand;
 import me.hardstyles.blitz.duels.DuelManager;
 import me.hardstyles.blitz.kits.gui.LayoutGui;
@@ -42,7 +44,7 @@ import me.hardstyles.blitz.utils.*;
 import me.hardstyles.blitz.utils.database.Database;
 import me.hardstyles.blitz.utils.entity.player.TabUtil;
 import me.hardstyles.blitz.utils.world.VoidGenerator;
-import me.hardstyles.blitz.utils.world.WorldCommand;
+import me.hardstyles.blitz.commands.impl.WorldCommand;
 import net.minecraft.server.v1_8_R3.EnumChatFormat;
 
 import org.bukkit.*;

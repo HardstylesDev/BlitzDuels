@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import me.hardstyles.blitz.Core;
 import me.hardstyles.blitz.player.IPlayer;
 import me.hardstyles.blitz.punishments.PunishmentManager;
-import me.hardstyles.blitz.utils.Command;
+import me.hardstyles.blitz.commands.Command;
 import me.hardstyles.blitz.utils.ItemBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

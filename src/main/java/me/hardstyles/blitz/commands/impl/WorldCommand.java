@@ -1,6 +1,7 @@
-package me.hardstyles.blitz.utils.world;
+package me.hardstyles.blitz.commands.impl;
 
 import me.hardstyles.blitz.Core;
+import me.hardstyles.blitz.utils.world.VoidGenerator;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
