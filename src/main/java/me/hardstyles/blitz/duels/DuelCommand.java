@@ -24,11 +24,6 @@ public class DuelCommand extends Command {
 
     public DuelCommand() {
         super("duel", ImmutableList.of("dual", "1v1", "match", "fight"), 0);
-
-    }
-
-    public DuelCommand(String name, List<String> aliases, int position) {
-        super(name, aliases, position);
     }
 
     @Override

@@ -159,6 +159,7 @@ public class Core extends JavaPlugin {
         new FollowCommand();
         new PartyCommand();
         new DuelCommand();
+        new MessageCommand();
 
         //punishments
         new AltsCommand();
