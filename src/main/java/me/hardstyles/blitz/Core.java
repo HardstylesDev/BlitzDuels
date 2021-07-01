@@ -9,6 +9,7 @@ import me.hardstyles.blitz.commands.Command;
 import me.hardstyles.blitz.commands.impl.*;
 import me.hardstyles.blitz.duels.DuelCommand;
 import me.hardstyles.blitz.duels.DuelManager;
+import me.hardstyles.blitz.duels.DuelsCommand;
 import me.hardstyles.blitz.kits.gui.LayoutGui;
 import me.hardstyles.blitz.kits.gui.SlotGui;
 import me.hardstyles.blitz.leaderboard.LeaderboardLoaderKills;
@@ -147,7 +148,7 @@ public class Core extends JavaPlugin {
         this.getCommand("world").setExecutor(new WorldCommand(this));
         this.getCommand("rename").setExecutor(new RenameCommand(this));
         this.getCommand("spectate").setExecutor(new SpectatorCommand(this));
-        this.getCommand("duel").setExecutor(new DuelCommand(this));
+       // this.getCommand("duel").setExecutor(new DuelCommand(this));
 
         //temporary
         new MassResetLayoutsCommand();
@@ -158,6 +159,7 @@ public class Core extends JavaPlugin {
         new ReportsCommand();
         new FollowCommand();
         new PartyCommand();
+        new DuelsCommand();
 
         //punishments
         new AltsCommand();

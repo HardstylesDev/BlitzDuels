@@ -69,16 +69,11 @@ public class QueueManager {
 
     public void remove(Player player) {
         this.soloQueues.remove(player.getUniqueId());
-
         player.sendMessage("§aYou have left the queue.");
-
     }
 
     private void tryStart(QueueType type) {
-
         Arena arena = core.getArenaManager().getNext();
-
-
         if (type == QueueType.SOLO) {
             ArrayList<UUID> players = new ArrayList<>(soloQueues);
             if (arena == null || players.size() < 2) {

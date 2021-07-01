@@ -1,7 +1,6 @@
 package me.hardstyles.blitz.commands.impl;
 
 import com.google.common.collect.ImmutableList;
-import jdk.nashorn.internal.ir.annotations.Immutable;
 import me.hardstyles.blitz.commands.Command;
 import me.hardstyles.blitz.player.IPlayer;
 import org.bukkit.entity.Player;
@@ -10,7 +9,7 @@ import java.util.List;
 
 public class MessageCommand extends Command {
     public MessageCommand() {
-        super("message", ImmutableList.of(""));
+        super("message", ImmutableList.of(""), 0);
     }
 
     @Override

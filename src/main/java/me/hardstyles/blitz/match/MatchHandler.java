@@ -65,7 +65,6 @@ public class MatchHandler implements Listener {
         if (match.getAlivePlayers().contains(player.getUuid())) {
             match.onDeath(p.getUniqueId());
         }
-
         match.leave(player.getUuid());
     }
 

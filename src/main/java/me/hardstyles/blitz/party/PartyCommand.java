@@ -46,10 +46,12 @@ public class PartyCommand extends Command {
                 p.sendMessage(ChatColor.BLUE + "Party > " + ChatColor.RED + "You're not the owner of the party.");
                 return;
             }
-            if(iPlayer.hasMatch() && iPlayer.getMatch() instanceof TeamMatch){
+            if (iPlayer.hasMatch() && iPlayer.getMatch() instanceof TeamMatch) {
                 p.sendMessage("§cCan't leave the party while in a Team Match.");
                 return;
             }
+            core.getQueueManager().getTeamsQueues().remove(iPlayer.getParty());
+
             OfflinePlayer memberPlayer;
             for (UUID member : iPlayer.getParty().getMembers()) {
 
@@ -57,11 +59,9 @@ public class PartyCommand extends Command {
                 if (memberPlayer.isOnline()) {
                     memberPlayer.getPlayer().sendMessage(ChatColor.BLUE + "Party > " + ChatColor.YELLOW + "The party you were in was disbanded");
                 }
-
                 IPlayer sgMember = core.getPlayerManager().getPlayer(member);
                 sgMember.setParty(null);
             }
-
             return;
         }
         if (args[0].equalsIgnoreCase("kick") || args[0].equalsIgnoreCase("remove")) {
@@ -69,7 +69,7 @@ public class PartyCommand extends Command {
                 p.sendMessage(ChatColor.BLUE + "Party > " + ChatColor.RED + "You're not part of a party.");
                 return;
             }
-            if(iPlayer.hasMatch() && iPlayer.getMatch() instanceof TeamMatch){
+            if (iPlayer.hasMatch() && iPlayer.getMatch() instanceof TeamMatch) {
                 p.sendMessage("§cCan't leave the party while in a Team Match.");
                 return;
             }
@@ -86,10 +86,22 @@ public class PartyCommand extends Command {
                 p.sendMessage(ChatColor.BLUE + "Party > " + ChatColor.RED + "That player is not in your party.");
                 return;
             }
+
+
             target.sendMessage(ChatColor.BLUE + "Party > " + ChatColor.YELLOW + "You were kicked from the party.");
             IPlayer sgTarget = core.getPlayerManager().getPlayer(target.getUniqueId());
             sgTarget.setParty(null);
             iPlayer.getParty().removeMember(target);
+            if (core.getQueueManager().getTeamsQueues().contains(iPlayer.getParty())) {
+                OfflinePlayer memberPlayer;
+                core.getQueueManager().getTeamsQueues().remove(iPlayer.getParty());
+                for (UUID member : iPlayer.getParty().getMembers()) {
+                    memberPlayer = Bukkit.getOfflinePlayer(member);
+                    if (memberPlayer.isOnline()) {
+                        memberPlayer.getPlayer().sendMessage(ChatColor.BLUE + "Party > " + ChatColor.RED + "Your party left the Teams queue because a party was kicked.");
+                    }
+                }
+            }
             OfflinePlayer memberPlayer;
             for (UUID member : iPlayer.getParty().getMembers()) {
 
@@ -125,7 +137,7 @@ public class PartyCommand extends Command {
                 p.sendMessage(ChatColor.BLUE + "Party > " + ChatColor.RED + "You're not in a party");
                 return;
             }
-            if(iPlayer.hasMatch() && iPlayer.getMatch() instanceof TeamMatch){
+            if (iPlayer.hasMatch() && iPlayer.getMatch() instanceof TeamMatch) {
                 p.sendMessage("§cCan't leave the party while in a Team Match.");
                 return;
             }
@@ -144,7 +156,15 @@ public class PartyCommand extends Command {
                 }
             }
             p.sendMessage(ChatColor.BLUE + "Party > " + ChatColor.YELLOW + "You've left the party.");
-
+            if (core.getQueueManager().getTeamsQueues().contains(party)) {
+                core.getQueueManager().getTeamsQueues().remove(party);
+                for (UUID member : party.getMembers()) {
+                    memberPlayer = Bukkit.getOfflinePlayer(member);
+                    if (memberPlayer.isOnline()) {
+                        memberPlayer.getPlayer().sendMessage(ChatColor.BLUE + "Party > " + ChatColor.RED + "Your party left the Teams queue because a party member left.");
+                    }
+                }
+            }
             return;
         }
         if (args[0].equalsIgnoreCase("create")) {
@@ -182,6 +202,7 @@ public class PartyCommand extends Command {
                 p.sendMessage(ChatColor.BLUE + "Party > " + ChatColor.RED + "You're already in a party.");
                 return;
             }
+            core.getQueueManager().getSoloQueues().remove(p.getUniqueId());
             party.getMembers().add(p.getUniqueId());
             iPlayer.setParty(party);
 
@@ -274,7 +295,7 @@ public class PartyCommand extends Command {
                 p.sendMessage(ChatColor.RED + "No available arena!");
                 return;
             }
-            Match match = new Match(core,arena);
+            Match match = new Match(core, arena);
             for (UUID member : iPlayer.getParty().getMembers()) {
                 match.add(member);
             }
@@ -312,6 +333,7 @@ public class PartyCommand extends Command {
             p.sendMessage(ChatColor.BLUE + "Party > " + ChatColor.YELLOW + "You've added " + target.getName() + " to the party!");
             IPlayer sgTarget = core.getPlayerManager().getPlayer(target.getUniqueId());
             sgTarget.setParty(iPlayer.getParty());
+            core.getQueueManager().getSoloQueues().remove(p.getUniqueId());
             iPlayer.getParty().addMember(target);
         } else {
             iPlayer.getParty().invitePlayer(target);
