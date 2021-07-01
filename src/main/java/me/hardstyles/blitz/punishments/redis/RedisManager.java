@@ -17,11 +17,13 @@ public class RedisManager {
         int port = Core.i().getConfig().getInt("redis.port");
         String password = Core.i().getConfig().getString("redis.password");
 
-        subJedis = new Jedis(host, port);
-        subJedis.auth(password);
-        pubJedis = new Jedis(host, port);
-        pubJedis.auth(password);
-        Bukkit.getScheduler().runTaskAsynchronously(Core.i(), ()-> subJedis.subscribe(new RedisListener(this), "PUNISHMENT"));
+        Bukkit.getScheduler().runTaskAsynchronously(Core.i(), ()-> {
+            subJedis = new Jedis(host, port);
+            subJedis.auth(password);
+            pubJedis = new Jedis(host, port);
+            pubJedis.auth(password);
+            subJedis.subscribe(new RedisListener(this), "PUNISHMENT");
+        });
     }
 
     public void shutdown() {

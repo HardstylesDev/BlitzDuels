@@ -98,12 +98,13 @@ public class StatisticsManager {
 
     public void load(UUID uuid) {
         try {
+            IPlayer iPlayer = new IPlayer(uuid);
+            Core.i().getPlayerManager().addPlayer(iPlayer.getUuid(), iPlayer);
             Connection conn = core.getData().getConnection();
             String sql = "select * from data WHERE uuid = ?;";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, uuid.toString());
             ResultSet rs = ps.executeQuery();
-            IPlayer iPlayer = new IPlayer(uuid);
             while (rs.next()) {
                 JsonObject jsonObject = new JsonParser().parse(rs.getString("data")).getAsJsonObject();
 
