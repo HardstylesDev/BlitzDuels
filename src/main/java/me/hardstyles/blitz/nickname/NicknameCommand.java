@@ -35,22 +35,8 @@ public class NicknameCommand implements CommandExecutor {
         if(args.length == 0){
             sender.sendMessage(ChatColor.RED + "/nick <name>");
         }
-        if (args[0].equalsIgnoreCase("test")) {
-
-
-           setNameTag((Player) sender, args[1]);
-            return true;
-        }
-        if (args[0].equalsIgnoreCase("spoof")) {
-
-
-            sendPlayerToServer((Player) sender, "mc.hypixel.net");
-
-            return true;
-        }
         if ((Core.i().getRankManager().getRank((Player) sender) instanceof Default)) {
             sender.sendMessage(Core.CORE_NAME + "missing permission.");
-
             return true;
         }
         if (alias.equalsIgnoreCase("unnick")) {
@@ -63,7 +49,6 @@ public class NicknameCommand implements CommandExecutor {
             if (args[0].equalsIgnoreCase("unnick") || args[0].equalsIgnoreCase("reset")) {
                 Core.send(p, "&eYou are no longer nicked");
                 core.getServer().getScheduler().runTaskAsynchronously(core, ()-> new Nickname().unnick(p));
-
                 return true;
             }
             Core.send(p, "&eYour nickname has been set to &e" + args[0]);
@@ -77,130 +62,6 @@ public class NicknameCommand implements CommandExecutor {
         p.sendMessage(Core.CORE_NAME + "&e");
         return true;
     }
-
-    private void setSkin(Player p, Skin skin) {
-        int r = (int) (Math.random() * 5);
-        String name = new String[]{"Horse", "Sheep", "Wolf", "Cow", "Chicken"}[r];
-        skin = getSkinFromName(name);
-        CraftPlayer cp = (CraftPlayer) p;
-        GameProfile gameProfile = cp.getHandle().getProfile();
-
-        gameProfile.getProperties().removeAll("textures");
-        gameProfile.getProperties().put("textures", new Property("textures", skin.getSkinValue(), skin.getSkinSignature()));
-        Packet remove = new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, ((CraftPlayer) p).getHandle());
-
-        Packet add = new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, ((CraftPlayer) p).getHandle());
-
-        Packet destroy = new PacketPlayOutEntityDestroy(p.getEntityId());
-
-        Packet spawn = new PacketPlayOutNamedEntitySpawn(((CraftPlayer) p).getHandle());
-
-        Packet respawn = respawnPacket(p);
-
-
-        sendPacketExcluding(p, remove);
-
-        sendPacket(add);
-        setNameTag(p, name);
-        sendPacket(destroy);
-//
-        sendPacketExcluding(p, spawn);
-//
-        sendPacket(p, respawn);
-
-
-
-    }
-
-    private void sendPacketExcluding(Player exclude, Packet p) {
-        for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-            if (onlinePlayer == exclude) continue;
-            ((CraftPlayer) onlinePlayer).getHandle().playerConnection.sendPacket(p);
-        }
-    }
-
-    private void sendPacket(Player player, Packet p) {
-        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(p);
-    }
-
-    private void sendPacket(Packet p) {
-        for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-            ((CraftPlayer) onlinePlayer).getHandle().playerConnection.sendPacket(p);
-        }
-    }
-
-    private Skin getSkinFromName(String arg) {
-        OfflinePlayer op = Bukkit.getServer().getOfflinePlayer(arg);
-        try {
-            HttpsURLConnection connection = (HttpsURLConnection) new URL("https://api.mineskin.org/generate/user/" + op.getUniqueId()).openConnection();
-            if (connection.getResponseCode() == HttpsURLConnection.HTTP_OK) {
-                String reply = new BufferedReader(new InputStreamReader(connection.getInputStream())).readLine();
-                if (reply.contains("\"error\""))
-                    return null;
-                String value = reply.split("\"value\":\"")[1].split("\"")[0];
-                String signature = reply.split("\"signature\":\"")[1].split("\"")[0];
-                return new Skin(value, signature);
-            }
-        } catch (IOException exception) {
-            exception.printStackTrace();
-        }
-        return null;
-    }
-
-
-    private Packet respawnPacket(Player p) {
-        EntityPlayer ep = ((CraftPlayer) p).getHandle();
-        World world = ep.world;
-        EnumDifficulty difficulty = ep.world.getDifficulty();
-        WorldData worlddata = ep.world.worldData;
-        net.minecraft.server.v1_8_R3.WorldType worldtype = worlddata.getType();
-        int dimension = world.worldProvider.getDimension();
-        PlayerInteractManager playerIntManager = ep.playerInteractManager;
-        WorldSettings.EnumGamemode enumGamemode = playerIntManager.getGameMode();
-
-
-        PacketPlayOutRespawn respawn = new PacketPlayOutRespawn(dimension, difficulty, worldtype, enumGamemode);
-
-        return respawn;
-    }
-
-    private void setNameTag(Player player, String name) {
-        try {
-            for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-                onlinePlayer.hidePlayer(player);
-            }
-            GameProfile profile = ((CraftPlayer) player).getProfile();
-
-            Field ff = profile.getClass().getDeclaredField("name");
-            ff.setAccessible(true);
-            ff.set(profile, name);
-
-            Field ffu = profile.getClass().getDeclaredField("id");
-            ffu.setAccessible(true);
-            ffu.set(profile, UUID.randomUUID());
-            for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-                onlinePlayer.showPlayer(player);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void sendPlayerToServer(Player player, String server) {
-        ByteArrayOutputStream b = new ByteArrayOutputStream();
-        DataOutputStream out = new DataOutputStream(b);
-
-        try {
-            out.writeUTF("Connect");
-            out.writeUTF(server);
-        } catch (Exception e) {
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&8[&6Celmic Network&8] &fThere was an problem connecting to " + server + "!"));
-            return;
-        }
-
-        player.sendPluginMessage(Core.i(), "BungeeCord", b.toByteArray());
-    }
-
 
 }
 

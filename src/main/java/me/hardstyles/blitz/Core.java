@@ -18,6 +18,7 @@ import me.hardstyles.blitz.leaderboard.LeaderboardUpdater;
 import me.hardstyles.blitz.match.MatchHandler;
 import me.hardstyles.blitz.match.MatchManager;
 import me.hardstyles.blitz.match.mobs.MatchMobHandler;
+import me.hardstyles.blitz.nickname.Nickname;
 import me.hardstyles.blitz.nickname.NicknameCommand;
 import me.hardstyles.blitz.party.PartyChatCommand;
 import me.hardstyles.blitz.party.PartyCommand;
@@ -201,6 +202,7 @@ public class Core extends JavaPlugin {
 
         if (!Bukkit.getOnlinePlayers().isEmpty()) {
             Bukkit.getOnlinePlayers().forEach(player -> {
+
                 statisticsManager.load(player.getUniqueId());
                 playerManager.addPlayer(player.getUniqueId(), getPlayerManager().getPlayer(player.getUniqueId()));
                 playerManager.hub(player);

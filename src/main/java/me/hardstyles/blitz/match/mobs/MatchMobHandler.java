@@ -146,6 +146,10 @@ public class MatchMobHandler implements Listener {
         if (!iPlayer.getMatch().getAlivePlayers().contains(iPlayer.getUuid()))
             return;
         if (e.getAction() == Action.RIGHT_CLICK_BLOCK && e.getItem().getType() == Material.MONSTER_EGG) {
+            if(iPlayer.getMatch().getMatchStage() == MatchStage.GRACE){
+                e.setCancelled(true);
+                return;
+            }
             EntityType entityType = ((SpawnEgg) e.getPlayer().getItemInHand().getData()).getSpawnedType();
             if (entityType != null) {
                 e.setCancelled(true);
