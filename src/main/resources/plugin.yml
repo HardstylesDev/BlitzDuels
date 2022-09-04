@@ -2,7 +2,7 @@ name: Core
 version: 1.0
 main: me.hardstyles.blitz.Core
 depend: [KarhuAPI]
-author: Syes, Hardstyles
+author: Elijuh, Hardstyles
 description: BlitzSG Plugin
 
 commands:
