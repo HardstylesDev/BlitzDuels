@@ -1,1 +1,13 @@
-lol
+Arena PVP for the Blitz Survival Games gamemode
+- Loadouts
+- Parties
+- random queue, party queue, duel requests
+- punishments
+- ranks
+- basic hub functionality
+- nicks
+- leaderboards
+- parties
+- staff utils
+- statistics
+- matches
