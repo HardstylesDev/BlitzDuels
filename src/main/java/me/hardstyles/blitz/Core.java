@@ -1,5 +1,5 @@
 package me.hardstyles.blitz;
-
+ // MAKE SURE THE DATABASE IS LOADED BEFOREHAND
 import lombok.Getter;
 import lombok.Setter;
 import me.elijuh.nametagapi.NametagAPI;
@@ -100,6 +100,7 @@ public class Core extends JavaPlugin {
 
         instance = this;
 
+        
 
         new NametagAPI(this);
         new WorldCreator("arena").generator(new VoidGenerator()).createWorld();
@@ -223,6 +224,7 @@ public class Core extends JavaPlugin {
 
         statisticsManager.saveAll();
         data.getDataSource().close();
+        
         redisManager.shutdown();
     }
 
