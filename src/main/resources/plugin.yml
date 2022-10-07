@@ -1,5 +1,5 @@
 name: Core
-version: 1.0
+version: 2.0
 main: me.hardstyles.blitz.Core
 depend: [KarhuAPI]
 author: Elijuh, Hardstyles
